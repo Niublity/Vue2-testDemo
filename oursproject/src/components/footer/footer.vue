@@ -1,6 +1,10 @@
 <template>
-    <div>
-<h1></h1>
+    <div class="footer">
+      <div class="footer_nav">
+        <div class="footer_nav_cubic">
+          <img src="" alt="">
+        </div>
+      </div>
     </div>
 </template>
 
