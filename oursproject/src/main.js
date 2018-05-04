@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from "./store"
+
 //引入elementui
 import ElementUI from "element-ui"
 import 'element-ui/lib/theme-chalk/index.css';
@@ -13,6 +14,17 @@ import VueAxios from "vue-axios"
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI);
+
+
+Vue.prototype.group=function(obj){
+  var newkey = Object.keys(obj).sort();
+  var newObj = {};
+  for (var i = 0; i < newkey.length; i++) {
+    newObj[newkey[i]] = obj[newkey[i]];
+  }
+  return newObj;
+}
+
 
 /* eslint-disable no-new */
 new Vue({
