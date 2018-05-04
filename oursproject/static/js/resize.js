@@ -11,7 +11,7 @@
         return;
       }
       //f/320=80/375
-      html.style.fontSize = 80 * (clientW / 375) + "px";
+      html.style.fontSize = 20 * (clientW / 320) + "px";
     }
   win.addEventListener(reEvt, reFontSize);
   // DOMContentLoaded->dom加载完就执行,onload要dom/css/js都加载完才执行
