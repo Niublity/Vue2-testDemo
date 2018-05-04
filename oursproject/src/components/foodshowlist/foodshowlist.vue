@@ -1,24 +1,18 @@
 <template>
   <div class="select_top">
-    <div class="select_menu">
-      <div @click="listmenuleft">
-        <span>准时到达</span><img src="./img/1.png" alt="">
-        <div class="listmenu_left">
-          <transition name="el-zoom-in-top">
-            <div v-show="listmenuleftshow" class="transition-box">
-              <ul class="leftshowulL">
-                <li>
-                  <div>异国料理</div>
-                  <div><span>471</span></div>
-                </li>
-              </ul>
-              <ul class="leftshowulR"></ul>
-            </div>
-          </transition>
-        </div>
+    <div class="cartoon">
+      <div class="select_menu">
+        <div @click="listmenuleft"><span>准时到达</span><img src="./img/1.png" alt=""></div>
+        <div class="borderline"><span>排序</span><img src="./img/1.png" alt=""></div>
+        <div><span>筛选</span><img src="./img/1.png" alt=""></div>
       </div>
-      <div class="borderline"><span>排序</span><img src="./img/1.png" alt=""></div>
-      <div><span>筛选</span><img src="./img/1.png" alt=""></div>
+      <transition name="el-zoom-in-top">
+        <div v-show="listmenuleftshow" class="transition-box">
+          <ul>
+            <li><div>异国料理</div><div><span>371</span></div></li>
+          </ul>
+        </div>
+      </transition>
     </div>
     <ul class="goodslist">
       <li>
@@ -220,15 +214,22 @@
   .trstime {
     color: #3190e8;
   }
-
-  .listmenu_left {
+  .cartoon{
+    position: relative;
+  }
+  .transition-box {
+    width: 16rem;
     position: absolute;
+    /*display: flex;*/
   }
-  .transition-box{
-
+  .transition-box ul:nth-child(1){
+    width: 50%;
+  }
+  .transition-box ul:nth-child(1) li{
     display: flex;
+    justify-content: space-between;
   }
-  .leftshowulL{
+  .leftshowulL {
     /*width: 50%;*/
   }
 </style>
