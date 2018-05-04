@@ -12,8 +12,8 @@
       <span>定位不准时，请在城市列表中选择</span>
     </div>
     <!--当前城市-->
-    <router-link to="/city/1" class="now_city">
-      <span>郑州</span>
+    <router-link :to="{name:'SearchHistory',params:{id:this.guess.id}}" class="now_city">
+      <span>{{guess.name}}</span>
       <i class="el-icon-arrow-right arrow_right"></i>
     </router-link>
     <!--热门城市-->
@@ -43,24 +43,32 @@
   import user from './img/user.jpg';
 
   //请求接口文档
-  let api1 = "http://cangdu.org:8001/v1/cities?type=hot";
-  let api2 = "http://cangdu.org:8001/v1/cities?type=group";
+  let apihot = "http://cangdu.org:8001/v1/cities?type=hot";
+  let apigroup = "http://cangdu.org:8001/v1/cities?type=group";
+  let apiguess = "http://cangdu.org:8001/v1/cities?type=guess";
   export default {
     name: "CityLIst",
     data() {
       return {
         user,
+        guess:'',
         CityHots: null,
         groupss:null
       }
     },
     created() {
-      this.$http.get(api1).then((response) => {
-        //console.log(response.data);
+      this.$http.get(apiguess).then((response)=>{
+        console.log(response.data);
+        this.guess=response.data;
+        console.log(this.guess.id)
+        console.log(this.$router.params);
+      })
+      this.$http.get(apihot).then((response) => {
+        console.log(response.data);
         this.CityHots = response.data;
       });
-      this.$http.get(api2).then((response) => {
-        console.log(response.data);
+      this.$http.get(apigroup).then((response) => {
+        //console.log(response.data);
         this.groupss=this.group(response.data)
       })
     },
