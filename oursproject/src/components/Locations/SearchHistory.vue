@@ -8,8 +8,10 @@
       <router-link to="/CityList" class="change_city">切换城市</router-link>
     </div>
     <form class="city_form">
-     <div> <input type="text" placeholder="输入学校、商务楼、地址" class="form_input"></div>
-      <div><button class="form_btn">提交</button></div>
+      <div><input type="text" placeholder="输入学校、商务楼、地址" class="form_input"></div>
+      <div>
+        <button class="form_btn">提交</button>
+      </div>
     </form>
     <p>搜索历史</p>
   </div>
@@ -24,8 +26,8 @@
     name: "SearchHistory",
     data() {
       return {
-        citys: '',
-        back
+        back,
+        citys: ""
       }
     },
     created() {
@@ -35,6 +37,7 @@
         console.log(response.data);
         this.citys = response.data;
       })
+
     }
   }
 </script>
@@ -43,9 +46,10 @@
   .city {
     box-sizing: border-box;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     justify-content: flex-start;
   }
+
   /*-------top-------*/
   .city_header .top_title,
   .city_header .change_city {
@@ -69,17 +73,19 @@
     font-size: .6rem;
     font-weight: 100;
   }
+
   /*-------表单-------*/
-  .city_form{
+  .city_form {
     display: block;
     background: white;
     margin-top: 2.45rem;
-    padding:.4rem 5% .4rem 5%;
+    padding: .4rem 5% .4rem 5%;
     border-top: 1px solid #e4e4e4;
     border-bottom: 1px solid #e4e4e4;
   }
+
   /*输入框*/
-  .city_form .form_input{
+  .city_form .form_input {
     width: 100%;
     height: 1.4rem;
     box-sizing: border-box;
@@ -90,8 +96,9 @@
     padding: 0 .3rem;
     font-weight: 200;
   }
+
   /*按钮*/
-  .city_form .form_btn{
+  .city_form .form_btn {
     background-color: #3190e8;
     font-size: .65rem;
     color: #fff;
@@ -99,6 +106,6 @@
     height: 1.4rem;
     border: 1px solid #3190e8;
     border-radius: .1rem;
-font-weight: 100;
+    font-weight: 100;
   }
 </style>

@@ -51,15 +51,15 @@
     data() {
       return {
         user,
-        guess:'',
+        guess: '',
         CityHots: null,
-        groupss:null
+        groupss: null,
       }
     },
     created() {
-      this.axios.get(apiguess).then((response)=>{
+      this.axios.get(apiguess).then((response) => {
         console.log(response.data);
-        this.guess=response.data;
+        this.guess = response.data;
         console.log(this.guess.id)
       })
       this.axios.get(apihot).then((response) => {
@@ -68,11 +68,18 @@
       });
       this.axios.get(apigroup).then((response) => {
         //console.log(response.data);
-        this.groupss=this.group(response.data)
+        this.groupss = this.group(response.data)
+      });
+      this.$http.get(apiguess).then((response) => {
+        console.log(response.data);
+        this.guess = response.data;
+        this.localnow = response.data.id;
+        console.log(this.localnow)
+        // console.log(this.$router.params);
       })
     },
-    methods:{
-      reload(){
+    methods: {
+      reload() {
         location.reload();
       }
     }
@@ -87,9 +94,11 @@
   span {
     font-weight: 200;
   }
+
   .city {
     box-sizing: border-box;
   }
+
   /*------头部-----*/
 
   .city_header .head_logo {
@@ -151,6 +160,7 @@
     background: white;
     overflow: hidden;
   }
+
   /*标题*/
   .city_list .city_title {
     color: #666;
@@ -161,10 +171,12 @@
     border-top: 2px solid #e4e4e4;
     border-bottom: 1px solid #e4e4e4;
   }
-  .city_title span{
+
+  .city_title span {
     font-size: .475rem;
     color: #999;
   }
+
   .city_list ul li {
     box-sizing: border-box;
     float: left;
@@ -183,8 +195,9 @@
     color: #3190e8;
     font-size: 0.6rem;
   }
-  .city_list .allCity li a{
-    color: #666 ;
+
+  .city_list .allCity li a {
+    color: #666;
     font-size: 0.6rem;
     font-weight: 200;
   }
