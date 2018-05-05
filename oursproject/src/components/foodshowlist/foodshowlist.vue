@@ -2,7 +2,7 @@
   <div class="select_top">
     <div class="select_body">
       <div class="select_menu">
-        <div @click="listmenuleft"><span>准时到达</span><img src="./img/1.png" alt=""></div>
+        <div @click="listmenuleft"><span>{{title}}</span><img src="./img/1.png" alt=""></div>
         <div @click="listmenucenter" class="borderline"><span>排序</span><img src="./img/1.png" alt=""></div>
         <div @click="listmenuright"><span>筛选</span><img src="./img/1.png" alt=""></div>
       </div>
@@ -19,31 +19,31 @@
                 <div><span>383</span><img src="./img/4.png" alt=""></div>
               </li>
               <li>
-                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><img src="./img/3.2.png" alt=""><span>小吃夜宵</span></div>
                 <div><span>383</span><img src="./img/4.png" alt=""></div>
               </li>
               <li>
-                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><img src="./img/3.3.png" alt=""><span>果蔬生鲜</span></div>
                 <div><span>383</span><img src="./img/4.png" alt=""></div>
               </li>
               <li>
-                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><img src="./img/3.4.png" alt=""><span>特色菜系</span></div>
                 <div><span>383</span><img src="./img/4.png" alt=""></div>
               </li>
               <li>
-                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><img src="./img/3.5.png" alt=""><span>商店超市</span></div>
                 <div><span>383</span><img src="./img/4.png" alt=""></div>
               </li>
               <li>
-                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><img src="./img/3.6.png" alt=""><span>鲜花蛋糕</span></div>
                 <div><span>383</span><img src="./img/4.png" alt=""></div>
               </li>
               <li>
-                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><img src="./img/3.7.png" alt=""><span>全部商家</span></div>
                 <div><span>383</span><img src="./img/4.png" alt=""></div>
               </li>
               <li>
-                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><img src="./img/3.8.png" alt=""><span>甜品饮品</span></div>
                 <div><span>383</span><img src="./img/4.png" alt=""></div>
               </li>
             </ul>
@@ -78,16 +78,16 @@
           <ul>
             <li><img src="./img/5.png" alt="">
               <p>智能排序</p></li>
-            <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
-            <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
-            <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
-            <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
-            <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
+            <li><img src="./img/6.png" alt="">
+              <p>距离最近</p></li>
+            <li><img src="./img/9.png" alt="">
+              <p>销量最高</p></li>
+            <li><img src="./img/8.png" alt="">
+              <p>起送价最低</p></li>
+            <li><img src="./img/7.png" alt="">
+              <p>配送速度更快</p></li>
+            <li><img src="./img/10.png" alt="">
+              <p>评分最高</p></li>
           </ul>
         </div>
       </transition>
@@ -165,6 +165,7 @@
     name: "foodshowlist",
     data() {
       return {
+        title:"准时达",
         listmenuleftshow: false,
         listmenucentershow: false,
         listmenurightshow: false,
@@ -174,12 +175,18 @@
     methods: {
       listmenuleft() {
         this.listmenuleftshow = !this.listmenuleftshow
+        this.listmenucentershow = false
+        this.listmenurightshow = false
       },
       listmenucenter() {
         this.listmenucentershow = !this.listmenucentershow
+        this.listmenuleftshow = false
+        this.listmenurightshow = false
       },
       listmenuright() {
         this.listmenurightshow = !this.listmenurightshow
+        this.listmenucentershow = false
+        this.listmenuleftshow = false
       }
     }
   }
@@ -206,6 +213,7 @@
     text-align: center;
     border-bottom: .025rem solid #f1f1f1;
     padding-bottom: .4rem;
+    background-color: white;
   }
 
   .select_menu span {
@@ -237,6 +245,7 @@
     padding: .7rem .4rem;
     display: flex;
     justify-content: space-between;
+    background-color: white;
   }
 
   .goodslist_left img {
@@ -576,11 +585,13 @@
     border-radius: .2rem;
     text-align: center;
   }
+
   .transition-box_3 div:nth-child(3) div:nth-child(1) {
     background-color: #fff;
     margin-right: .5rem;
     border: .025rem solid #fff;
   }
+
   .transition-box_3 div:nth-child(3) div:nth-child(2) {
     background-color: #56d176;
     color: #fff;
