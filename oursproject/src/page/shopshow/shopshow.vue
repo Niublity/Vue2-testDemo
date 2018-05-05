@@ -28,6 +28,7 @@
     left: 0;
     right: 0;
     width: 100%;
+    z-index: 100;
   }
   .footer {
     position: fixed;
@@ -35,6 +36,7 @@
     left: 0;
     right: 0;
     width: 100%;
+    z-index: 100;
   }
   .shopshowcenter{
     margin-top: 1.95rem;
