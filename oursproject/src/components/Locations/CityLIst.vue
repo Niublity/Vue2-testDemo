@@ -12,7 +12,7 @@
       <span>定位不准时，请在城市列表中选择</span>
     </div>
     <!--当前城市-->
-    <router-link :to="{name:'SearchHistory',params:{id:this.localnow}}" class="now_city">
+    <router-link :to="{name:'SearchHistory',params:{id:guess.id}}" class="now_city">
       <span>{{guess.name}}</span>
       <i class="el-icon-arrow-right arrow_right"></i>
     </router-link>
@@ -54,16 +54,19 @@
         guess: '',
         CityHots: null,
         groupss: null,
-        localnow: null
       }
     },
     created() {
-
-      this.$http.get(apihot).then((response) => {
+      this.axios.get(apiguess).then((response) => {
+        console.log(response.data);
+        this.guess = response.data;
+        console.log(this.guess.id)
+      })
+      this.axios.get(apihot).then((response) => {
         console.log(response.data);
         this.CityHots = response.data;
       });
-      this.$http.get(apigroup).then((response) => {
+      this.axios.get(apigroup).then((response) => {
         //console.log(response.data);
         this.groupss = this.group(response.data)
       });
@@ -84,7 +87,9 @@
   }
 
 </script>
+<style>
 
+</style>
 <style scoped>
   span {
     font-weight: 200;
@@ -96,19 +101,6 @@
   }
 
   /*------头部-----*/
-  .city .city_header {
-    width: 100%;
-    height: 1.97rem;
-    background: #3190e8;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 .4rem;
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
 
   .city_header .head_logo {
     font-size: .7rem;
@@ -156,6 +148,7 @@
 
   .city .now_city span:first-of-type {
     color: #3190e8;
+    font-size: .7rem;
   }
 
   .now_city .arrow_right {
