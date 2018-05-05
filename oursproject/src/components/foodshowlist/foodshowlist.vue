@@ -174,6 +174,15 @@
     },
     methods: {
       listmenuleft() {
+        if(this.listmenuleftshow)
+        {
+          this.title = "准时达"
+        }
+        else{
+
+          this.title = "分类"
+        }
+
         this.listmenuleftshow = !this.listmenuleftshow
         this.listmenucentershow = false
         this.listmenurightshow = false
