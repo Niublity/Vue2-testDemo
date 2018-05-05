@@ -2,9 +2,18 @@
   <div class="select_top">
     <div class="select_body">
       <div class="select_menu">
-        <div @click="listmenuleft"><span>{{title}}</span><img src="./img/1.png" alt=""></div>
-        <div @click="listmenucenter" class="borderline"><span>排序</span><img src="./img/1.png" alt=""></div>
-        <div @click="listmenuright"><span>筛选</span><img src="./img/1.png" alt=""></div>
+        <div @click="listmenuleft">
+          <span>{{title}}</span>
+          <img src="./img/1.png" alt="" class="rotatetriangle">
+        </div>
+        <div @click="listmenucenter" class="borderline">
+          <span>排序</span>
+          <img src="./img/1.png" alt="" class="rotatetriangle">
+        </div>
+        <div @click="listmenuright">
+          <span>筛选</span>
+          <img src="./img/1.png" alt="" class="rotatetriangle">
+        </div>
       </div>
       <transition name="el-zoom-in-top">
         <div v-show="listmenuleftshow" class="transition-box transition-box_1">
@@ -165,7 +174,7 @@
     name: "foodshowlist",
     data() {
       return {
-        title:"准时达",
+        title: "准时达",
         listmenuleftshow: false,
         listmenucentershow: false,
         listmenurightshow: false,
