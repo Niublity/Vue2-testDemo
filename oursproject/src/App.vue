@@ -5,14 +5,14 @@
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  export default {
+    name: 'App'
+  }
 </script>
 
 <style>
   /*城市列表导航条*/
-  .city_header{
+  .city_header {
     width: 100%;
     height: 1.97rem;
     background: #3190e8;
