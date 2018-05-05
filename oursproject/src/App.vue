@@ -25,9 +25,4 @@ export default {
     top: 0;
     left: 0;
   }
-  /*城市列表背景*/
-  .city {
-    box-sizing: border-box;
-    background: #f5f5f5;
-  }
 </style>
