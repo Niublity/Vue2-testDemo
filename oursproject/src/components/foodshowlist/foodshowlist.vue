@@ -78,16 +78,16 @@
           <ul>
             <li><img src="./img/5.png" alt="">
               <p>智能排序</p></li>
+            <li><img src="./img/6.png" alt="">
+              <p>距离最近</p></li>
+            <li><img src="./img/6.png" alt="">
+              <p>销量最高</p></li>
             <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
+              <p>起送价最低</p></li>
+            <li><img src="./img/7.png" alt="">
+              <p>配送速度更快</p></li>
             <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
-            <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
-            <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
-            <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
+              <p>评分最高</p></li>
           </ul>
         </div>
       </transition>
@@ -206,6 +206,7 @@
     text-align: center;
     border-bottom: .025rem solid #f1f1f1;
     padding-bottom: .4rem;
+    background-color: white;
   }
 
   .select_menu span {
@@ -237,6 +238,7 @@
     padding: .7rem .4rem;
     display: flex;
     justify-content: space-between;
+    background-color: white;
   }
 
   .goodslist_left img {
