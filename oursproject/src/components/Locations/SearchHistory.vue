@@ -11,6 +11,7 @@
      <div> <input type="text" placeholder="输入学校、商务楼、地址" class="form_input"></div>
       <div><button class="form_btn">提交</button></div>
     </form>
+    <p>搜索历史</p>
   </div>
 </template>
 
@@ -40,11 +41,10 @@
 
 <style scoped>
   .city {
-    background: #f5f5f5;
+    box-sizing: border-box;
     display: flex;
     flex-direction:column;
     justify-content: flex-start;
-
   }
   /*-------top-------*/
   .city_header .top_title,
