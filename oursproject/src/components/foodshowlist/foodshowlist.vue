@@ -1,24 +1,120 @@
 <template>
   <div class="select_top">
-    <div class="select_menu">
-      <div @click="listmenuleft">
-        <span>准时到达</span><img src="./img/1.png" alt="">
-        <div class="listmenu_left">
-          <transition name="el-zoom-in-top">
-            <div v-show="listmenuleftshow" class="transition-box">
-              <ul class="leftshowulL">
-                <li>
-                  <div>异国料理</div>
-                  <div><span>471</span></div>
-                </li>
-              </ul>
-              <ul class="leftshowulR"></ul>
-            </div>
-          </transition>
-        </div>
+    <div class="select_body">
+      <div class="select_menu">
+        <div @click="listmenuleft"><span>准时到达</span><img src="./img/1.png" alt=""></div>
+        <div @click="listmenucenter" class="borderline"><span>排序</span><img src="./img/1.png" alt=""></div>
+        <div @click="listmenuright"><span>筛选</span><img src="./img/1.png" alt=""></div>
       </div>
-      <div class="borderline"><span>排序</span><img src="./img/1.png" alt=""></div>
-      <div><span>筛选</span><img src="./img/1.png" alt=""></div>
+      <transition name="el-zoom-in-top">
+        <div v-show="listmenuleftshow" class="transition-box transition-box_1">
+          <div class="leftshowulL">
+            <div>
+              <div>异国料理</div>
+              <div><span>471</span></div>
+            </div>
+            <ul>
+              <li>
+                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><span>383</span><img src="./img/4.png" alt=""></div>
+              </li>
+              <li>
+                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><span>383</span><img src="./img/4.png" alt=""></div>
+              </li>
+              <li>
+                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><span>383</span><img src="./img/4.png" alt=""></div>
+              </li>
+              <li>
+                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><span>383</span><img src="./img/4.png" alt=""></div>
+              </li>
+              <li>
+                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><span>383</span><img src="./img/4.png" alt=""></div>
+              </li>
+              <li>
+                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><span>383</span><img src="./img/4.png" alt=""></div>
+              </li>
+              <li>
+                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><span>383</span><img src="./img/4.png" alt=""></div>
+              </li>
+              <li>
+                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
+                <div><span>383</span><img src="./img/4.png" alt=""></div>
+              </li>
+            </ul>
+          </div>
+          <div class="leftshowulR">
+            <ul class="leftshowulR_inner">
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+              <li><span>简餐</span><span>355</span></li>
+            </ul>
+          </div>
+        </div>
+      </transition>
+      <transition name="el-zoom-in-top">
+        <div v-show="listmenucentershow" class="transition-box transition-box_2">
+          <ul>
+            <li><img src="./img/5.png" alt="">
+              <p>智能排序</p></li>
+            <li><img src="./img/5.png" alt="">
+              <p>智能排序</p></li>
+            <li><img src="./img/5.png" alt="">
+              <p>智能排序</p></li>
+            <li><img src="./img/5.png" alt="">
+              <p>智能排序</p></li>
+            <li><img src="./img/5.png" alt="">
+              <p>智能排序</p></li>
+            <li><img src="./img/5.png" alt="">
+              <p>智能排序</p></li>
+          </ul>
+        </div>
+      </transition>
+      <transition name="el-zoom-in-top">
+        <div v-show="listmenurightshow" class="transition-box transition-box_3">
+          <div>
+            <p>配送方式</p>
+            <div><img src="./img/5.png" alt=""><span>蜂鸟专送</span></div>
+          </div>
+          <div>
+            <p>商家属性（可以多选）</p>
+            <ul>
+              <li><span>品</span><span>品牌商家</span></li>
+              <li><span>保</span><span>外卖保</span></li>
+              <li><span>准</span><span>准时达</span></li>
+              <li><span>新</span><span>新店</span></li>
+              <li><span>付</span><span>在线支付</span></li>
+              <li><span>票</span><span>开发票</span></li>
+            </ul>
+          </div>
+          <div>
+            <div>清空</div>
+            <div>确定</div>
+          </div>
+        </div>
+      </transition>
+
     </div>
     <ul class="goodslist">
       <li>
@@ -71,13 +167,20 @@
     data() {
       return {
         listmenuleftshow: false,
+        listmenucentershow: false,
+        listmenurightshow: false,
         score: 3.7
       }
     },
     methods: {
       listmenuleft() {
-        console.log("asdasd")
         this.listmenuleftshow = !this.listmenuleftshow
+      },
+      listmenucenter() {
+        this.listmenucentershow = !this.listmenucentershow
+      },
+      listmenuright() {
+        this.listmenurightshow = !this.listmenurightshow
       }
     }
   }
@@ -102,6 +205,8 @@
     display: flex;
     justify-content: space-around;
     text-align: center;
+    border-bottom: .025rem solid #f1f1f1;
+    padding-bottom: .4rem;
   }
 
   .select_menu span {
@@ -135,10 +240,6 @@
     justify-content: space-between;
   }
 
-  /*.goodslist li div{*/
-  /*padding: .7rem .4rem;*/
-
-  /*}*/
   .goodslist_left img {
     width: 2.7rem;
     height: 2.7rem;
@@ -221,14 +322,269 @@
     color: #3190e8;
   }
 
-  .listmenu_left {
-    position: absolute;
+  .select_body {
+    position: relative;
   }
-  .transition-box{
 
+  .transition-box_1 {
+    position: absolute;
+    left: 0;
     display: flex;
+    width: 100%;
+    z-index: 3;
   }
-  .leftshowulL{
-    /*width: 50%;*/
+
+  .leftshowulL {
+    background-color: #f5f5f5;
+    width: 50%;
+    font-size: .5rem;
+    color: #666;
+    line-height: 1.8rem;
+  }
+
+  .leftshowulL > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 .5rem;
+    height: 1.8rem;
+  }
+
+  .leftshowulL > div span {
+    background-color: #ccc;
+    font-size: .4rem;
+    color: #fff;
+    padding: 0 .1rem;
+    border: .025rem solid #ccc;
+    border-radius: .8rem;
+    vertical-align: middle;
+    margin-right: .25rem;
+  }
+
+  .leftshowulL li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 .5rem;
+    height: 1.8rem;
+  }
+
+  .leftshowulL li div:nth-child(1) img {
+    width: .8rem;
+    /*height: .8rem;*/
+    vertical-align: middle;
+    margin-right: .2rem;
+  }
+
+  .leftshowulL li div:nth-child(2) span {
+    background-color: #ccc;
+    font-size: .4rem;
+    color: #fff;
+    padding: 0 .1rem;
+    border: .025rem solid #ccc;
+    border-radius: .8rem;
+    vertical-align: middle;
+    margin-right: .25rem;
+  }
+
+  .leftshowulL li div:nth-child(2) img {
+    width: .7rem;
+    vertical-align: middle;
+  }
+
+  .leftshowulR {
+    background-color: white;
+    width: 50%;
+    height: 16rem;
+    padding-left: .5rem;
+    overflow-y: scroll;
+  }
+
+  .leftshowulR::-webkit-scrollbar {
+    display: none;
+  }
+
+  .leftshowulR li {
+    display: flex;
+    justify-content: space-between;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    padding-right: .5rem;
+    border-bottom: .025rem solid #e4e4e4;
+    font-size: .4rem;
+    color: #666;
+  }
+
+  .transition-box_2 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+  }
+
+  .transition-box_2 ul {
+    background-color: white;
+    font-size: .55rem;
+  }
+
+  .transition-box_2 ul li {
+    height: 2.5rem;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+
+  .transition-box_2 ul li img {
+    width: .7rem;
+    height: .7rem;
+    margin: 0 .3rem 0 .8rem;
+  }
+
+  .transition-box_2 ul li p {
+    width: 14.2rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    border-bottom: .025rem solid #e4e4e4;
+  }
+
+  .transition-box_3 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    background-color: white;
+    font-size: .4rem;
+    color: #333;
+  }
+
+  .transition-box_3 div:nth-child(1) {
+    padding-left: .5rem;
+
+  }
+
+  .transition-box_3 div:nth-child(1) p {
+    height: 1.5rem;
+    line-height: 1.5rem;
+  }
+
+  .transition-box_3 div:nth-child(1) img {
+    width: .8rem;
+    height: .8rem;
+    margin-right: .125rem;
+  }
+
+  .transition-box_3 div:nth-child(1) div {
+    display: flex;
+    align-items: center;
+    border: .025rem solid #eee;
+    width: 4.7rem;
+    height: 1.4rem;
+    margin-right: .25rem;
+    border-radius: .125rem;
+    padding: 0 .25rem;
+    margin-bottom: .25rem;
+  }
+
+  .transition-box_3 div:nth-child(2) {
+    padding-left: .5rem;
+  }
+
+  .transition-box_3 div:nth-child(2) p {
+    height: 1.5rem;
+    line-height: 1.5rem;
+  }
+
+  .transition-box_3 div:nth-child(2) ul {
+    display: flex;
+    /*justify-content: space-around;*/
+    flex-wrap: wrap;
+
+  }
+
+  .transition-box_3 div:nth-child(2) ul li {
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    border: .025rem solid #eee;
+    width: 4.2rem;
+    height: 1.4rem;
+    margin-right: .25rem;
+    border-radius: .125rem;
+    padding: 0 .25rem;
+    margin-bottom: .25rem;
+  }
+
+  .transition-box_3 div:nth-child(2) ul li:nth-child(1) span:nth-child(1), .transition-box_3 div:nth-child(2) ul li:nth-child(3) span:nth-child(1) {
+    color: rgb(63, 189, 230);
+    width: .8rem;
+    height: .8rem;
+    font-size: .5rem;
+    border: .025rem solid rgb(63, 189, 230);
+    border-radius: .15rem;
+    margin-right: .25rem;
+    line-height: .8rem;
+    text-align: center;
+  }
+
+  .transition-box_3 div:nth-child(2) ul li:nth-child(2) span:nth-child(1), .transition-box_3 div:nth-child(2) ul li:nth-child(6) span:nth-child(1) {
+    color: rgb(153, 153, 153);
+    width: .8rem;
+    height: .8rem;
+    font-size: .5rem;
+    border: .025rem solid rgb(153, 153, 153);
+    border-radius: .15rem;
+    margin-right: .25rem;
+    line-height: .8rem;
+    text-align: center;
+  }
+
+  .transition-box_3 div:nth-child(2) ul li:nth-child(4) span:nth-child(1) {
+    color: rgb(232, 132, 45);
+    width: .8rem;
+    height: .8rem;
+    font-size: .5rem;
+    border: .025rem solid rgb(232, 132, 45);
+    border-radius: .15rem;
+    margin-right: .25rem;
+    line-height: .8rem;
+    text-align: center;
+  }
+
+  .transition-box_3 div:nth-child(2) ul li:nth-child(5) span:nth-child(1) {
+    color: rgb(255, 78, 0);
+    width: .8rem;
+    height: .8rem;
+    font-size: .5rem;
+    border: .025rem solid rgb(255, 78, 0);
+    border-radius: .15rem;
+    margin-right: .25rem;
+    line-height: .8rem;
+    text-align: center;
+  }
+
+  .transition-box_3 div:nth-child(3) {
+    display: flex;
+    background-color: #f1f1f1;
+    padding: .3rem .2rem;
+  }
+
+  .transition-box_3 div:nth-child(3) div {
+    width: 50%;
+    height: 1.8rem;
+    font-size: .8rem;
+    line-height: 1.8rem;
+    border-radius: .2rem;
+    text-align: center;
+  }
+  .transition-box_3 div:nth-child(3) div:nth-child(1) {
+    background-color: #fff;
+    margin-right: .5rem;
+    border: .025rem solid #fff;
+  }
+  .transition-box_3 div:nth-child(3) div:nth-child(2) {
+    background-color: #56d176;
+    color: #fff;
+    border: .025rem solid #56d176;
   }
 </style>

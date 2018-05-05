@@ -1,19 +1,19 @@
 <template>
   <div class="footer">
     <div class="footer_nav">
-      <router-link class="footer_link" to="">
+      <router-link class="footer_link" to="/home">
         <img src="./img/qianbao.png" alt="">
         <span>外卖</span>
       </router-link>
-      <router-link class="footer_link" to="">
+      <router-link class="footer_link" to="/search">
         <img src="./img/qianbao.png" alt="">
         <span>搜索</span>
       </router-link>
-      <router-link class="footer_link" to="">
+      <router-link class="footer_link" to="/order">
         <img src="./img/qianbao.png" alt="">
         <span>订单</span>
       </router-link>
-      <router-link class="footer_link" to="">
+      <router-link class="footer_link" to="/personal">
         <img src="./img/qianbao.png" alt="">
         <span>我的</span>
       </router-link>

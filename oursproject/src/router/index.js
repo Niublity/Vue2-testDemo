@@ -4,19 +4,34 @@ import CityList from "@/components/Locations/CityLIst"
 import Shopshow from "../page/shopshow/shopshow"
 import SearchHistory from "@/components/Locations/SearchHistory"
 import Login from "@/components/User/Login"
+import Home from "../page/homepage/homepage"
+import Search from "../page/searchpage/searchpage"
+import Personal from "../page/personalpage/personalpage"
+import Order from "../page/orderpage/orderpage"
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: "/home",
+      name: Home,
+      component: Home
+    },
+    {
+      path: "/search",
+      name: Search,
+      component: Search
+    },
     {
       path: '/CityList',
       name: 'CityList',
       component: CityList
     },
     {
-      path:"/Shopshow",
-      name:"Shopshow",
-      component:Shopshow
+      path: "/shopshow",
+      name: "Shopshow",
+      component: Shopshow
     },
     {
       path: '/city/:id',

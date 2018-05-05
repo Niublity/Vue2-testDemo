@@ -12,7 +12,7 @@
       <span>定位不准时，请在城市列表中选择</span>
     </div>
     <!--当前城市-->
-    <router-link :to="{name:'SearchHistory',params:{id:this.guess.id}}" class="now_city">
+    <router-link :to="{name:'SearchHistory',params:{id:this.localnow}}" class="now_city">
       <span>{{guess.name}}</span>
       <i class="el-icon-arrow-right arrow_right"></i>
     </router-link>
@@ -51,29 +51,32 @@
     data() {
       return {
         user,
-        guess:'',
+        guess: '',
         CityHots: null,
-        groupss:null
+        groupss: null,
+        localnow: null
       }
     },
     created() {
-      this.$http.get(apiguess).then((response)=>{
-        console.log(response.data);
-        this.guess=response.data;
-        console.log(this.guess.id)
-        console.log(this.$router.params);
-      })
+
       this.$http.get(apihot).then((response) => {
         console.log(response.data);
         this.CityHots = response.data;
       });
       this.$http.get(apigroup).then((response) => {
         //console.log(response.data);
-        this.groupss=this.group(response.data)
+        this.groupss = this.group(response.data)
+      });
+      this.$http.get(apiguess).then((response) => {
+        console.log(response.data);
+        this.guess = response.data;
+        this.localnow = response.data.id;
+        console.log(this.localnow)
+        // console.log(this.$router.params);
       })
     },
-    methods:{
-      reload(){
+    methods: {
+      reload() {
         location.reload();
       }
     }
@@ -165,6 +168,7 @@
     background: white;
     overflow: hidden;
   }
+
   /*标题*/
   .city_list .city_title {
     color: #666;
@@ -175,10 +179,12 @@
     border-top: 2px solid #e4e4e4;
     border-bottom: 1px solid #e4e4e4;
   }
-  .city_title span{
+
+  .city_title span {
     font-size: .475rem;
     color: #999;
   }
+
   .city_list ul li {
     box-sizing: border-box;
     float: left;
@@ -197,8 +203,9 @@
     color: #3190e8;
     font-size: 0.6rem;
   }
-  .city_list .allCity li a{
-    color: #666 ;
+
+  .city_list .allCity li a {
+    color: #666;
     font-size: 0.6rem;
     font-weight: 200;
   }
