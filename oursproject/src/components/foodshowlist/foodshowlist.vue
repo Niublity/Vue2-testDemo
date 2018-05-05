@@ -165,10 +165,9 @@
         </div>
       </li>
     </ul>
+    <div v-bind:class="{covermask:iscovermask}"></div>
   </div>
-
 </template>
-
 <script>
   export default {
     name: "foodshowlist",
@@ -178,33 +177,62 @@
         listmenuleftshow: false,
         listmenucentershow: false,
         listmenurightshow: false,
+        iscovermask:false,
         score: 3.7
       }
     },
     methods: {
       listmenuleft() {
-        if(this.listmenuleftshow)
-        {
+        if (this.listmenuleftshow) {
           this.title = "准时达"
         }
-        else{
-
+        else {
           this.title = "分类"
         }
-
         this.listmenuleftshow = !this.listmenuleftshow
         this.listmenucentershow = false
         this.listmenurightshow = false
+        this.iscovermask=true
+        if(this.listmenuleftshow)
+        {
+          this.iscovermask=true
+
+        }
+        else{
+          this.iscovermask=false
+
+        }
+
       },
       listmenucenter() {
         this.listmenucentershow = !this.listmenucentershow
         this.listmenuleftshow = false
         this.listmenurightshow = false
+        if(this.listmenucentershow)
+        {
+          this.iscovermask=true
+
+        }
+        else{
+          this.iscovermask=false
+
+        }
+
       },
       listmenuright() {
         this.listmenurightshow = !this.listmenurightshow
         this.listmenucentershow = false
         this.listmenuleftshow = false
+        this.iscovermask=true
+        if(this.listmenurightshow)
+        {
+          this.iscovermask=true
+
+        }
+        else{
+          this.iscovermask=false
+
+        }
       }
     }
   }
@@ -224,7 +252,27 @@
   }
 </style>
 <style scoped>
+  .covermask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.3);
+  }
+
+  .select_top {
+    position: relative;
+  }
+
   .select_menu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 100;
     padding-top: .3rem;
     display: flex;
     justify-content: space-around;
@@ -256,6 +304,9 @@
   }
 
   .goodslist {
+    /*margin-top: 5rem;*/
+    position: fixed;
+    top: 3.5rem;
     padding-bottom: 1.95rem;
   }
 
@@ -353,8 +404,9 @@
   }
 
   .transition-box_1 {
-    position: absolute;
+    position: fixed;
     left: 0;
+    top: 3.3rem;
     display: flex;
     width: 100%;
     z-index: 3;
@@ -421,7 +473,7 @@
   .leftshowulR {
     background-color: white;
     width: 50%;
-    height: 16rem;
+    height: 16.5rem;
     padding-left: .5rem;
     overflow-y: scroll;
   }
@@ -442,8 +494,9 @@
   }
 
   .transition-box_2 {
-    position: absolute;
+    position: fixed;
     left: 0;
+    top: 3.3rem;
     z-index: 3;
   }
 
@@ -475,8 +528,9 @@
   }
 
   .transition-box_3 {
-    position: absolute;
+    position: fixed;
     left: 0;
+    top: 3.3rem;
     width: 100%;
     z-index: 3;
     background-color: white;
