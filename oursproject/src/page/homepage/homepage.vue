@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="home_top">
       <img :src="img.search" alt="" class="top_search">
       <span class="top_title">需要获取的数据eeeeeeeeee</span>
@@ -9,19 +8,18 @@
     <!--轮播图-->
     <div class=" swiper-container foods_kind">
       <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <a href="##" class="link_to_food" v-for="one in lunboOne">
-            <img :src="one.pic" alt="">
-            <span>{{one.name}}</span>
+        <div class="swiper-slide"  >
+          <a href="##" class="link_to_food" v-for="kind1 in kindOne">
+          <img :src="'https://fuss10.elemecdn.com'+kind1.image_url" alt="">
+          <span>{{kind1.title}}</span>
           </a>
         </div>
-        <div class="swiper-slide">
-          <a href="##" class="link_to_food" v-for="one in lunboOne">
-            <img :src="one.pic" alt="">
-            <span>{{one.name}}</span>
-          </a>
-        </div>
-
+        <!--<div class="swiper-slide" >-->
+          <!--<a href="##" class="link_to_food"  v-for="kind2 in kindTwo">-->
+            <!--<img :src="'https://fuss10.elemecdn.com'+kind2.image_url" alt="">-->
+            <!--<span>{{kind2.title}}</span>-->
+          <!--</a>-->
+        <!--</div>-->
       </div>
       <!--分页器-->
       <div class="swiper-pagination"></div>
@@ -31,7 +29,7 @@
       <img :src="img.business" alt="" style="width: .6rem;vertical-align: middle">
       <span>附近商家</span>
     </div>
-
+    <goodlist></goodlist>
     <!--导航栏-->
     <footernav class="footernav"></footernav>
 
@@ -42,38 +40,51 @@
 
 <script>
   /*引入图片*/
+  // import drink from "./img/drink.jpeg";
+  // import scbl from "./img/chsd.jpeg";
+  // import ms from "./img/ms.jpeg";
+  // import jc from "./img/js.jpeg";
+  // import xdth from "./img/xpth.jpeg";
   import search from "./img/搜索.png";
   import user from "./img/商户线性.png";
-  import drink from "./img/drink.jpeg";
-  import scbl from "./img/chsd.jpeg";
-  import ms from "./img/ms.jpeg";
-  import jc from "./img/js.jpeg";
-  import xdth from "./img/xpth.jpeg";
   import business from "./img/商家 (3).png";
 
   import Swiper from "../../../static/js/swiper-4.2.2.min";
   import Swipercss from "../../../static/css/swiper-4.2.2.min.css";
 
   import footernav from "../../components/footernav/footernav";
+  import goodlist from "../../components/goodslist/goodslist";
   export default {
     name: "homepage",
     data() {
       return {
         img:{business, search, user},
-        lunboOne: [
-          {pic: drink, name: "甜品饮品"},
-          {pic: scbl, name: "商超便利"},
-          {pic: ms, name: "美食"},
-          {pic: jc, name: "简餐"},
-          {pic: xdth, name: "新店特惠"},
-          {pic: drink, name: "准时达"},
-          {pic: drink, name: "预定早餐"},
-          {pic: drink, name: "土豪推荐"},
-        ]
+        foodkinds:[],
+        kindOne:[],
+        kindTwo:[],
+        // lunboOne: [
+        //   {pic: drink, name: "甜品饮品"},
+        //   {pic: scbl, name: "商超便利"},
+        //   {pic: ms, name: "美食"},
+        //   {pic: jc, name: "简餐"},
+        //   {pic: xdth, name: "新店特惠"},
+        //   {pic: drink, name: "准时达"},
+        //   {pic: drink, name: "预定早餐"},
+        //   {pic: drink, name: "土豪推荐"},
+        // ]
       }
     },
+    created(){
+      this.$http.get("http://cangdu.org:8001/v2/index_entry").then((response)=>{
+        console.log(response.data);
+        this.foodkinds = this.publicfunction(response.data,8);
+        this.kindOne = this.foodkinds[0];
+        this.kindTwo = this.foodkinds[1];
+      })
+    },
     components:{
-      footernav
+      footernav,
+      goodlist
     },
     mounted() {
       var mySwiper = new Swiper('.swiper-container', {
@@ -182,5 +193,4 @@
     color: #999;
     font-size: 0.55rem;
   }
-
 </style>

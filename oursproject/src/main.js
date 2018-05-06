@@ -11,9 +11,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 //引入axios
 import axios from "axios"
 import VueAxios from "vue-axios"
+import PublicFunction from "../static/js/PublicFunction";
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI);
+Vue.prototype.publicfunction = PublicFunction
 
 
 Vue.prototype.group=function(obj){
