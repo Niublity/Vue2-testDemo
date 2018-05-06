@@ -8,6 +8,7 @@ import Home from "../page/homepage/homepage"
 import Search from "../page/searchpage/searchpage"
 import Personal from "../page/personalpage/personalpage"
 import Order from "../page/orderpage/orderpage"
+import Shopcar from "../page/shopcar/shopcar"
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: "/search",
       name: Search,
       component: Search
+    },
+    {
+      path:"/shopcar",
+      name:Shopcar,
+      component:Shopcar
     },
     {
       path: '/CityList',

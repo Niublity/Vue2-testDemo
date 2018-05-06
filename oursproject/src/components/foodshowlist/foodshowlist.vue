@@ -79,7 +79,7 @@
         </div>
       </transition>
     </div>
-    <Goodslist></Goodslist>
+    <Goodslist class="Goodslist"></Goodslist>
     <div v-bind:class="{covermask:iscovermask}"></div>
   </div>
 </template>
@@ -502,6 +502,10 @@
     background-color: #56d176;
     color: #fff;
     border: .025rem solid #56d176;
+  }
+  .Goodslist {
+    margin-top: 3.5rem;
+    padding-bottom: 1.95rem;
   }
 
   /*黑色蒙版*/

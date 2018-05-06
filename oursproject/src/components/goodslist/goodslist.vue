@@ -502,7 +502,7 @@
 </style>
 <style scoped>
   .goodslist {
-    margin-top: 3.5rem;
+    /*margin-top: 3.5rem;*/
     padding-bottom: 1.95rem;
   }
 
