@@ -12,7 +12,7 @@
         <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword">
       </div>
       <div>
-        <button class="form_btn" @click="render123">提交</button>
+        <div class="form_btn" @click="render123">提交</div>
       </div>
     </form>
     <p class="search_history" v-if="">搜索历史</p>
@@ -123,6 +123,7 @@
     margin-bottom: .4rem;
     padding: 0 .3rem;
     font-weight: 200;
+    outline: none;
   }
 
   /*按钮*/
@@ -135,6 +136,8 @@
     border: 1px solid #3190e8;
     border-radius: .1rem;
     font-weight: 100;
+    text-align: center;
+    line-height: 1.4rem;
   }
 
   /*----搜索界面-----*/

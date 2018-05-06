@@ -28,7 +28,7 @@
     </div>
     <!--附近商家-->
     <div class="business">
-      <img :src="img.business" alt="" style="width: .6rem;">
+      <img :src="img.business" alt="" style="width: .6rem;vertical-align: middle">
       <span>附近商家</span>
     </div>
 
@@ -175,5 +175,12 @@
   .business{
     background: white;
     margin-top: .4rem;
+    padding-left: .6rem;
+    padding-top: 0.4rem;
   }
+  .business span{
+    color: #999;
+    font-size: 0.55rem;
+  }
+
 </style>
