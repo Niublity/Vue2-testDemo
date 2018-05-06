@@ -3,81 +3,31 @@
     <div class="select_body">
       <div class="select_menu">
         <div @click="listmenuleft">
-          <span>{{title}}</span>
-          <img src="./img/1.png" alt="" class="rotatetriangle">
+          <span :style="[listmenuleftshow?{color:'#3190e8'}:{color:'#333'}]">{{title}}</span>
+          <img src="./img/1.png" alt="" :class="[listmenuleftshow?'rotatetriangleA':'rotatetriangleB']">
         </div>
         <div @click="listmenucenter" class="borderline">
-          <span>排序</span>
-          <img src="./img/1.png" alt="" class="rotatetriangle">
+          <span :style="[listmenucentershow?{color:'#3190e8'}:{color:'#333'}]">排序</span>
+          <img src="./img/1.png" alt="" :class="[listmenucentershow?'rotatetriangleA':'rotatetriangleB']">
         </div>
         <div @click="listmenuright">
-          <span>筛选</span>
-          <img src="./img/1.png" alt="" class="rotatetriangle">
+          <span :style="[listmenurightshow?{color:'#3190e8'}:{color:'#333'}]">筛选</span>
+          <img src="./img/1.png" alt="" :class="[listmenurightshow?'rotatetriangleA':'rotatetriangleB']">
         </div>
       </div>
       <transition name="el-zoom-in-top">
         <div v-show="listmenuleftshow" class="transition-box transition-box_1">
           <div class="leftshowulL">
-            <div>
-              <div>异国料理</div>
-              <div><span>471</span></div>
-            </div>
             <ul>
-              <li>
-                <div><img src="./img/3.1.png" alt=""><span>快餐便当</span></div>
-                <div><span>383</span><img src="./img/4.png" alt=""></div>
-              </li>
-              <li>
-                <div><img src="./img/3.2.png" alt=""><span>小吃夜宵</span></div>
-                <div><span>383</span><img src="./img/4.png" alt=""></div>
-              </li>
-              <li>
-                <div><img src="./img/3.3.png" alt=""><span>果蔬生鲜</span></div>
-                <div><span>383</span><img src="./img/4.png" alt=""></div>
-              </li>
-              <li>
-                <div><img src="./img/3.4.png" alt=""><span>特色菜系</span></div>
-                <div><span>383</span><img src="./img/4.png" alt=""></div>
-              </li>
-              <li>
-                <div><img src="./img/3.5.png" alt=""><span>商店超市</span></div>
-                <div><span>383</span><img src="./img/4.png" alt=""></div>
-              </li>
-              <li>
-                <div><img src="./img/3.6.png" alt=""><span>鲜花蛋糕</span></div>
-                <div><span>383</span><img src="./img/4.png" alt=""></div>
-              </li>
-              <li>
-                <div><img src="./img/3.7.png" alt=""><span>全部商家</span></div>
-                <div><span>383</span><img src="./img/4.png" alt=""></div>
-              </li>
-              <li>
-                <div><img src="./img/3.8.png" alt=""><span>甜品饮品</span></div>
-                <div><span>383</span><img src="./img/4.png" alt=""></div>
+              <li v-for="value in listdatamenu" @click="detail(value)">
+                <div><img :src="value.image_url" alt=""><span>{{value.name}}</span></div>
+                <div><span>{{value.count}}</span><img src="./img/4.png" alt=""></div>
               </li>
             </ul>
           </div>
           <div class="leftshowulR">
             <ul class="leftshowulR_inner">
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
-              <li><span>简餐</span><span>355</span></li>
+              <li v-for="details in detaillist"><span>{{details.name}}</span><span>{{details.count}}</span></li>
             </ul>
           </div>
         </div>
@@ -85,8 +35,13 @@
       <transition name="el-zoom-in-top">
         <div v-show="listmenucentershow" class="transition-box transition-box_2">
           <ul>
-            <li><img src="./img/5.png" alt="">
-              <p>智能排序</p></li>
+            <li @click.self="rightmark=!rightmark">
+              <img src="./img/5.png" alt="">
+              <p>
+                智能排序
+                <img v-show="rightmark" src="./img/11.png" alt="">
+              </p>
+            </li>
             <li><img src="./img/6.png" alt="">
               <p>距离最近</p></li>
             <li><img src="./img/9.png" alt="">
@@ -124,51 +79,13 @@
         </div>
       </transition>
     </div>
-    <ul class="goodslist">
-      <li>
-        <div class="goodslist_left">
-          <img src="./img/2.jpeg" alt="">
-        </div>
-        <div class="goodslist_right">
-          <div class="goodslist_right_first">
-            <div><span>品牌</span><span>黄焖鸡米饭</span></div>
-            <div><span>保准票</span></div>
-          </div>
-          <div class="goodslist_right_second">
-            <div class="ratescore">
-              <el-rate
-                v-model="score"
-                disabled
-                show-score
-                text-color="#ff9900"
-                score-template="{value}">
-              </el-rate>
-              <span>月销售106单</span>
-            </div>
-            <div>
-              <div class="trs">蜂鸟转送</div>
-              <div class="ontime">准时达</div>
-            </div>
-          </div>
-          <div class="goodslist_right_third">
-            <div>
-              <span>￥20起送</span>
-              <span>/</span>
-              <span>配送费约￥5</span>
-            </div>
-            <div>
-              <span>1453.8公里</span>
-              <span>/</span>
-              <span class="trstime">1小时5分钟</span>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <Goodslist></Goodslist>
     <div v-bind:class="{covermask:iscovermask}"></div>
   </div>
 </template>
 <script>
+  import goodslist from "@/components/goodslist/goodslist"
+
   export default {
     name: "foodshowlist",
     data() {
@@ -177,9 +94,22 @@
         listmenuleftshow: false,
         listmenucentershow: false,
         listmenurightshow: false,
-        iscovermask:false,
-        score: 3.7
+        rightmark: false,
+        iscovermask: false,
+        listdatamenu: "",
+        detaillist: ""
+
       }
+    },
+    components: {
+      Goodslist: goodslist
+    },
+    created() {
+      let api = "http://cangdu.org:8001/shopping/v2/restaurant/category"
+      this.$http.get(api).then((response) => {
+        console.log(response.data)
+        this.listdatamenu = response.data
+      })
     },
     methods: {
       listmenuleft() {
@@ -192,15 +122,12 @@
         this.listmenuleftshow = !this.listmenuleftshow
         this.listmenucentershow = false
         this.listmenurightshow = false
-        this.iscovermask=true
-        if(this.listmenuleftshow)
-        {
-          this.iscovermask=true
-
+        this.iscovermask = true
+        if (this.listmenuleftshow) {
+          this.iscovermask = true
         }
-        else{
-          this.iscovermask=false
-
+        else {
+          this.iscovermask = false
         }
 
       },
@@ -208,71 +135,51 @@
         this.listmenucentershow = !this.listmenucentershow
         this.listmenuleftshow = false
         this.listmenurightshow = false
-        if(this.listmenucentershow)
-        {
-          this.iscovermask=true
-
+        if (this.listmenucentershow) {
+          this.iscovermask = true
         }
-        else{
-          this.iscovermask=false
-
+        else {
+          this.iscovermask = false
         }
-
       },
       listmenuright() {
         this.listmenurightshow = !this.listmenurightshow
         this.listmenucentershow = false
         this.listmenuleftshow = false
-        this.iscovermask=true
-        if(this.listmenurightshow)
-        {
-          this.iscovermask=true
-
+        this.iscovermask = true
+        if (this.listmenurightshow) {
+          this.iscovermask = true
         }
-        else{
-          this.iscovermask=false
-
+        else {
+          this.iscovermask = false
         }
+      },
+      detail(x) {
+        this.detaillist = x.sub_categories
       }
     }
   }
 </script>
 <style>
-  .ratescore .el-rate {
-    /*height: 0.4rem;*/
-  }
 
-  .ratescore .el-rate span i {
-    font-size: .4rem;
-    margin-right: 0rem;
-  }
-
-  .ratescore .el-rate .el-rate__text {
-    font-size: .4rem;
-  }
 </style>
 <style scoped>
-  .covermask {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,.3);
-  }
-
+  /*最外层div*/
   .select_top {
     position: relative;
   }
 
-  .select_menu {
+  /*最大选择框*/
+  .select_body {
     position: fixed;
+    top: 1.95rem;
     left: 0;
     right: 0;
     z-index: 100;
+  }
+
+  /*下拉菜单选项部分*/
+  .select_menu {
     padding-top: .3rem;
     display: flex;
     justify-content: space-around;
@@ -297,112 +204,24 @@
   }
 
   .select_menu img {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 0.6rem;
+    height: 0.6rem;
     margin-left: .3rem;
 
   }
 
-  .goodslist {
-    /*margin-top: 5rem;*/
-    position: fixed;
-    top: 3.5rem;
-    padding-bottom: 1.95rem;
+  /*激发状态三角形动画*/
+  .rotatetriangleA {
+    transform: rotateZ(180deg);
+    transition: all .3s;
   }
 
-  .goodslist li {
-    padding: .7rem .4rem;
-    display: flex;
-    justify-content: space-between;
-    background-color: white;
+  .rotatetriangleB {
+    transform: rotateZ(0deg);
+    transition: all .3s;
   }
 
-  .goodslist_left img {
-    width: 2.7rem;
-    height: 2.7rem;
-    display: block;
-    margin-right: .4rem;
-  }
-
-  .goodslist_right {
-    width: 12.1rem;
-  }
-
-  .goodslist_right_first {
-    display: flex;
-    justify-content: space-between;
-    font-style: normal;
-    font-variant-ligatures: normal;
-    font-variant-caps: normal;
-    font-variant-numeric: normal;
-    font-variant-east-asian: normal;
-    font-weight: 700;
-    font-stretch: normal;
-    font-size: 0.65rem;
-    line-height: 0.65rem;
-    font-family: PingFangSC-Regular;
-  }
-
-  .goodslist_right_second {
-    /*width: 100%;*/
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .ratescore {
-    margin-top: .52rem;
-    display: flex;
-    align-items: center;
-  }
-
-  .ratescore span {
-    font-size: 0.4rem;
-    vertical-align: baseline;
-    color: #666;
-    transform: scale(.8)
-  }
-
-  .goodslist_right_second > div:nth-child(2) {
-    margin-top: .52rem;
-    display: flex;
-    /*transform: scale(.8);*/
-    font-size: .4rem;
-  }
-
-  .trs {
-    color: #fff;
-    background-color: #3190e8;
-    border: .025rem solid #3190e8;
-    padding: .04rem .08rem 0;
-    border-radius: .08rem;
-    margin-left: .08rem;
-  }
-
-  .ontime {
-    padding: .04rem .08rem 0;
-    border-radius: .08rem;
-    margin-left: .08rem;
-    color: #3190e8;
-    border: .025rem solid #3190e8;
-  }
-
-  .goodslist_right_third {
-    display: flex;
-    justify-content: space-between;
-    font-size: .5rem;
-    margin-top: .52rem;
-    color: #999;
-  }
-
-  .trstime {
-    color: #3190e8;
-  }
-
-  .select_body {
-    position: relative;
-  }
-
+  /*第一部分下拉菜单动画*/
   .transition-box_1 {
     position: fixed;
     left: 0;
@@ -447,6 +266,10 @@
     height: 1.8rem;
   }
 
+  .leftshowulL li:hover {
+    background-color: white;
+  }
+
   .leftshowulL li div:nth-child(1) img {
     width: .8rem;
     /*height: .8rem;*/
@@ -473,7 +296,7 @@
   .leftshowulR {
     background-color: white;
     width: 50%;
-    height: 16.5rem;
+    height: 16.2rem;
     padding-left: .5rem;
     overflow-y: scroll;
   }
@@ -493,6 +316,7 @@
     color: #666;
   }
 
+  /*第二部分下拉菜单动画*/
   .transition-box_2 {
     position: fixed;
     left: 0;
@@ -514,7 +338,7 @@
     align-items: center;
   }
 
-  .transition-box_2 ul li img {
+  .transition-box_2 ul li > img {
     width: .7rem;
     height: .7rem;
     margin: 0 .3rem 0 .8rem;
@@ -524,9 +348,19 @@
     width: 14.2rem;
     height: 2.5rem;
     line-height: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: .025rem solid #e4e4e4;
   }
 
+  .transition-box_2 ul li p img {
+    width: .7rem;
+    height: .4315rem;
+    margin-right: .8rem;
+  }
+
+  /*第三部分下拉菜单动画*/
   .transition-box_3 {
     position: fixed;
     left: 0;
@@ -668,5 +502,18 @@
     background-color: #56d176;
     color: #fff;
     border: .025rem solid #56d176;
+  }
+
+  /*黑色蒙版*/
+  .covermask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .3);
   }
 </style>
