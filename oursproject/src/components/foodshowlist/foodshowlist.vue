@@ -215,9 +215,7 @@
         }
         else{
           this.iscovermask=false
-
         }
-
       },
       listmenuright() {
         this.listmenurightshow = !this.listmenurightshow
@@ -227,11 +225,9 @@
         if(this.listmenurightshow)
         {
           this.iscovermask=true
-
         }
         else{
           this.iscovermask=false
-
         }
       }
     }
