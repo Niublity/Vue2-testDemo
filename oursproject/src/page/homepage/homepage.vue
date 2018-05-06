@@ -8,18 +8,18 @@
     <!--轮播图-->
     <div class=" swiper-container foods_kind">
       <div class="swiper-wrapper">
-        <div class="swiper-slide"  >
+        <div class="swiper-slide">
           <a href="##" class="link_to_food" v-for="kind1 in kindOne">
           <img :src="'https://fuss10.elemecdn.com'+kind1.image_url" alt="">
           <span>{{kind1.title}}</span>
           </a>
         </div>
-        <!--<div class="swiper-slide" >-->
-          <!--<a href="##" class="link_to_food"  v-for="kind2 in kindTwo">-->
-            <!--<img :src="'https://fuss10.elemecdn.com'+kind2.image_url" alt="">-->
-            <!--<span>{{kind2.title}}</span>-->
-          <!--</a>-->
-        <!--</div>-->
+        <div class="swiper-slide">
+          <a href="##" class="link_to_food"  v-for="kind2 in kindTwo">
+            <img :src="'https://fuss10.elemecdn.com'+kind2.image_url" alt="">
+            <span>{{kind2.title}}</span>
+          </a>
+        </div>
       </div>
       <!--分页器-->
       <div class="swiper-pagination"></div>
@@ -80,6 +80,15 @@
         this.foodkinds = this.publicfunction(response.data,8);
         this.kindOne = this.foodkinds[0];
         this.kindTwo = this.foodkinds[1];
+        setTimeout(function(){
+          var mySwiper = new Swiper('.swiper-container', {
+            loop: true,
+            // 如果需要分页器
+            pagination: {
+              el: '.swiper-pagination'
+            }
+          })
+        },200)
       })
     },
     components:{
@@ -87,13 +96,7 @@
       goodlist
     },
     mounted() {
-      var mySwiper = new Swiper('.swiper-container', {
-        loop: true,
-        // 如果需要分页器
-        pagination: {
-          el: '.swiper-pagination'
-        }
-      })
+      console.log(this.$el); //已被初始化
     }
   }
 </script>
@@ -116,6 +119,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 100;
   }
 
   .home_top .top_title {
