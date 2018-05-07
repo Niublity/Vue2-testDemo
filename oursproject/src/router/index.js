@@ -40,7 +40,7 @@ export default new Router({
       component: Shopshow
     },
     {
-      path: '/city/:id',
+      path: '/city/${id}',
       name: 'SearchHistory',
       component: SearchHistory
     },
