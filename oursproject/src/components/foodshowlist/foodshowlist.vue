@@ -19,8 +19,8 @@
         <div v-show="listmenuleftshow" class="transition-box transition-box_1">
           <div class="leftshowulL">
             <ul>
-              <li v-for="value in listdatamenu" @click="detail(value)">
-                <div><img :src="value.image_url" alt=""><span>{{value.name}}</span></div>
+              <li v-for="(value,index) in listdatamenu" @click="detail(value,$event)">
+                <div><img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(value.image_url)" alt=""><span>{{value.name}}</span></div>
                 <div><span>{{value.count}}</span><img src="./img/4.png" alt=""></div>
               </li>
             </ul>
@@ -85,11 +85,12 @@
 </template>
 <script>
   import goodslist from "@/components/goodslist/goodslist"
-
+  import imgsss from "./img/3.7.png"
   export default {
     name: "foodshowlist",
     data() {
       return {
+        imgsss:imgsss,
         title: "准时达",
         listmenuleftshow: false,
         listmenucentershow: false,
@@ -107,8 +108,9 @@
     created() {
       let api = "http://cangdu.org:8001/shopping/v2/restaurant/category"
       this.$http.get(api).then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         this.listdatamenu = response.data
+        console.log(this.publicfunction.dealarray(response.data[1].image_url))
       })
     },
     methods: {
@@ -154,8 +156,13 @@
           this.iscovermask = false
         }
       },
-      detail(x) {
+      detail(x, $event) {
+        var el = $event.currentTarget
+        for (let i = 0; i < el.parentElement.children.length; i++) {
+          el.parentElement.children[i].className = ""
+        }
         this.detaillist = x.sub_categories
+        el.className = "backgroundactive"
       }
     }
   }
@@ -266,7 +273,10 @@
     height: 1.8rem;
   }
 
-  .leftshowulL li:hover {
+  /*.leftshowulL li:hover {*/
+  /*background-color: white;*/
+  /*}*/
+  .backgroundactive {
     background-color: white;
   }
 
@@ -503,6 +513,7 @@
     color: #fff;
     border: .025rem solid #56d176;
   }
+
   .Goodslist {
     margin-top: 3.5rem;
     padding-bottom: 1.95rem;

@@ -77,7 +77,8 @@
     created(){
       this.$http.get("http://cangdu.org:8001/v2/index_entry").then((response)=>{
         console.log(response.data);
-        this.foodkinds = this.publicfunction(response.data,8);
+        // this.foodkinds = this.publicfunction(response.data,8);
+        this.foodkinds = this.publicfunction.sliceArray(response.data,8)
         this.kindOne = this.foodkinds[0];
         this.kindTwo = this.foodkinds[1];
         setTimeout(function(){

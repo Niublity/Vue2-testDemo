@@ -26,8 +26,6 @@ Vue.prototype.group=function(obj){
   }
   return newObj;
 }
-
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
