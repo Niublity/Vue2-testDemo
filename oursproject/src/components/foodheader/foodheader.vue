@@ -1,15 +1,21 @@
 <template>
   <div class="foodheader">
     <div class="foodheader_line">
-      <div class="foodheader_line_left"><img src="./img/3.png" alt=""></div>
-      <div class="foodheader_line_des">预定早餐</div>
+      <div class="foodheader_line_left" @click="back"><img src="./img/3.png" alt=""></div>
+      <div class="foodheader_line_des">{{title}}</div>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "foodheader"
+    name: "foodheader",
+    props:["title"],
+    methods:{
+      back(){
+        this.$router.go(-1)
+      }
+    }
   }
 </script>
 
@@ -36,11 +42,10 @@
     width: 8rem;
     position: absolute;
     left: 27%;
-    top:25%;
+    top:30%;
     font-size: .8rem;
     color: #fff;
     text-align: center;
-    font-weight: 700;
-
+    font-weight: 300;
   }
 </style>
