@@ -155,13 +155,17 @@
         showEvaluate: false,
         showChoose: false,
         categotyList:[]
+
       }
     },
     created() {
       this.$http.get("http://cangdu.org:8001/shopping/getcategory/1").then((response) => {
         console.log(response.data.category_list[0].foods[0].activity.image_text);
-        console.log(response.data.category_list[0].foods[0]);
+        console.log(response.data.category_list);
         this.categotyList=response.data.category_list;
+        for(var i=0;i<response.data.category_list.length;i++){
+          response.data.category_list[i].foods
+        }
       });
     },
     methods: {
