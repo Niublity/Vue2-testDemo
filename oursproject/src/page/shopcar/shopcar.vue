@@ -52,7 +52,8 @@
         <div class="wares" v-show="showWares">
           <ul class="wares-left">
             <li v-for="categoty in categotyList" class="left-li">
-              <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt="" class="sales-logo">
+              <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
+                   class="sales-logo">
               <span>{{categoty.name}}</span>
             </li>
           </ul>
@@ -444,12 +445,15 @@
     height: 18rem;
     overflow: scroll;
   }
-  .wares-right::-webkit-scrollbar{
+
+  .wares-right::-webkit-scrollbar {
     display: none;
   }
-.wares-right li{
-  box-sizing: border-box;
-}
+
+  .wares-right li {
+    box-sizing: border-box;
+  }
+
   .wares-header {
     width: 100%;
     padding: .65rem .4rem .65rem .2rem;
@@ -501,6 +505,14 @@
     overflow: hidden;
     box-sizing: border-box;
   }
+<<<<<<< HEAD
+=======
+
+  .food-describe {
+    margin-left: 0.45rem;
+  }
+
+>>>>>>> ebfcbbfba62c75269df49c58a9d330d2beb2195f
   /*右一*/
   .food-describe .food-describe-head strong {
     font-size: .7rem;
@@ -602,7 +614,7 @@
   }
 
   .food-price span:nth-of-type(2),
-  .specs-price span:nth-of-type(2){
+  .specs-price span:nth-of-type(2) {
     font-size: .7rem;
     color: #f60;
     font-weight: 700;
@@ -641,60 +653,70 @@
     border-radius: .2rem;
     z-index: 105;
   }
+
   /*弹框header*/
-  .specs-header{
-   text-align: center;
+  .specs-header {
+    text-align: center;
     padding: .6rem .5rem;
     box-sizing: border-box;
     position: relative;
   }
-  .food-name{
+
+  .food-name {
     color: #222;
     font-size: .7rem;
     font-weight: 400;
   }
-  .specs-close{
+
+  .specs-close {
     width: 1rem;
     height: 1rem;
     position: absolute;
     right: .5rem;
     top: .55rem;
   }
+
   /*弹框section*/
-  .specs-details{
+  .specs-details {
     padding: .5rem;
   }
-  .specs-details-title{
+
+  .specs-details-title {
     font-size: .6rem;
     color: #666;
     margin-bottom: 0.1rem;
     font-weight: 200;
   }
-  .activity-container{
+
+  .activity-container {
     display: flex;
     justify-content: space-around;
     padding: .5rem 0;
   }
- .choose .specs-details .activity-container>li{
+
+  .choose .specs-details .activity-container > li {
     padding: .35rem .5rem;
     font-size: .6rem;
     border: .025rem solid #ddd;
     margin-right: .5rem;
     border-radius: .2rem;
   }
-  .specs-activity{
+
+  .specs-activity {
     border-color: #3199e8 !important;
     color: #3199e8;
   }
+
   /*弹框footer*/
-  .specs-footer{
+  .specs-footer {
     padding: .5rem;
     background: #f9f9f9;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .addto-car{
+
+  .addto-car {
     width: 4rem;
     height: 1.3rem;
     background: #3199e8;
@@ -708,11 +730,13 @@
     text-align: center;
     line-height: 1.3rem;
   }
+
   /*图片*/
   .waresr-list .food-img {
     width: 2rem;
     height: 2rem;
   }
+
   /*footer*/
   .shopcar_footer {
     color: white;
