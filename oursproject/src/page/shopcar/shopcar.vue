@@ -68,7 +68,6 @@
                 </section>
                 <span class="title-infor">...</span>
               </header>
-              <!--{{cate.foods[0].tips}}-->
               <!--内容  第二层循环 食物具体信息-->
               <section class="waresr-list" v-for="food in cate.foods">
                 <img :src="'https://elm.cangdu.org/img/'+food.image_path" alt="" class="food-img">
@@ -79,17 +78,19 @@
                     <span class="new-attribute">新品</span>
                     <span class="food-unique">招牌</span>
                   </h3>
-                  <p class="food-describe-content"> {{food.description}}</p>
+                  <p class="food-describe-content">{{food.description}}</p>
                   <p class="food-describe-rating">月售{{food.month_sales}}份，好评率{{food.satisfy_rate}}%</p>
-                  <span class="food-activity"></span>
+                  <p  v-if="food.activity" class="activityp">
+                    <span class="food-activity">{{food.activity.image_text}}</span>
+                  </p>
                   <div class="food-footer">
                     <p class="food-price">
                       <span>￥</span>
-                      <span>20</span>
+                      <span>{{food.specfoods[0].price}}</span>
                       <span>起</span>
                     </p>
                     <p class="choose-size" @click="showChoose=!showChoose">选规格</p>
-                    <div class="choose" v-if="showChoose">
+                    <div class="choose" v-show="showChoose">
                       <header class="specs-header">
                         <strong class="food-name">{{food.name}}</strong>
                         <img :src="pic.close" alt="" class="specs-close" @click="showChoose=!showChoose">
@@ -155,18 +156,18 @@
         showWares: true,
         showEvaluate: false,
         showChoose: false,
-        categotyList:[]
-
+        categotyList:[],
+        foods:[]
       }
     },
     created() {
       this.$http.get("http://cangdu.org:8001/shopping/getcategory/1").then((response) => {
-        console.log(response.data.category_list[0].foods[0].activity.image_text);
-        console.log(response.data.category_list);
+        console.log(response.data.category_list)
         this.categotyList=response.data.category_list;
-        for(var i=0;i<response.data.category_list.length;i++){
-          response.data.category_list[i].foods
-        }
+      // for (let i of response.data.category_list) {
+      //   this.foods.push(response.data.category_list[i].foods);
+      // }
+      // console.log(this.foods)
       });
     },
     methods: {
@@ -455,7 +456,7 @@
 
   .wares-header {
     width: 100%;
-    padding: .6rem .4rem .6rem .2rem;
+    padding: .65rem .4rem .65rem .2rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -504,11 +505,14 @@
     overflow: hidden;
     box-sizing: border-box;
   }
+<<<<<<< HEAD
+=======
 
   .food-describe {
     margin-left: 0.45rem;
   }
 
+>>>>>>> ebfcbbfba62c75269df49c58a9d330d2beb2195f
   /*右一*/
   .food-describe .food-describe-head strong {
     font-size: .7rem;
@@ -570,6 +574,8 @@
   }
 
   /*右四*/
+  .activityp{
+  }
   .food-activity {
     display: inline-block;
     /*border: 1px solid currentColor;*/
@@ -579,6 +585,8 @@
     border: 1px solid rgb(240, 115, 115);
     font-weight: 200;
     transform: scale(.8);
+    padding: .08rem;
+    margin-left: -.15rem;
   }
 
   /*右五*/
