@@ -34,9 +34,25 @@
         </div>
       </div>
     </section>
-    <section class="">
-      
+    <section class="apply_vip">
+      <div class="header">
+        开通会员
+      </div>
+      <div class="apply_vip_buy">
+        <div>
+          1个月<span>￥20</span>
+        </div>
+        <div>购买</div>
+      </div>
     </section>
+    <router-link to="" class="astyle">
+      <span>兑换会员</span>
+      <div>使用卡号卡密 <img src="./img/14.png" alt=""></div>
+    </router-link>
+    <router-link to="" class="astyle">
+      <span>购买记录</span>
+      <div>开发票<img src="./img/14.png" alt=""></div>
+    </router-link>
   </div>
 </template>
 
@@ -64,7 +80,10 @@
     line-height: 2rem;
     padding-left: .7rem;
   }
-
+  .buyvip span{
+    color: black;
+    font-weight: 800;
+  }
   .menbershippower {
     background-color: #fff;
     padding-left: .7rem;
@@ -111,16 +130,81 @@
     width: 1.6rem;
     height: 1.8rem;
   }
-  .menbershippower_des>div:nth-child(2) h4{
+
+  .menbershippower_des > div:nth-child(2) h4 {
     font-size: .7rem;
     color: #333;
     font-weight: 400;
   }
-  .menbershippower_des>div:nth-child(2) p{
+
+  .menbershippower_des > div:nth-child(2) p {
     font-size: .5rem;
     color: #999;
     line-height: 1rem;
     font-weight: 200;
-    font-family: Helvetica Neue,Tahoma,Arial;
+    font-family: Helvetica Neue, Tahoma, Arial;
+  }
+
+  .apply_vip {
+    background-color: #fff;
+    padding-left: .7rem;
+    margin-bottom: .5rem;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    line-height: 2rem;
+    border-bottom: 1px solid #f5f5f5;
+    padding-right: .7rem;
+    font-size: .7rem;
+    color: #333;
+  }
+
+  .apply_vip_buy {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: .7rem;
+    font-size: .7rem;
+    line-height: 2.6rem;
+  }
+
+  .apply_vip_buy > div:nth-child(1) span {
+    font-weight: 700;
+    color: #f60;
+  }
+
+  .apply_vip_buy > div:nth-child(2) {
+    border: .025rem solid #f60;
+    border-radius: .2rem;
+    line-height: 1.2rem;
+    height: 1.2rem;
+    width: 2.6rem;
+    text-align: center;
+    font-size: .6rem;
+    color: #f60;
+    font-weight: 100;
+  }
+  .astyle{
+    font-size: .7rem;
+    color: #333;
+    padding: 0 .7rem;
+    margin-bottom: .5rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    line-height: 2rem;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .astyle img {
+    width: .5rem;
+    height: .5rem;
+  }
+  .astyle div{
+    font-size: .6rem;
+    color: #999;
+    margin-right: .2rem;
   }
 </style>

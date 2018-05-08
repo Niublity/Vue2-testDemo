@@ -15,6 +15,7 @@ import Coupon from "../page/personalpage/coupon"
 import Download from "../page/personalpage/download"
 import Servercenter from "../page/personalpage/servercenter"
 import Vipcenter from "../page/personalpage/vip"
+import Accountdetail from "../page/personalpage/accountdetail"
 
 Vue.use(Router)
 
@@ -87,6 +88,11 @@ export default new Router({
       path:"/vipcenter",
       name:Vipcenter,
       component:Vipcenter
+    },
+    {
+      path:"/accountdetail",
+      name:Accountdetail,
+      component:Accountdetail
     }
   ]
 })

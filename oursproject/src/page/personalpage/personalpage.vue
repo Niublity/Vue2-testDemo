@@ -1,14 +1,14 @@
 <template>
   <div>
     <Header :title="title"></Header>
-    <div class="simpledes">
+    <router-link to="/accountdetail" class="simpledes">
       <div><img src="./img/4.jpg" alt=""></div>
       <div>
         <p>304733908</p>
-        <p><img src="./img/3.png" alt="">暂无绑定手机号</p>
+        <p><img src="./img/16.png" alt="">暂无绑定手机号</p>
       </div>
-      <div><img src="./img/3.png" alt=""></div>
-    </div>
+      <div><img src="./img/15.png" alt=""></div>
+    </router-link>
     <div class="count_num">
       <div @click="balance">
         <div><span>0.00</span><span>元</span></div>
@@ -63,32 +63,32 @@
 
   export default {
     name: "personalpage",
-    data(){
-      return{
-      title:"个人中心"
+    data() {
+      return {
+        title: "个人中心"
       }
     },
     components: {
       Footernav: footernav,
       Header: header
     },
-    methods:{
-      balance(){
+    methods: {
+      balance() {
         this.$router.push("/balance")
       },
-      coupon(){
+      coupon() {
         this.$router.push("/coupon")
       },
-      integral(){
+      integral() {
         this.$router.push("/integral")
       },
-      download(){
+      download() {
         this.$router.push("/download")
       },
-      servercenter(){
+      servercenter() {
         this.$router.push("/servercenter")
       },
-      vipcenter(){
+      vipcenter() {
         this.$router.push("/vipcenter")
       }
     }
@@ -98,6 +98,7 @@
 <style scoped>
 
   .simpledes {
+    display: block;
     align-items: center;
     background: #3190e8;
     padding: .666667rem .6rem;
@@ -127,6 +128,7 @@
 
   .simpledes div:nth-child(2) p:nth-child(2) img {
     width: .5rem;
+    vertical-align: middle;
   }
 
   .simpledes div:nth-child(1) img {
