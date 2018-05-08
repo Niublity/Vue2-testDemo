@@ -16,6 +16,7 @@ import Download from "../page/personalpage/download"
 import Servercenter from "../page/personalpage/servercenter"
 import Vipcenter from "../page/personalpage/vip"
 import Accountdetail from "../page/personalpage/accountdetail"
+import Detail from "../page/personalpage/detail"
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: "/personal",
       name: Personal,
       component: Personal
+    },
+    {
+      path:"/order",
+      name:Order,
+      component:Order
     },
     {
       path: '/CityList',
@@ -93,6 +99,11 @@ export default new Router({
       path:"/accountdetail",
       name:Accountdetail,
       component:Accountdetail
+    },
+    {
+      path:"/servercenter/:id",
+      name:Detail,
+      component:Detail
     }
   ]
 })

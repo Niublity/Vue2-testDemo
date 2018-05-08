@@ -14,7 +14,7 @@
     <h4 class="problemtitle">热门问题</h4>
     <ul class="problemslist">
       <li v-for="value in problems">
-        <router-link :to="'/servercenter/'+value.id" class="astyle">
+        <router-link :to="{path:'/servercenter/'+value.id,query:{name:value.name,des:value.des}}" class="astyle">
           {{value.name}}
           <img src="./img/14.png" alt="">
         </router-link>
@@ -41,6 +41,7 @@
     created(){
       this.$http.get("http://cangdu.org:8001/v3/profile/explain").then((response)=>{
         this.problems=this.publicfunction.dealjson(response.data)
+        console.log(this.problems)
       })
     }
   }

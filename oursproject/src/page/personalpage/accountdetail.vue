@@ -16,9 +16,28 @@
         <img src="./img/14.png" alt="">
       </div>
     </section>
-    <section class="usernamedetail">
+    <section style="border-bottom: 1px solid #ddd;" class="usernamedetail">
       <h2>收货地址</h2>
       <div>
+        <img src="./img/14.png" alt="">
+      </div>
+    </section>
+    <section class="settingtitle">
+      <div>账号绑定</div>
+    </section>
+    <section class="acountbindphone">
+      <div>
+        <h2><img src="./img/17.png" alt="">手机</h2>
+      </div>
+      <img src="./img/14.png" alt="">
+    </section>
+    <section class="settingtitle">
+      <div>安全设置</div>
+    </section>
+    <section style="border-bottom: 1px solid #ddd;" class="usernamedetail">
+      <h2>登录密码</h2>
+      <div>
+        <span>修改</span>
         <img src="./img/14.png" alt="">
       </div>
     </section>
@@ -48,9 +67,7 @@
     padding: .5rem .4rem;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-pack: justify;
     justify-content: space-between;
-    -ms-flex-align: center;
     align-items: center;
     border-top: 1px solid #ddd;
     background: #fff;
@@ -107,15 +124,18 @@
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid #ddd;
+
     background: #fff;
 
   }
-  .usernamedetail h2{
+
+  .usernamedetail h2 {
     font-size: .6rem;
     color: #333;
     font-weight: 500;
   }
-  .usernamedetail>div span{
+
+  .usernamedetail > div span {
     text-align: left;
     line-height: 1.39rem;
     font-size: .6rem;
@@ -123,8 +143,35 @@
     margin-right: .2rem;
     font-weight: 100;
   }
-  .usernamedetail>div img{
+
+  .usernamedetail > div img {
     width: .7rem;
     vertical-align: middle;
+  }
+
+  .settingtitle {
+    padding: .4rem;
+    font-size: .5rem;
+    color: #666;
+  }
+  .acountbindphone{
+    margin-top: .4rem;
+    padding: .5rem .4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    border-bottom:1px solid #ddd ;
+    background: #fff;
+  }
+  .acountbindphone h2{
+    font-size: .6rem;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+  .acountbindphone img{
+    width: 1rem;
   }
 </style>

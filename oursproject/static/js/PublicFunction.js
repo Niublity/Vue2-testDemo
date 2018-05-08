@@ -61,6 +61,7 @@ function dealjson(obj) {
   }
   var three = one.concat(two)
   three.splice(12,1)
+  three.splice(4,1)
   return three
 }
 
