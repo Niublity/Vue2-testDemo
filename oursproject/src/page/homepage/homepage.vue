@@ -1,10 +1,8 @@
 <template>
   <div>
-    <div class="home_top">
-      <img :src="img.search" alt="" class="top_search">
-      <span class="top_title">需要获取的数据eeeeeeeeee</span>
+    <Header :title="title.name"></Header>
+
       <img :src="img.user" alt="" class="top_user">
-    </div>
     <!--轮播图-->
     <div class=" swiper-container foods_kind">
       <div class="swiper-wrapper">
@@ -54,10 +52,12 @@
 
   import footernav from "../../components/footernav/footernav";
   import goodlist from "../../components/goodslist/goodslist";
+  import header from "../../components/foodheader/foodheader"
   export default {
     name: "homepage",
     data() {
       return {
+        title:JSON.parse(localStorage.getItem('newRecord')),
         img:{business, search, user},
         foodkinds:[],
         kindOne:[],
@@ -76,7 +76,7 @@
     },
     created(){
       this.$http.get("http://cangdu.org:8001/v2/index_entry").then((response)=>{
-        console.log(response.data);
+        //console.log(response.data);
         // this.foodkinds = this.publicfunction(response.data,8);
         this.foodkinds = this.publicfunction.sliceArray(response.data,8)
         this.kindOne = this.foodkinds[0];
@@ -94,7 +94,8 @@
     },
     components:{
       footernav,
-      goodlist
+      goodlist,
+      Header:header
     },
     mounted() {
       console.log(this.$el); //已被初始化
@@ -108,45 +109,16 @@
 </style>
 <style scoped>
   /*top*/
-  .home_top {
-    width: 100%;
-    height: 1.97rem;
-    background: #3190e8;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 .8rem;
-    box-sizing: border-box;
+  .top_user {
+    width: .9rem;
+    height: .9rem;
     position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-  }
-
-  .home_top .top_title {
-    display: inline-block;
-    width: 50%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: .8rem;
-    color: #fff;
-    font-weight: 100;
-  }
-
-  .home_top .top_search {
-    width: .9rem;
-    height: .9rem;
-  }
-
-  .home_top .top_user {
-    width: .9rem;
-    height: .9rem;
+    top: .5rem;
+    right: .4rem;
   }
 
   /*---轮播图----*/
   .swiper-container {
-    margin-top: 1.96rem;
     padding-bottom: .6rem;
     background: white;
   }

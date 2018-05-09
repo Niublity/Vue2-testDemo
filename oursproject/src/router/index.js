@@ -16,7 +16,10 @@ import Download from "../page/personalpage/download"
 import Servercenter from "../page/personalpage/servercenter"
 import Vipcenter from "../page/personalpage/vip"
 import Accountdetail from "../page/personalpage/accountdetail"
-
+import Detail from "../page/personalpage/detail"
+import Setusername from "../page/personalpage/setusername"
+import Editaddress from "../page/personalpage/editaddress"
+import Newaddress from "../page/personalpage/newaddress"
 Vue.use(Router)
 
 export default new Router({
@@ -42,6 +45,11 @@ export default new Router({
       component: Personal
     },
     {
+      path:"/order",
+      // name:Order,
+      component:Order
+    },
+    {
       path: '/CityList',
       name: 'CityList',
       component: CityList
@@ -52,7 +60,7 @@ export default new Router({
       component: Shopshow
     },
     {
-      path: '/city/${id}',
+      path: '/city/:id',
       name: 'SearchHistory',
       component: SearchHistory
     },
@@ -91,8 +99,38 @@ export default new Router({
     },
     {
       path:"/accountdetail",
+<<<<<<< HEAD
       name:"Accountdetail",
       component:Accountdetail
+=======
+      name:Accountdetail,
+      component:Accountdetail,
+      children:[
+        {
+          path:'setusername',
+          name:Setusername,
+          component:Setusername
+        },
+        {
+          path:'editaddress',
+          // name:Editaddress,
+          component:Editaddress,
+          children:[
+            {
+              path: "newaddress",
+              name:Newaddress,
+              component:Newaddress
+            }
+          ]
+        }
+
+      ]
+
+    },
+    {
+      path:"/servercenter/:id",
+      component:Detail
+>>>>>>> eabb9e8e9ae0a3e6a6ef3909dd4b8ad0c43a02b3
     }
   ]
 })
