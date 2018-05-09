@@ -60,12 +60,8 @@ function dealjson(obj) {
     [two[j].des, two[j].name] = [two[j].name, two[j].des]
   }
   var three = one.concat(two)
-<<<<<<< HEAD
-  three.splice(12, 1)
-=======
   three.splice(12,1)
   three.splice(4,1)
->>>>>>> eabb9e8e9ae0a3e6a6ef3909dd4b8ad0c43a02b3
   return three
 }
 

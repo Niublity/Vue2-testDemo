@@ -46,7 +46,7 @@ export default new Router({
     },
     {
       path:"/order",
-      // name:Order,
+      name:"Order",
       component:Order
     },
     {
@@ -99,26 +99,22 @@ export default new Router({
     },
     {
       path:"/accountdetail",
-<<<<<<< HEAD
       name:"Accountdetail",
-      component:Accountdetail
-=======
-      name:Accountdetail,
       component:Accountdetail,
       children:[
         {
           path:'setusername',
-          name:Setusername,
+          name:"Setusername",
           component:Setusername
         },
         {
           path:'editaddress',
-          // name:Editaddress,
+          name:"Editaddress",
           component:Editaddress,
           children:[
             {
               path: "newaddress",
-              name:Newaddress,
+              name:"Newaddress",
               component:Newaddress
             }
           ]
@@ -130,7 +126,6 @@ export default new Router({
     {
       path:"/servercenter/:id",
       component:Detail
->>>>>>> eabb9e8e9ae0a3e6a6ef3909dd4b8ad0c43a02b3
     }
   ]
 })
