@@ -9,18 +9,30 @@
     </div>
     <form class="city_form">
       <div>
-        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword">
+        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword" @keyup.13="refreshPage()">
       </div>
       <div>
-        <div class="form_btn" @click="render123">提交</div>
+        <div class="form_btn" @click="renderSearch"> {{requireRecord}}提交</div>
       </div>
+
     </form>
     <p class="search_history" v-if="">搜索历史</p>
+    <section class="searchHistorys-container">
+      <ul class="search_record recordInfor" v-if="searchHistorys">
+        <li>
+          <h4 class="record_title">{{searchHistorys.name}}</h4>
+          <p class="record_address">{{searchHistorys.address}}</p>
+        </li>
+      </ul>
+      <footer class="clear-all-history">清空所有</footer>
+    </section>
     <ul class="search_record">
-      <li v-for="record in searchRecord">
-        <h4 class="record_title">{{record.name}}</h4>
-        <p class="record_address">{{record.address}}</p>
-      </li>
+      <router-link to="/home">
+        <li v-for="record in searchRecord" @click="requireInfor(record)">
+          <h4 class="record_title">{{record.name}}</h4>
+          <p class="record_address">{{record.address}}</p>
+        </li>
+      </router-link>
     </ul>
   </div>
 </template>
@@ -37,16 +49,17 @@
         back,
         //当前城市
         citys: "",
-        cityID:"",
+        cityID: "",
         //搜索关键字
         keyword: "",
         //搜索历史
-        searchRecord:null,
+        searchRecord: null,
+        searchHistorys: JSON.parse(localStorage.getItem('newRecord'))
       }
     },
     created() {
       //获取当前城市Id
-      this.cityID= this.$route.params.id;
+      this.cityID = this.$route.params.id;
       console.log(this.cityID);
       //获取点击城市信息
       this.axios.get("http://cangdu.org:8001/v1/cities/" + this.cityID).then((response) => {
@@ -54,17 +67,35 @@
         this.citys = response.data;
       })
     },
-    methods:{
-      render123(){
+    methods: {
+      renderSearch() {
         //获取搜索信息
         this.$http.get("http://cangdu.org:8001/v1/pois?city_id=" + this.cityID + "&keyword=" + this.keyword + "&type=search").then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           this.searchRecord = response.data;
         })
-
-        // console.log(this.cityID)
-        // console.log(this.keyword)
-        // console.log("http://cangdu.org:8001/v1/pois?city_id=" + this.cityID + "&keyword=" + this.keyword + "&type=search");
+        console.log(this.searchHistorys)
+      },
+      refreshPage() {
+        console.log("你按了回车")
+        this.$http.get("http://cangdu.org:8001/v1/pois?city_id=" + this.cityID + "&keyword=" + this.keyword + "&type=search").then((response) => {
+          //console.log(response.data);
+          this.searchRecord = response.data;
+        })
+      },
+      requireInfor(record) {
+        //console.log(record);
+        var newRecord = JSON.stringify(record);
+        console.log(newRecord);
+        localStorage.setItem("newRecord", newRecord);
+      }
+    },
+    computed: {
+      requireRecord() {
+        console.log(localStorage.hasOwnProperty('newRecord'))
+        // var recordSearch = JSON.parse(localStorage.getItem('newRecord'));
+        // console.log(recordSearch);
+        // this.searchHistorys = recordSearch;
       }
     }
   }
@@ -152,10 +183,17 @@
   .city .search_record {
     background: white;
     border-top: 1px solid #e4e4e4;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 6.57rem;
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: 6.57rem;*/
+  }
+
+  .city .recordInfor {
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: 7.3rem;*/
   }
 
   .search_record li {
@@ -163,12 +201,14 @@
     padding: .65rem 4.5% 0 4.5%;
     box-sizing: border-box;
   }
-  .search_record .record_title{
+
+  .search_record .record_title {
     font-size: .65rem;
     color: #333;
     font-weight: 300;
   }
-  .search_record .record_address{
+
+  .search_record .record_address {
     font-size: .45rem;
     color: #999;
     overflow: hidden;
@@ -177,5 +217,18 @@
     margin: .55rem 0;
     letter-spacing: 0.03rem;
     font-weight: 200;
+  }
+
+  /*清空所有*/
+  .searchHistorys-container{
+    position: relative;
+  }
+  .clear-all-history {
+    width: 100%;
+    font-size: .7rem;
+    color: #666;
+    text-align: center;
+    line-height: 2rem;
+    background: #fff;
   }
 </style>
