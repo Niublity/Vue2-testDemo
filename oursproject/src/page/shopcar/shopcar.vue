@@ -1,10 +1,7 @@
 <template>
   <div class="shopcarbody">
     <div class="specs-cover" v-show="showChoose"></div>
-    <div class="shopcar_line">
-      <div class="shopcar_line_left"><img src="./img/3.png" alt=""></div>
-      <div class="shopcar_line_des">购物车</div>
-    </div>
+    <Header class="shopcar_line" :title="title"></Header>
     <!--购物车中心界面-->
     <div class="shopcar_center">
       <!--背景图片-->
@@ -51,18 +48,19 @@
         <!--商品界面-->
         <div class="wares" v-show="showWares">
           <ul class="wares-left">
-            <li v-for="categoty in categotyList" class="left-li">
+            <li v-for="(categoty,index) in categotyList" :class="isActive===index?'left-li active':'left-li '"
+                @click="foodclass(index,$event)">
               <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
                    class="sales-logo">
-              <span>{{categoty.name}}</span>
+              <a :href="'#'+categoty.name">{{categoty.name}}</a>
             </li>
           </ul>
           <!--商品详情-->
-          <ul class="wares-right">
+          <ul class="wares-right" ref="aaa">
             <!--第一层循环创建  分类-->
-            <li v-for="cate in categotyList">
+            <li v-for="(cate,index) in categotyList">
               <!--标题-->
-              <header style="background:#f5f5f5;" class="wares-header">
+              <header style="background:#f5f5f5;" class="wares-header" @click="handleScroll(index,$event)">
                 <section class="waresfood-title">
                   <h4>{{cate.name}}</h4> <span>{{cate.description}}</span>
                 </section>
@@ -75,12 +73,13 @@
                 <div class="food-describe">
                   <h3 class="food-describe-head">
                     <strong>{{food.name}}</strong>
-                    <span class="new-attribute">新品</span>
-                    <span class="food-unique">招牌</span>
+                    <div class="food-detail" v-if="food.attributes.length!=0">
+                      <div v-for="newfood in food.attributes">{{newfood.icon_name}}</div>
+                    </div>
                   </h3>
                   <p class="food-describe-content">{{food.description}}</p>
                   <p class="food-describe-rating">月售{{food.month_sales}}份，好评率{{food.satisfy_rate}}%</p>
-                  <p  v-if="food.activity" class="activityp">
+                  <p v-if="food.activity" class="activityp">
                     <span class="food-activity">{{food.activity.image_text}}</span>
                   </p>
                   <div class="food-footer">
@@ -89,27 +88,29 @@
                       <span>{{food.specfoods[0].price}}</span>
                       <span>起</span>
                     </p>
-                    <p class="choose-size" @click="showChoose=!showChoose">选规格</p>
-                    <div class="choose" v-show="showChoose">
+                    <div v-if="food.specfoods.length==1" class="countplus">+</div>
+                    <div v-else class="choose-size" @click="showInfor(food.specfoods)">
+                      选规格
+                    </div>
+                    <div v-if="showchoosesize" class="choose-box">
                       <header class="specs-header">
-                        <strong class="food-name">{{food.name}}</strong>
-                        <img :src="pic.close" alt="" class="specs-close" @click="showChoose=!showChoose">
+                        <strong class="food-name">{{sizedetail[0].name}}</strong>
+                        <img :src="pic.close" alt="" class="specs-close" @click="hideInfor">
                       </header>
                       <section class="specs-details">
                         <p class="specs-details-title">规格</p>
                         <ul class="activity-container">
-                          <li class="specs-activity">默认</li>
-                          <li class="specs-activity">ok</li>
-                          <li class="specs-activity">12</li>
-                          <li class="specs-activity">des</li>
+                          <li @click="chooseclass($event)" v-for="value in sizedetail">
+                            {{value.specs_name}}
+                          </li>
                         </ul>
+                        <footer class="specs-footer">
+                          <p class="specs-price">
+                            <span>￥</span><span>{{sizedetail[0].price}}</span>
+                          </p>
+                          <div class="addto-car">加入购物车</div>
+                        </footer>
                       </section>
-                      <footer class="specs-footer">
-                        <p class="specs-price">
-                          <span>￥</span><span>20</span>
-                        </p>
-                        <div class="addto-car">加入购物车</div>
-                      </footer>
                     </div>
                   </div>
                 </div>
@@ -147,28 +148,38 @@
   import next from "./img/下一级.png";
   import bgimg from './img/elmlogo.jpeg';
   import close from "./img/关 闭 (1).png";
+  import header from "../../components/foodheader/foodheader"
 
   export default {
     name: "shopcar",
     data() {
       return {
+        title: "购物车",
         pic: {next, bgimg, close},
         showWares: true,
         showEvaluate: false,
         showChoose: false,
-        categotyList:[],
-        foods:[]
+        categotyList: [],
+        sizedetail: [],
+        showchoosesize: false,
+        isActive: ""
       }
+    },
+    components: {
+      Header: header
     },
     created() {
       this.$http.get("http://cangdu.org:8001/shopping/getcategory/1").then((response) => {
         console.log(response.data.category_list)
-        this.categotyList=response.data.category_list;
-      // for (let i of response.data.category_list) {
-      //   this.foods.push(response.data.category_list[i].foods);
-      // }
-      // console.log(this.foods)
+        this.categotyList = response.data.category_list;
+        this.$nextTick(() => {
+          // console.log(this.$refs.aaa)
+          // this.$refs.aaa[0].addEventListener("scroll",this.handleScroll)
+        })
       });
+    },
+    mounted() {
+      this.$refs.aaa.addEventListener('scroll', this.handleScroll)
     },
     methods: {
       toWares() {
@@ -181,11 +192,31 @@
         this.showWares = false;
         this.showEvaluate = true;
       },
-      showInfor() {
-        console.log("显示隐藏选规格弹框");
-      }
-
+      showInfor(array) {
+        this.showChoose = !this.showChoose
+        this.showchoosesize = true
+        this.sizedetail = array
+      },
+      hideInfor() {
+        this.showchoosesize = !this.showchoosesize
+        this.showChoose = !this.showChoose
+      },
+      chooseclass($event) {
+        for (var i = 0; i < $event.target.parentNode.childNodes.length; i++) {
+          $event.target.parentNode.childNodes[i].className = ""
+        }
+        $event.target.className = "specs-activity"
+      },
+      foodclass(index, $event) {
+        console.log($event.target.offsetTop)
+      },
+      handleScroll(index,$event) {
+        console.log(this.$refs.aaa.childNodes[1].offsetTop)
+        console.log(this.$refs.aaa.scrollTop)
+        console.log($event)
+      },
     }
+
   }
 </script>
 
@@ -193,16 +224,18 @@
   .shopcarbody {
     position: relative;
   }
+
   /*蒙板*/
-  .specs-cover{
+  .specs-cover {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    background: rgba(0,0,0,.4);
+    background: rgba(0, 0, 0, .4);
     z-index: 103;
   }
+
   /*nav*/
   .shopcar_line {
     width: 100%;
@@ -423,7 +456,7 @@
 
   .wares-left li {
     text-align: center;
-    padding: .8rem .3rem;
+    padding: 0rem .3rem;
     border-bottom: .025rem solid #ededed;
     box-sizing: border-box;
   }
@@ -435,6 +468,19 @@
   }
 
   .wares-left .left-li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .active {
+    border-left: .15rem solid #3190e8;
+    background-color: #fff;
+  }
+
+  .wares-left .left-li a {
+    line-height: 2.35rem;
+    display: block;
     font-size: .6rem;
     color: #666;
   }
@@ -442,8 +488,12 @@
   /*商品右*/
   .wares-right {
     position: relative;
-    height: 18rem;
+    /*position: fixed;*/
+    right: 0;
+    height: 17rem;
+    background-color: white;
     overflow: scroll;
+    /*z-index: 1200;*/
   }
 
   .wares-right::-webkit-scrollbar {
@@ -505,14 +555,11 @@
     overflow: hidden;
     box-sizing: border-box;
   }
-<<<<<<< HEAD
-=======
 
   .food-describe {
     margin-left: 0.45rem;
   }
 
->>>>>>> ebfcbbfba62c75269df49c58a9d330d2beb2195f
   /*右一*/
   .food-describe .food-describe-head strong {
     font-size: .7rem;
@@ -528,14 +575,19 @@
   }
 
   /*新品*/
-  .new-attribute {
+  .food-detail {
+    /*width: 100%;*/
+    position: relative;
+  }
+
+  .food-detail div:nth-child(1) {
     display: flex;
     width: 2rem;
     height: 2rem;
     background: #4cd964;
     position: absolute;
-    left: 0;
-    top: 0;
+    left: -11.8rem;
+    top: -0.5rem;
     font-size: .4rem;
     color: white;
     font-weight: 200;
@@ -545,8 +597,12 @@
   }
 
   /*招牌*/
-  .food-unique {
-    display: inline-block;
+  .food-detail div:nth-child(2) {
+    display: block;
+    position: absolute;
+    text-align: center;
+    width: 1.6rem;
+    right: 0;
     color: rgb(240, 115, 115);
     border: 1px solid currentColor;
     border-radius: .3rem;
@@ -574,8 +630,9 @@
   }
 
   /*右四*/
-  .activityp{
+  .activityp {
   }
+
   .food-activity {
     display: inline-block;
     /*border: 1px solid currentColor;*/
@@ -629,6 +686,7 @@
 
   /*右五右*/
   .choose-size {
+    position: relative;
     display: block;
     font-size: .55rem;
     color: #fff;
@@ -642,13 +700,24 @@
     /*margin-left: 4rem;*/
   }
 
+  .countplus {
+    width: .8rem;
+    height: .8rem;
+    border-radius: 50%;
+    background-color: #007aff;
+    color: white;
+    line-height: .65rem;
+    font-size: .8rem;
+    text-align: center;
+  }
+
   /*--选规格弹框--*/
-  .choose {
-    width: 70%;
-    background: white;
+  .choose-box {
     position: fixed;
     left: 15%;
     top: 35%;
+    background: white;
+    width: 70%;
     border: 1px;
     border-radius: .2rem;
     z-index: 105;
@@ -694,17 +763,17 @@
     padding: .5rem 0;
   }
 
-  .choose .specs-details .activity-container > li {
+  .activity-container > li {
+    border: .025rem solid #ddd;
+    border-radius: .2rem;
+    color: #3199e8;
     padding: .35rem .5rem;
     font-size: .6rem;
-    border: .025rem solid #ddd;
     margin-right: .5rem;
-    border-radius: .2rem;
   }
 
   .specs-activity {
     border-color: #3199e8 !important;
-    color: #3199e8;
   }
 
   /*弹框footer*/

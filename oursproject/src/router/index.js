@@ -26,27 +26,27 @@ export default new Router({
   routes: [
     {
       path: "/home",
-      name: Home,
+      name: "Home",
       component: Home
     },
     {
       path: "/search",
-      name: Search,
+      name: "Search",
       component: Search
     },
     {
       path: "/shopcar",
-      name: Shopcar,
+      name: "Shopcar",
       component: Shopcar
     },
     {
       path: "/personal",
-      name: Personal,
+      name: "Personal",
       component: Personal
     },
     {
       path:"/order",
-      // name:Order,
+      name:"Order",
       component:Order
     },
     {
@@ -71,50 +71,50 @@ export default new Router({
     },
     {
       path: "/balance",
-      name: Balance,
+      name: "Balance",
       component: Balance
     },
     {
       path: "/integral",
-      name: Integral,
+      name: "Integral",
       component: Integral
     }, {
       path: "/coupon",
-      name: Coupon,
+      name: "Coupon",
       component: Coupon
     }, {
       path: "/download",
-      name:Download,
+      name:"Download",
       component:Download
     },
     {
       path:"/servercenter",
-      name:Servercenter,
+      name:"Servercenter",
       component:Servercenter
     },
     {
       path:"/vipcenter",
-      name:Vipcenter,
+      name:"Vipcenter",
       component:Vipcenter
     },
     {
       path:"/accountdetail",
-      name:Accountdetail,
+      name:"Accountdetail",
       component:Accountdetail,
       children:[
         {
           path:'setusername',
-          name:Setusername,
+          name:"Setusername",
           component:Setusername
         },
         {
           path:'editaddress',
-          // name:Editaddress,
+          name:"Editaddress",
           component:Editaddress,
           children:[
             {
               path: "newaddress",
-              name:Newaddress,
+              name:"Newaddress",
               component:Newaddress
             }
           ]
