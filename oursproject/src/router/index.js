@@ -20,6 +20,7 @@ import Detail from "../page/personalpage/detail"
 import Setusername from "../page/personalpage/setusername"
 import Editaddress from "../page/personalpage/editaddress"
 import Newaddress from "../page/personalpage/newaddress"
+
 Vue.use(Router)
 
 export default new Router({
@@ -45,9 +46,9 @@ export default new Router({
       component: Personal
     },
     {
-      path:"/order",
-      // name:Order,
-      component:Order
+      path: "/order",
+      name:"Order",
+      component: Order
     },
     {
       path: '/CityList',
@@ -84,42 +85,38 @@ export default new Router({
       component: Coupon
     }, {
       path: "/download",
-      name:"Download",
-      component:Download
+      name: "Download",
+      component: Download
     },
     {
-      path:"/servercenter",
-      name:"Servercenter",
-      component:Servercenter
+      path: "/servercenter",
+      name: "Servercenter",
+      component: Servercenter
     },
     {
-      path:"/vipcenter",
-      name:"Vipcenter",
-      component:Vipcenter
+      path: "/vipcenter",
+      name: "Vipcenter",
+      component: Vipcenter
     },
     {
-      path:"/accountdetail",
-<<<<<<< HEAD
-      name:"Accountdetail",
-      component:Accountdetail
-=======
-      name:Accountdetail,
-      component:Accountdetail,
-      children:[
+      path: "/accountdetail",
+      name: "Accountdetail",
+      component: Accountdetail,
+      children: [
         {
-          path:'setusername',
-          name:Setusername,
-          component:Setusername
+          path: 'setusername',
+          name: Setusername,
+          component: Setusername
         },
         {
-          path:'editaddress',
-          // name:Editaddress,
-          component:Editaddress,
-          children:[
+          path: 'editaddress',
+          name:"Editaddress",
+          component: Editaddress,
+          children: [
             {
               path: "newaddress",
-              name:Newaddress,
-              component:Newaddress
+              name: "Newaddress",
+              component: Newaddress
             }
           ]
         }
@@ -128,9 +125,8 @@ export default new Router({
 
     },
     {
-      path:"/servercenter/:id",
-      component:Detail
->>>>>>> eabb9e8e9ae0a3e6a6ef3909dd4b8ad0c43a02b3
+      path: "/servercenter/:id",
+      component: Detail
     }
   ]
 })
