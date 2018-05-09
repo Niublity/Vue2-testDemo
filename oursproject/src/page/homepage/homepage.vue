@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :title="title.name"></Header>
+    <Header :title="title"></Header>
 
       <img :src="img.user" alt="" class="top_user">
     <!--轮播图-->
@@ -57,7 +57,7 @@
     name: "homepage",
     data() {
       return {
-        title:JSON.parse(localStorage.getItem('newRecord')),
+        title:"111",
         img:{business, search, user},
         foodkinds:[],
         kindOne:[],

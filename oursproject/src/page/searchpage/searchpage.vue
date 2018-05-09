@@ -1,12 +1,22 @@
 <template>
   <div>
-    this is searchpage
+    <Header :title="title"></Header>
+
   </div>
 </template>
 
 <script>
+  import header from "../../components/foodheader/foodheader"
     export default {
-        name: "searchpage"
+        name: "searchpage",
+      data(){
+         return{
+           title:"搜索"
+         }
+      },
+      components:{
+          Header:header
+      }
     }
 </script>
 
