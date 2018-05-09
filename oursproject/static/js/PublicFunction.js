@@ -60,8 +60,24 @@ function dealjson(obj) {
     [two[j].des, two[j].name] = [two[j].name, two[j].des]
   }
   var three = one.concat(two)
-  three.splice(12,1)
+  three.splice(12, 1)
   return three
 }
 
-export default {sliceArray, dealarray, dealjson};
+function remobenull(array) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].foods) {
+      for (let j = 0; j < array[i].foods.length; j++) {
+        if (array[i].foods.length < 24) {
+          console.log(array.splice(i, 1))
+          // console.log(response.data.category_list[i].foods)
+        }
+      }
+
+    }
+  }
+  console.log(array)
+  return array
+}
+
+export default {sliceArray, dealarray, dealjson, remobenull};
