@@ -12,19 +12,19 @@
         <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword" @keyup.13="refreshPage()">
       </div>
       <div>
-        <div class="form_btn" @click="renderSearch"> {{requireRecord}}提交</div>
+        <div class="form_btn" @click="renderSearch">提交</div>
       </div>
 
     </form>
-    <p class="search_history" v-if="">搜索历史</p>
-    <section class="searchHistorys-container">
-      <ul class="search_record recordInfor" v-if="searchHistorys">
-        <li>
-          <h4 class="record_title">{{searchHistorys.name}}</h4>
-          <p class="record_address">{{searchHistorys.address}}</p>
+    <p class="search_history">搜索历史</p>
+    <section class="searchHistorys-container" v-if="Records">
+      <ul class="recordInfor">
+        <li v-for="Record in Records">
+          <!--<h4 class="record_title">{{Record.name}}</h4>-->
+          <!--<p class="record_address">{{Record.address}}</p>-->
         </li>
       </ul>
-      <footer class="clear-all-history">清空所有</footer>
+      <footer class="clear-all-history" @click="clearHistory">清空所有</footer>
     </section>
     <ul class="search_record">
       <router-link to="/home">
@@ -54,7 +54,7 @@
         keyword: "",
         //搜索历史
         searchRecord: null,
-        searchHistorys: JSON.parse(localStorage.getItem('newRecord'))
+        Records:[]
       }
     },
     created() {
@@ -66,6 +66,10 @@
         //console.log(response.data);
         this.citys = response.data;
       })
+      // localStorage.setItem("Record","asd")
+      if(localStorage.getItem("Record")){
+        this.Records.push(JSON.parse(localStorage.getItem("Records")))
+      }
     },
     methods: {
       renderSearch() {
@@ -74,7 +78,6 @@
           //console.log(response.data);
           this.searchRecord = response.data;
         })
-        console.log(this.searchHistorys)
       },
       refreshPage() {
         console.log("你按了回车")
@@ -82,22 +85,30 @@
           //console.log(response.data);
           this.searchRecord = response.data;
         })
+        // console.log(JSON.parse(localStorage.getItem("Record")));
       },
       requireInfor(record) {
-        //console.log(record);
-        var newRecord = JSON.stringify(record);
-        console.log(newRecord);
-        localStorage.setItem("newRecord", newRecord);
+        // console.log(record);
+        console.log(JSON.parse(JSON.stringify(record)));
+        console.log(this.Records)
+        if(localStorage.getItem("Record")){
+          this.Records.push(JSON.parse(localStorage.getItem("Record")))
+        }else{
+          localStorage.setItem("Record",JSON.stringify(record))
+          this.Records.push(JSON.parse(JSON.stringify(localStorage.getItem("Record"))))
+        }
+      },
+      clearHistory() {
+        console.log(this.Record);
+        //localStorage.removeItem("Record");
+
       }
     },
-    computed: {
-      requireRecord() {
-        console.log(localStorage.hasOwnProperty('newRecord'))
-        // var recordSearch = JSON.parse(localStorage.getItem('newRecord'));
-        // console.log(recordSearch);
-        // this.searchHistorys = recordSearch;
-      }
-    }
+    // computed: {
+    //   aa() {
+    //     return console.log(localStorage.hasOwnProperty("this.searchHistorys"))
+    //   }
+    // }
   }
 </script>
 
@@ -183,32 +194,34 @@
   .city .search_record {
     background: white;
     border-top: 1px solid #e4e4e4;
-    /*position: absolute;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*top: 6.57rem;*/
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 6.57rem;
   }
 
   .city .recordInfor {
+    background: white;
+    border-top: 1px solid #e4e4e4;
     /*position: absolute;*/
     /*left: 0;*/
     /*right: 0;*/
     /*top: 7.3rem;*/
   }
 
-  .search_record li {
+  .search_record li, .recordInfor li {
     border-bottom: 1px solid #e4e4e4;
     padding: .65rem 4.5% 0 4.5%;
     box-sizing: border-box;
   }
 
-  .search_record .record_title {
+  .record_title {
     font-size: .65rem;
     color: #333;
     font-weight: 300;
   }
 
-  .search_record .record_address {
+  .record_address {
     font-size: .45rem;
     color: #999;
     overflow: hidden;
@@ -220,9 +233,10 @@
   }
 
   /*清空所有*/
-  .searchHistorys-container{
+  .searchHistorys-container {
     position: relative;
   }
+
   .clear-all-history {
     width: 100%;
     font-size: .7rem;
@@ -230,5 +244,6 @@
     text-align: center;
     line-height: 2rem;
     background: #fff;
+    font-weight: 200;
   }
 </style>

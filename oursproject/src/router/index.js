@@ -46,9 +46,9 @@ export default new Router({
       component: Personal
     },
     {
-      path: "/order",
+      path:"/order",
       name:"Order",
-      component: Order
+      component:Order
     },
     {
       path: '/CityList',
@@ -125,8 +125,8 @@ export default new Router({
 
     },
     {
-      path: "/servercenter/:id",
-      component: Detail
+      path:"/servercenter/:id",
+      component:Detail
     }
   ]
 })
