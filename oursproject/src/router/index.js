@@ -21,6 +21,7 @@ import Setusername from "../page/personalpage/accountdetail/setusername"
 import Editaddress from "../page/personalpage/accountdetail/editaddress"
 import Newaddress from "../page/personalpage/accountdetail/newaddress"
 import Perchasevip from "../page/personalpage/vipcenter/perchasevip"
+
 Vue.use(Router)
 
 export default new Router({
@@ -85,15 +86,16 @@ export default new Router({
       component: Coupon
     }, {
       path: "/download",
-      name:"Download",
-      component:Download
+      name: "Download",
+      component: Download
     },
     {
-      path:"/servercenter",
-      name:"Servercenter",
-      component:Servercenter
+      path: "/servercenter",
+      name: "Servercenter",
+      component: Servercenter
     },
     {
+
       path:"/vipcenter",
       name:"Vipcenter",
       component:Vipcenter,
@@ -102,26 +104,27 @@ export default new Router({
       path:"/perchasevip",
       name:"Perchasevip",
       component:Perchasevip,
+
     },
     {
-      path:"/accountdetail",
-      name:"Accountdetail",
-      component:Accountdetail,
-      children:[
+      path: "/accountdetail",
+      name: "Accountdetail",
+      component: Accountdetail,
+      children: [
         {
-          path:'setusername',
-          name:"Setusername",
-          component:Setusername
+          path: 'setusername',
+          name: Setusername,
+          component: Setusername
         },
         {
-          path:'editaddress',
+          path: 'editaddress',
           name:"Editaddress",
-          component:Editaddress,
-          children:[
+          component: Editaddress,
+          children: [
             {
               path: "newaddress",
-              name:"Newaddress",
-              component:Newaddress
+              name: "Newaddress",
+              component: Newaddress
             }
           ]
         }
