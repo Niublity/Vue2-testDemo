@@ -5,8 +5,8 @@
       <input type="file" class="profileinfopanel-upload">
       <h2>头像</h2>
       <div class="headportrait-div">
-        <img src="./img/4.jpg" alt="">
-        <img src="./img/14.png" alt="">
+        <img src="../img/4.jpg" alt="">
+        <img src="../img/14.png" alt="">
       </div>
     </section>
     <router-link to="/accountdetail/setusername">
@@ -14,7 +14,7 @@
         <h2>用户名</h2>
         <div>
           <span>304733908</span>
-          <img src="./img/14.png" alt="">
+          <img src="../img/14.png" alt="">
         </div>
       </section>
     </router-link>
@@ -22,7 +22,7 @@
       <section style="border-bottom: 1px solid #ddd;" class="usernamedetail">
         <h2>收货地址</h2>
         <div>
-          <img src="./img/14.png" alt="">
+          <img src="../img/14.png" alt="">
         </div>
       </section>
     </router-link>
@@ -31,9 +31,9 @@
     </section>
     <section class="acountbindphone" @click="show=!show">
       <div>
-        <h2><img src="./img/17.png" alt="">手机</h2>
+        <h2><img src="../img/17.png" alt="">手机</h2>
       </div>
-      <img src="./img/14.png" alt="">
+      <img src="../img/14.png" alt="">
     </section>
     <section class="settingtitle">
       <div>安全设置</div>
@@ -42,13 +42,13 @@
       <h2>登录密码</h2>
       <div>
         <span>修改</span>
-        <img src="./img/14.png" alt="">
+        <img src="../img/14.png" alt="">
       </div>
     </section>
     <!--请在手机App中设置-->
     <transition enter-active-class="animated bounceIn">
       <section class="telephone-warn" v-if="show">
-        <img src="../../components/User/img/警告.png" alt="">
+        <img src="../../../components/User/img/警告.png" alt="">
         <p>请在手机APP中设置</p>
         <div class="warn-sure" @click="hides">确认</div>
       </section>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-  import header from "../../components/foodheader/foodheader"
+  import header from "../../../components/foodheader/foodheader"
   export default {
     name: "accountdetail",
     data() {

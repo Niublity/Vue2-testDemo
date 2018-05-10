@@ -16,7 +16,7 @@
       <router-link to="/accountdetail/editaddress/newaddress">
         <div class="new-address">
           <span>新增地址</span>
-          <img src="./img/14.png" alt="">
+          <img src="../img/14.png" alt="">
         </div>
       </router-link>
     </section>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import header from "../../components/foodheader/foodheader"
+  import header from "../../../components/foodheader/foodheader"
 
   export default {
     name: "editaddress",

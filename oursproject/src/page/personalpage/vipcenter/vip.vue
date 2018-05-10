@@ -7,7 +7,7 @@
     <section class="menbershippower">
       <div class="menbershippower_top">
         <div>会员特权</div>
-        <div>会员说明 <img src="./img/14.png" alt=""></div>
+        <div>会员说明 <img src="../img/14.png" alt=""></div>
       </div>
       <div class="menbershippower_des">
         <div>
@@ -38,26 +38,28 @@
       <div class="header">
         开通会员
       </div>
-      <div class="apply_vip_buy">
-        <div>
-          1个月<span>￥20</span>
+      <router-link to="/perchasevip">
+        <div class="apply_vip_buy">
+          <div>
+            <span>1个月</span><span>￥20</span>
+          </div>
+          <div>购买</div>
         </div>
-        <div>购买</div>
-      </div>
+      </router-link>
     </section>
     <router-link to="" class="astyle">
       <span>兑换会员</span>
-      <div>使用卡号卡密 <img src="./img/14.png" alt=""></div>
+      <div>使用卡号卡密 <img src="../img/14.png" alt=""></div>
     </router-link>
     <router-link to="" class="astyle">
       <span>购买记录</span>
-      <div>开发票<img src="./img/14.png" alt=""></div>
+      <div>开发票<img src="../img/14.png" alt=""></div>
     </router-link>
   </div>
 </template>
 
 <script>
-  import header from "../../components/foodheader/foodheader"
+  import header from "../../../components/foodheader/foodheader"
 
   export default {
     name: "vip",
@@ -80,10 +82,12 @@
     line-height: 2rem;
     padding-left: .7rem;
   }
-  .buyvip span{
+
+  .buyvip span {
     color: black;
     font-weight: 800;
   }
+
   .menbershippower {
     background-color: #fff;
     padding-left: .7rem;
@@ -171,11 +175,14 @@
     line-height: 2.6rem;
   }
 
-  .apply_vip_buy > div:nth-child(1) span {
+  .apply_vip_buy > div:nth-child(1) span:nth-of-type(2) {
     font-weight: 700;
     color: #f60;
   }
-
+  .apply_vip_buy > div:nth-child(1) span:nth-of-type(1) {
+    font-weight: 700;
+    color: #333;
+  }
   .apply_vip_buy > div:nth-child(2) {
     border: .025rem solid #f60;
     border-radius: .2rem;
@@ -187,7 +194,8 @@
     color: #f60;
     font-weight: 100;
   }
-  .astyle{
+
+  .astyle {
     font-size: .7rem;
     color: #333;
     padding: 0 .7rem;
@@ -198,11 +206,13 @@
     line-height: 2rem;
     border-bottom: 1px solid #f5f5f5;
   }
+
   .astyle img {
     width: .5rem;
     height: .5rem;
   }
-  .astyle div{
+
+  .astyle div {
     font-size: .6rem;
     color: #999;
     margin-right: .2rem;

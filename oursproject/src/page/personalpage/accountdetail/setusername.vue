@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import header from "../../components/foodheader/foodheader"
+  import header from "../../../components/foodheader/foodheader"
 
   export default {
     name: "setusername",
