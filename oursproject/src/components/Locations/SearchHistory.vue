@@ -25,7 +25,7 @@
     </section>
     <ul class="search_record">
       <router-link to="/home">
-        <li v-for="record in searchRecord" @click="requireInfor(record)">
+        <li v-for="record in searchRecord" @click="requireInfor(record)" v-if="record">
           <h4 class="record_title">{{record.name}}</h4>
           <p class="record_address">{{record.address}}</p>
         </li>
@@ -179,6 +179,7 @@
     font-weight: 100;
     text-align: center;
     line-height: 1.4rem;
+    outline: none;
   }
 
   /*----搜索界面-----*/
