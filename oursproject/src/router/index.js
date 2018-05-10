@@ -14,12 +14,13 @@ import Integral from "../page/personalpage/integral"
 import Coupon from "../page/personalpage/coupon"
 import Download from "../page/personalpage/download"
 import Servercenter from "../page/personalpage/servercenter"
-import Vipcenter from "../page/personalpage/vip"
-import Accountdetail from "../page/personalpage/accountdetail"
+import Vipcenter from "../page/personalpage/vipcenter/vip"
+import Accountdetail from "../page/personalpage/accountdetail/accountdetail"
 import Detail from "../page/personalpage/detail"
-import Setusername from "../page/personalpage/setusername"
-import Editaddress from "../page/personalpage/editaddress"
-import Newaddress from "../page/personalpage/newaddress"
+import Setusername from "../page/personalpage/accountdetail/setusername"
+import Editaddress from "../page/personalpage/accountdetail/editaddress"
+import Newaddress from "../page/personalpage/accountdetail/newaddress"
+import Perchasevip from "../page/personalpage/vipcenter/perchasevip"
 
 Vue.use(Router)
 
@@ -94,9 +95,16 @@ export default new Router({
       component: Servercenter
     },
     {
-      path: "/vipcenter",
-      name: "Vipcenter",
-      component: Vipcenter
+
+      path:"/vipcenter",
+      name:"Vipcenter",
+      component:Vipcenter,
+    },
+    {
+      path:"/perchasevip",
+      name:"Perchasevip",
+      component:Perchasevip,
+
     },
     {
       path: "/accountdetail",
@@ -126,6 +134,7 @@ export default new Router({
     },
     {
       path:"/servercenter/:id",
+      name:"Detail",
       component:Detail
     }
   ]
