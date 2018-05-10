@@ -208,17 +208,16 @@
         $event.target.className = "specs-activity"
       },
       foodclass(index, $event) {
-        console.log(this.$refs.nav)
-        console.log($event.target.offsetTop)
-        this.$refs.aaa.scrollTo(100,200)
+        // console.log(index)
+        // console.log($event.target.offsetTop)
+        console.log(this.$refs.aaa.scrollTop)
+        // this.$refs.aaa.scrollTop=this.$refs.aaa.childNodes[index].offsetTop
+        this.publicfunction.jump(index,this.$refs.aaa)
       },
       handleScroll(index,$event) {
-        console.log(this.$refs.aaa.childNodes[1].offsetTop)
-        console.log(this.$refs.aaa.scrollTop)
         for(var i =1;i<=this.$refs.aaa.childNodes.length;i++){
           if(this.$refs.aaa.childNodes[i-1].offsetTop<=this.$refs.aaa.scrollTop&&this.$refs.aaa.scrollTop<this.$refs.aaa.childNodes[i].offsetTop){
             this.$refs.nav[i-1].classList.add("active")
-            this.$refs.nav[i-1].parentNode.scrollTo(0,47.5*3)
           }
           else {
             this.$refs.nav[i-1].classList.remove("active")

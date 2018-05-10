@@ -60,25 +60,49 @@ function dealjson(obj) {
     [two[j].des, two[j].name] = [two[j].name, two[j].des]
   }
   var three = one.concat(two)
-  three.splice(12,1)
-  three.splice(4,1)
+  three.splice(12, 1)
+  three.splice(4, 1)
   return three
 }
 
-function remobenull(array) {
-  for (let i = 0; i < array.length; i++) {
-    if (array[i].foods) {
-      for (let j = 0; j < array[i].foods.length; j++) {
-        if (array[i].foods.length < 24) {
-          console.log(array.splice(i, 1))
-          // console.log(response.data.category_list[i].foods)
+function jump(index, localposition) {
+  var X = localposition.childNodes[index].offsetTop
+  var Y = localposition.scrollTop
+  var timer1
+  if (X > Y) {
+    setTimeout(() => {
+      var A = localposition.childNodes[index].offsetTop
+      var B = localposition.scrollTop
+      var C = A - B
+      var totle = 0
+      var setp = 10
+      timer1 = setInterval(() => {
+        totle++
+        localposition.scrollTop += C / setp * totle
+        if (localposition.scrollTop >= localposition.childNodes[index].offsetTop || totle >= setp) {
+          localposition.scrollTop = localposition.childNodes[index].offsetTop
+          clearInterval(timer1)
         }
-      }
-
-    }
+      }, 50)
+    }, 100)
   }
-  console.log(array)
-  return array
+  else if (X < Y) {
+    setTimeout(() => {
+      var A = localposition.childNodes[index].offsetTop
+      var B = localposition.scrollTop
+      var C = A - B
+      var totle = 0
+      var setp = 10
+      timer1 = setInterval(() => {
+        totle++
+        localposition.scrollTop += C / setp * totle
+        if (localposition.scrollTop <= localposition.childNodes[index].offsetTop || totle >= setp) {
+          localposition.scrollTop = localposition.childNodes[index].offsetTop
+          clearInterval(timer1)
+        }
+      }, 50)
+    }, 100)
+  }
 }
 
-export default {sliceArray, dealarray, dealjson, remobenull};
+export default {sliceArray, dealarray, dealjson, jump};
