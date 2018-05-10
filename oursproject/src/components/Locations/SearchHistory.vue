@@ -14,7 +14,7 @@
       </form>
     </form>
     <p class="search_history">搜索历史</p>
-    <section class="searchHistorys-container" v-if="Records">
+    <section v-if="renderli" class="searchHistorys-container">
       <ul class="recordInfor">
         <li v-for="Record in Records">
           <h4 class="record_title">{{Record.name}}</h4>
@@ -51,21 +51,22 @@
         keyword: "",
         //搜索历史
         searchRecord: null,
-        Records:[]
+        Records: [],
+        renderli: false
       }
     },
     created() {
       //获取当前城市Id
       this.cityID = this.$route.params.id;
-      console.log(this.cityID);
       //获取点击城市信息
       this.axios.get("http://cangdu.org:8001/v1/cities/" + this.cityID).then((response) => {
         //console.log(response.data);
         this.citys = response.data;
+
       })
-      // localStorage.setItem("Record","asd")
-      if(localStorage.getItem("Record")){
-        this.Records.push(JSON.parse(localStorage.getItem("Records")))
+      if (localStorage.getItem("Record")) {
+        this.Records = (JSON.parse(localStorage.getItem("Record")))
+        this.renderli = true
       }
     },
     methods: {
@@ -82,22 +83,23 @@
           //console.log(response.data);
           this.searchRecord = response.data;
         })
-        // console.log(JSON.parse(localStorage.getItem("Record")));
       },
       requireInfor(record) {
-        // console.log(record);
-        console.log(JSON.parse(JSON.stringify(record)));
-        console.log(this.Records)
-        if(localStorage.getItem("Record")){
-          this.Records.push(JSON.parse(localStorage.getItem("Record")))
-        }else{
-          localStorage.setItem("Record",JSON.stringify(record))
-          this.Records.push(JSON.parse(JSON.stringify(localStorage.getItem("Record"))))
+        if (localStorage.getItem("Record")) {
+          this.Records = JSON.parse(localStorage.getItem("Record"))
         }
+        for(var i=0;i<this.Records.length;i++){
+          if(this.Records[i].name==record.name){
+            return
+          }
+        }
+        this.Records.push(record)
+        localStorage.setItem("Record", JSON.stringify(this.Records))
       },
       clearHistory() {
-        console.log(this.Record);
-        //localStorage.removeItem("Record");
+        localStorage.clear()
+        this.Records = [];
+        this.renderli = false
 
       }
     },
