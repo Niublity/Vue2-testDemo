@@ -8,20 +8,17 @@
       <router-link to="/CityList" class="change_city">切换城市</router-link>
     </div>
     <form class="city_form">
-      <div>
-        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword" @keyup.13="refreshPage()">
-      </div>
-      <div>
-        <div class="form_btn" @click="renderSearch">提交</div>
-      </div>
-
+      <form>
+        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword" @keyup.13="refreshPage()" required="required">
+        <input type="submit" class="form_btn" @click="renderSearch" value="提交">
+      </form>
     </form>
     <p class="search_history">搜索历史</p>
     <section class="searchHistorys-container" v-if="Records">
       <ul class="recordInfor">
         <li v-for="Record in Records">
-          <!--<h4 class="record_title">{{Record.name}}</h4>-->
-          <!--<p class="record_address">{{Record.address}}</p>-->
+          <h4 class="record_title">{{Record.name}}</h4>
+          <p class="record_address">{{Record.address}}</p>
         </li>
       </ul>
       <footer class="clear-all-history" @click="clearHistory">清空所有</footer>

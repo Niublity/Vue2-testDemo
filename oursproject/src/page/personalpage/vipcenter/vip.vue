@@ -5,10 +5,12 @@
       为账户<span>304733908</span>购买会员
     </div>
     <section class="menbershippower">
-      <div class="menbershippower_top">
-        <div>会员特权</div>
-        <div>会员说明 <img src="../img/14.png" alt=""></div>
-      </div>
+      <router-link to="/vipcenter/vipdescription">
+        <div class="menbershippower_top">
+          <div>会员特权</div>
+          <div>会员说明 <img src="../img/14.png" alt=""></div>
+        </div>
+      </router-link>
       <div class="menbershippower_des">
         <div>
           <img
@@ -47,14 +49,16 @@
         </div>
       </router-link>
     </section>
-    <router-link to="" class="astyle">
+    <router-link to="/vipcenter/exchangevip" class="astyle">
       <span>兑换会员</span>
       <div>使用卡号卡密 <img src="../img/14.png" alt=""></div>
     </router-link>
-    <router-link to="" class="astyle">
+
+    <router-link to="/vipcenter/buyrecord" class="astyle">
       <span>购买记录</span>
       <div>开发票<img src="../img/14.png" alt=""></div>
     </router-link>
+    <router-view class="children-route"></router-view>
   </div>
 </template>
 
@@ -76,6 +80,15 @@
 </script>
 
 <style scoped>
+  .children-route {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f5f5f5;
+  }
+
   .buyvip {
     font-size: .6rem;
     color: #666;
@@ -179,10 +192,12 @@
     font-weight: 700;
     color: #f60;
   }
+
   .apply_vip_buy > div:nth-child(1) span:nth-of-type(1) {
     font-weight: 700;
     color: #333;
   }
+
   .apply_vip_buy > div:nth-child(2) {
     border: .025rem solid #f60;
     border-radius: .2rem;

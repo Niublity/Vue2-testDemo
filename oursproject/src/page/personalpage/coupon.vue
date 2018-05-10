@@ -11,21 +11,20 @@
         <div><img src="./img/10.png" alt=""><span>红包说明</span></div>
       </div>
       <ul class="hongbao_list">
-        <li>
+        <li v-for="coupon in coupons">
           <section class="list_item">
             <div>
               <div><span>￥</span>
-                <span>1</span>
+                <span>{{[...JSON.stringify(coupon.amount)][0]}}</span>
                 <span>.</span>
-                <span>0</span>
+                <span>{{[...JSON.stringify(coupon.amount)][2]}}0</span>
               </div>
-              <p>满20元可用</p>
+              <p>满{{coupon.sum_condition}}元可用</p>
             </div>
             <div>
-              <p>分享红包</p>
-              <p>2017-05-23到期</p>
-              <p>限收获手机号为</p>
-              <span>13681711254</span>
+              <p>{{coupon.name}}</p>
+              <p>{{coupon.end_date}}到期</p>
+              <p>限收获手机号为</p><span>{{coupon.phone}}</span>
             </div>
             <div>剩3日</div>
           </section>
@@ -50,8 +49,18 @@
     name: "coupon",
     data() {
       return {
-        title: "我的优惠"
+        title: "我的优惠",
+        coupons: [],
+        amounts: []
       }
+    },
+    created() {
+      this.$http.get("http://cangdu.org:8001/promotion/v2/users/1/hongbaos?limit=20&offset=0").then((response) => {
+        console.log(response.data)
+        this.coupons = response.data;
+        console.log(this.amounts);
+        console.log([...JSON.stringify(response.data[2].amount)][2]);
+      })
     },
     components: {
       Header: header
@@ -163,7 +172,7 @@
   }
 
   .list_item > div:nth-child(2) {
-    width:6rem;
+    width: 6rem;
     margin-left: 1.5rem;
   }
 
@@ -181,23 +190,27 @@
     color: #666;
     margin-left: -.7rem;
   }
+
   .list_item > div:nth-child(2) span {
     list-style-type: disc;
     margin-left: -.7rem;
     font-size: .4rem;
     color: #999;
   }
-  .list_item>div:nth-child(3){
+
+  .list_item > div:nth-child(3) {
     margin-left: .9rem;
     font-size: .75rem;
     color: #ff5340;
   }
-  .hongbao_container>p{
+
+  .hongbao_container > p {
     list-style-type: disc;
     font-size: .4rem;
     color: #999;
     margin-left: .4rem;
   }
+
   .footernav {
     position: fixed;
     bottom: 0;

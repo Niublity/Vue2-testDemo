@@ -21,7 +21,9 @@ import Setusername from "../page/personalpage/accountdetail/setusername"
 import Editaddress from "../page/personalpage/accountdetail/editaddress"
 import Newaddress from "../page/personalpage/accountdetail/newaddress"
 import Perchasevip from "../page/personalpage/vipcenter/perchasevip"
-
+import Exchangevip from "../page/personalpage/vipcenter/exchangevip"
+import Buyrecord from "../page/personalpage/vipcenter/buyrecord"
+import VipDescription from "../page/personalpage/vipcenter/vipdescription"
 Vue.use(Router)
 
 export default new Router({
@@ -99,6 +101,23 @@ export default new Router({
       path:"/vipcenter",
       name:"Vipcenter",
       component:Vipcenter,
+      children:[
+        {
+          path:"exchangevip",
+          name:"Exchangevip",
+          component:Exchangevip
+        },
+        {
+          path:"buyrecord",
+          name:"Buyrecord",
+          component:Buyrecord
+        },
+        {
+          path:"vipdescription",
+          name:"VipDescription",
+          component:VipDescription
+        }
+      ]
     },
     {
       path:"/perchasevip",

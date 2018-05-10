@@ -20,12 +20,14 @@
         </router-link>
       </li>
     </ul>
+
   </div>
 
 </template>
 
 <script>
   import header from "../../components/foodheader/foodheader"
+
 
   export default {
     name: "servercenter",
@@ -36,7 +38,7 @@
       }
     },
     components: {
-      Header: header
+      Header: header,
     },
     created(){
       this.$http.get("http://cangdu.org:8001/v3/profile/explain").then((response)=>{
