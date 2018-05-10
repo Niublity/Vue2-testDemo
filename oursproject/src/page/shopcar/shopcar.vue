@@ -48,11 +48,11 @@
         <!--商品界面-->
         <div class="wares" v-show="showWares">
           <ul class="wares-left">
-            <li v-for="(categoty,index) in categotyList" :class="isActive===index?'left-li active':'left-li '"
+            <li  v-for="(categoty,index) in categotyList" ref="nav" class="left-li"
                 @click="foodclass(index,$event)">
               <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
                    class="sales-logo">
-              <a :href="'#'+categoty.name">{{categoty.name}}</a>
+              <span :href="'#'+categoty.name">{{categoty.name}}</span>
             </li>
           </ul>
           <!--商品详情-->
@@ -123,7 +123,6 @@
           评价列表
         </div>
       </div>
-
     </div>
 
     <div class="shopcar_footer">
@@ -170,11 +169,12 @@
     },
     created() {
       this.$http.get("http://cangdu.org:8001/shopping/getcategory/1").then((response) => {
-        console.log(response.data.category_list)
         this.categotyList = response.data.category_list;
-        this.$nextTick(() => {
-          // console.log(this.$refs.aaa)
-          // this.$refs.aaa[0].addEventListener("scroll",this.handleScroll)
+        this.$nextTick(()=>{
+          if(this.$refs.aaa.childNodes[0].offsetTop==this.$refs.aaa.scrollTop)
+          {
+            this.$refs.nav[0].classList.add("active")
+          }
         })
       });
     },
@@ -208,12 +208,22 @@
         $event.target.className = "specs-activity"
       },
       foodclass(index, $event) {
+        console.log(this.$refs.nav)
         console.log($event.target.offsetTop)
+        this.$refs.aaa.scrollTo(100,200)
       },
       handleScroll(index,$event) {
         console.log(this.$refs.aaa.childNodes[1].offsetTop)
         console.log(this.$refs.aaa.scrollTop)
-        console.log($event)
+        for(var i =1;i<=this.$refs.aaa.childNodes.length;i++){
+          if(this.$refs.aaa.childNodes[i-1].offsetTop<=this.$refs.aaa.scrollTop&&this.$refs.aaa.scrollTop<this.$refs.aaa.childNodes[i].offsetTop){
+            this.$refs.nav[i-1].classList.add("active")
+            this.$refs.nav[i-1].parentNode.scrollTo(0,47.5*3)
+          }
+          else {
+            this.$refs.nav[i-1].classList.remove("active")
+          }
+        }
       },
     }
 
@@ -478,7 +488,7 @@
     background-color: #fff;
   }
 
-  .wares-left .left-li a {
+  .wares-left .left-li span {
     line-height: 2.35rem;
     display: block;
     font-size: .6rem;
