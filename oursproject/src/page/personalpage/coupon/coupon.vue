@@ -39,8 +39,8 @@
         </section>
         <footer>
           <div class="footernav">
-            <div><span>兑换红包</span></div>
-            <div><span>推荐有奖</span></div>
+            <div @click="exchangehongbao" ><span>兑换红包</span></div>
+            <div @click="recommend"><span>推荐有奖</span></div>
           </div>
         </footer>
       </section>
@@ -78,6 +78,8 @@
         title: "我的优惠",
         showHongbao: true,
         showCoupon: false,
+        showexchangehongbao:false,
+        showrecommend:false,
         coupons: [],
         amounts: [],
       }
@@ -90,6 +92,11 @@
       couponShow() {
         this.showHongbao = false;
         this.showCoupon = true;
+      },
+      exchangehongbao() {
+        this.$router.push({path:"/coupon/exchange"})
+      },
+      recommend() {
       }
     },
     created() {

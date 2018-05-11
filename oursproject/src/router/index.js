@@ -28,6 +28,7 @@ import VipDescription from "../page/personalpage/vipcenter/vipdescription"
 import IntegralDetail from "../page/personalpage/integraldetail/intergraldetail"
 import SellerDetail from "../page/personalpage/coupon/sellerdetail"
 import BalanceDetail from "../page/personalpage/balacnedetail/balancedetail"
+import Exchange from "../page/personalpage/coupon/exchangehongbao"
 
 Vue.use(Router)
 
@@ -113,6 +114,9 @@ export default new Router({
         {
           path: "sellerdetail",
           component: SellerDetail
+        }, {
+          path: "exchange",
+          component:Exchange
         }
       ]
     }, {

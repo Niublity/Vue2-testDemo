@@ -2,18 +2,20 @@
   <div>
     <Header :title="title"></Header>
 
-      <img :src="img.user" alt="" class="top_user">
+    <img :src="img.user" alt="" class="top_user">
     <!--轮播图-->
     <div class=" swiper-container foods_kind">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <router-link v-for="kind1 in kindOne" :to="{name:'Shopshow',query:{title:kind1.title}}" :key="kind1.id" class="link_to_food" >
-          <img :src="'https://fuss10.elemecdn.com'+kind1.image_url" alt="">
-          <span>{{kind1.title}}</span>
+          <router-link v-for="kind1 in kindOne" :to="{name:'Shopshow',query:{title:kind1.title}}" :key="kind1.id"
+                       class="link_to_food">
+            <img :src="'https://fuss10.elemecdn.com'+kind1.image_url" alt="">
+            <span>{{kind1.title}}</span>
           </router-link>
         </div>
         <div class="swiper-slide">
-          <router-link class="link_to_food" v-for="kind2 in kindTwo" :to="{name:'Shopshow',query:{title:kind2.title}}" :key="kind2.id">
+          <router-link class="link_to_food" v-for="kind2 in kindTwo" :to="{name:'Shopshow',query:{title:kind2.title}}"
+                       :key="kind2.id">
             <img :src="'https://fuss10.elemecdn.com'+kind2.image_url" alt="">
             <span>{{kind2.title}}</span>
           </router-link>
@@ -27,7 +29,7 @@
       <img :src="img.business" alt="" style="width: .6rem;vertical-align: middle">
       <span>附近商家</span>
     </div>
-    <goodlist></goodlist>
+    <goodlist ></goodlist>
     <!--导航栏-->
     <footernav class="footernav"></footernav>
   </div>
@@ -45,25 +47,28 @@
   import footernav from "../../components/footernav/footernav";
   import goodlist from "../../components/goodslist/goodslist";
   import header from "../../components/foodheader/foodheader"
+
   export default {
     name: "homepage",
     data() {
       return {
-        title:"",
-        img:{business, search, user},
-        foodkinds:[],
-        kindOne:[],
-        kindTwo:[],
+        title: "",
+        img: {business, search, user},
+        foodkinds: [],
+        kindOne: [],
+        kindTwo: [],
+        shopInfor:[]
       }
     },
-    created(){
-      this.$http.get("http://cangdu.org:8001/v2/index_entry").then((response)=>{
-        //console.log(response.data);
-        // this.foodkinds = this.publicfunction(response.data,8);
-        this.foodkinds = this.publicfunction.sliceArray(response.data,8)
+    created() {
+
+      this.title = this.$store.state.city.address
+      //swiper
+      this.$http.get("http://cangdu.org:8001/v2/index_entry").then((response) => {
+        this.foodkinds = this.publicfunction.sliceArray(response.data, 8)
         this.kindOne = this.foodkinds[0];
         this.kindTwo = this.foodkinds[1];
-        setTimeout(function(){
+        setTimeout(function () {
           var mySwiper = new Swiper('.swiper-container', {
             loop: true,
             // 如果需要分页器
@@ -71,14 +76,17 @@
               el: '.swiper-pagination'
             }
           })
-        },200)
+        }, 200)
       })
-      this.title=this.$store.state.city.address
+      //附近商家
+      this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude).then((response) => {
+        console.log(response.data)
+      })
     },
-    components:{
+    components: {
       footernav,
       goodlist,
-      Header:header
+      Header: header
     },
     mounted() {
       console.log(this.$el); //已被初始化
@@ -86,8 +94,8 @@
   }
 </script>
 <style>
-  .swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet{
-    margin: 0 0.25rem ;
+  .swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
+    margin: 0 0.25rem;
   }
 </style>
 <style scoped>
@@ -135,21 +143,24 @@
     width: 100%;
     background: transparent;
   }
-  .footernav{
+
+  .footernav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
   }
+
   /*附近商家*/
-  .business{
+  .business {
     background: white;
     margin-top: .4rem;
     padding-left: .6rem;
     padding-top: 0.4rem;
   }
-  .business span{
+
+  .business span {
     color: #999;
     font-size: 0.55rem;
   }

@@ -9,15 +9,15 @@
     </div>
     <form class="city_form">
       <form>
-        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword" @keyup.13="refreshPage()"
+        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword"
                required="required">
-        <input type="submit" class="form_btn" @click="renderSearch" value="提交">
+        <input type="submit" class="form_btn" @keyup.13="renderSearch" @click="renderSearch" value="提交">
       </form>
     </form>
     <p class="search_history">搜索历史</p>
     <section v-if="renderli" class="searchHistorys-container">
       <ul class="recordInfor">
-        <li v-for="Record in Records">
+        <li v-for="Record in Records" @click="requireInfor(Record)" >
           <h4 class="record_title">{{Record.name}}</h4>
           <p class="record_address">{{Record.address}}</p>
         </li>
@@ -61,7 +61,6 @@
       this.cityID = this.$route.params.id;
       //获取点击城市信息
       this.axios.get("http://cangdu.org:8001/v1/cities/" + this.cityID).then((response) => {
-        //console.log(response.data);
         this.citys = response.data;
       })
       if (localStorage.getItem("Record")) {
@@ -76,15 +75,9 @@
           this.searchRecord = response.data;
         })
       },
-      refreshPage() {
-        console.log("你按了回车")
-        this.$http.get("http://cangdu.org:8001/v1/pois?city_id=" + this.cityID + "&keyword=" + this.keyword + "&type=search").then((response) => {
-          this.searchRecord = response.data;
-        })
-      },
       requireInfor(record) {
         this.$store.commit("setCityInfo", {record})
-        this.$router.push({name:"Home"})
+        this.$router.push({name:"Home",query:{geohash:this.$store.state.city.geohash}})
         if (localStorage.getItem("Record")) {
           this.Records = JSON.parse(localStorage.getItem("Record"))
         }
@@ -103,11 +96,6 @@
 
       }
     },
-    // computed: {
-    //   aa() {
-    //     return console.log(localStorage.hasOwnProperty("this.searchHistorys"))
-    //   }
-    // }
   }
 </script>
 
@@ -203,10 +191,6 @@
   .city .recordInfor {
     background: white;
     border-top: 1px solid #e4e4e4;
-    /*position: absolute;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*top: 7.3rem;*/
   }
 
   .search_record li, .recordInfor li {
