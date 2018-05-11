@@ -28,17 +28,13 @@ import VipDescription from "../page/personalpage/vipcenter/vipdescription"
 import IntegralDetail from "../page/personalpage/integraldetail/intergraldetail"
 import SellerDetail from "../page/personalpage/coupon/sellerdetail"
 import BalanceDetail from "../page/personalpage/balacnedetail/balancedetail"
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: "/",
-      name: "Home",
-      component: Home
-    },
-    {
-      path: "/home",
       name: "Home",
       component: Home
     },
@@ -58,9 +54,9 @@ export default new Router({
       component: Personal
     },
     {
-      path:"/order",
-      name:"Order",
-      component:Order
+      path: "/order",
+      name: "Order",
+      component: Order
     },
     {
       path: '/CityList',
@@ -86,10 +82,10 @@ export default new Router({
       path: "/balance",
       name: "Balance",
       component: Balance,
-      children:[
+      children: [
         {
-          path:"balancedetail",
-          component:BalanceDetail
+          path: "balancedetail",
+          component: BalanceDetail
         }
       ]
     },
@@ -97,26 +93,26 @@ export default new Router({
       path: "/integral",
       name: "Integral",
       component: Integral,
-      children:[
+      children: [
         {
-          path:"integraldetail",
-          name:"IntegralDetail",
-          component:IntegralDetail
+          path: "integraldetail",
+          name: "IntegralDetail",
+          component: IntegralDetail
         }
       ]
     }, {
       path: "/coupon",
       name: "Coupon",
       component: Coupon,
-      children:[
+      children: [
         {
-          path:'couponinfor',
-          name:'CouponInfor',
-          component:CouponInfor
+          path: 'couponinfor',
+          name: 'CouponInfor',
+          component: CouponInfor
         },
         {
-          path:"sellerdetail",
-          component:SellerDetail
+          path: "sellerdetail",
+          component: SellerDetail
         }
       ]
     }, {
@@ -131,31 +127,31 @@ export default new Router({
     },
     {
 
-      path:"/vipcenter",
-      name:"Vipcenter",
-      component:Vipcenter,
-      children:[
+      path: "/vipcenter",
+      name: "Vipcenter",
+      component: Vipcenter,
+      children: [
         {
-          path:"exchangevip",
-          name:"Exchangevip",
-          component:Exchangevip
+          path: "exchangevip",
+          name: "Exchangevip",
+          component: Exchangevip
         },
         {
-          path:"buyrecord",
-          name:"Buyrecord",
-          component:Buyrecord
+          path: "buyrecord",
+          name: "Buyrecord",
+          component: Buyrecord
         },
         {
-          path:"vipdescription",
-          name:"VipDescription",
-          component:VipDescription
+          path: "vipdescription",
+          name: "VipDescription",
+          component: VipDescription
         }
       ]
     },
     {
-      path:"/perchasevip",
-      name:"Perchasevip",
-      component:Perchasevip,
+      path: "/perchasevip",
+      name: "Perchasevip",
+      component: Perchasevip,
     },
     {
       path: "/accountdetail",
@@ -169,7 +165,7 @@ export default new Router({
         },
         {
           path: 'editaddress',
-          name:"Editaddress",
+          name: "Editaddress",
           component: Editaddress,
           children: [
             {
@@ -182,9 +178,9 @@ export default new Router({
       ]
     },
     {
-      path:"/servercenter/:id",
-      name:"Detail",
-      component:Detail
+      path: "/servercenter/:id",
+      name: "Detail",
+      component: Detail
     }
   ]
 })

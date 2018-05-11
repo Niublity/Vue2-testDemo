@@ -49,7 +49,7 @@
     name: "homepage",
     data() {
       return {
-        title:"111",
+        title:"",
         img:{business, search, user},
         foodkinds:[],
         kindOne:[],
@@ -73,6 +73,7 @@
           })
         },200)
       })
+      this.title=this.$store.state.city.address
     },
     components:{
       footernav,
