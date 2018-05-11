@@ -8,13 +8,10 @@
       <router-link to="/CityList" class="change_city">切换城市</router-link>
     </div>
     <form class="city_form">
-      <div>
-        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword" @keyup.13="refreshPage()">
-      </div>
-      <div>
-        <div class="form_btn" @click="renderSearch">提交</div>
-      </div>
-
+      <form>
+        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword" @keyup.13="refreshPage()" required="required">
+        <input type="submit" class="form_btn" @click="renderSearch" value="提交">
+      </form>
     </form>
     <p class="search_history">搜索历史</p>
     <section v-if="renderli" class="searchHistorys-container">
@@ -28,7 +25,7 @@
     </section>
     <ul class="search_record">
       <router-link to="/home">
-        <li v-for="record in searchRecord" @click="requireInfor(record)">
+        <li v-for="record in searchRecord" @click="requireInfor(record)" v-if="record">
           <h4 class="record_title">{{record.name}}</h4>
           <p class="record_address">{{record.address}}</p>
         </li>
@@ -182,6 +179,7 @@
     font-weight: 100;
     text-align: center;
     line-height: 1.4rem;
+    outline: none;
   }
 
   /*----搜索界面-----*/

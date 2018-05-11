@@ -11,7 +11,8 @@ import Order from "../page/orderpage/orderpage"
 import Shopcar from "../page/shopcar/shopcar"
 import Balance from "../page/personalpage/balance"
 import Integral from "../page/personalpage/integral"
-import Coupon from "../page/personalpage/coupon"
+import Coupon from "../page/personalpage/coupon/coupon"
+import CouponInfor from "../page/personalpage/coupon/couponinfor"
 import Download from "../page/personalpage/download"
 import Servercenter from "../page/personalpage/servercenter"
 import Vipcenter from "../page/personalpage/vipcenter/vip"
@@ -21,7 +22,12 @@ import Setusername from "../page/personalpage/accountdetail/setusername"
 import Editaddress from "../page/personalpage/accountdetail/editaddress"
 import Newaddress from "../page/personalpage/accountdetail/newaddress"
 import Perchasevip from "../page/personalpage/vipcenter/perchasevip"
-
+import Exchangevip from "../page/personalpage/vipcenter/exchangevip"
+import Buyrecord from "../page/personalpage/vipcenter/buyrecord"
+import VipDescription from "../page/personalpage/vipcenter/vipdescription"
+import IntegralDetail from "../page/personalpage/integraldetail/intergraldetail"
+import SellerDetail from "../page/personalpage/coupon/sellerdetail"
+import BalanceDetail from "../page/personalpage/balacnedetail/balancedetail"
 Vue.use(Router)
 
 export default new Router({
@@ -79,16 +85,40 @@ export default new Router({
     {
       path: "/balance",
       name: "Balance",
-      component: Balance
+      component: Balance,
+      children:[
+        {
+          path:"balancedetail",
+          component:BalanceDetail
+        }
+      ]
     },
     {
       path: "/integral",
       name: "Integral",
-      component: Integral
+      component: Integral,
+      children:[
+        {
+          path:"integraldetail",
+          name:"IntegralDetail",
+          component:IntegralDetail
+        }
+      ]
     }, {
       path: "/coupon",
       name: "Coupon",
-      component: Coupon
+      component: Coupon,
+      children:[
+        {
+          path:'couponinfor',
+          name:'CouponInfor',
+          component:CouponInfor
+        },
+        {
+          path:"sellerdetail",
+          component:SellerDetail
+        }
+      ]
     }, {
       path: "/download",
       name: "Download",
@@ -104,12 +134,28 @@ export default new Router({
       path:"/vipcenter",
       name:"Vipcenter",
       component:Vipcenter,
+      children:[
+        {
+          path:"exchangevip",
+          name:"Exchangevip",
+          component:Exchangevip
+        },
+        {
+          path:"buyrecord",
+          name:"Buyrecord",
+          component:Buyrecord
+        },
+        {
+          path:"vipdescription",
+          name:"VipDescription",
+          component:VipDescription
+        }
+      ]
     },
     {
       path:"/perchasevip",
       name:"Perchasevip",
       component:Perchasevip,
-
     },
     {
       path: "/accountdetail",
@@ -133,9 +179,7 @@ export default new Router({
             }
           ]
         }
-
       ]
-
     },
     {
       path:"/servercenter/:id",

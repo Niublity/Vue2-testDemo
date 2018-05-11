@@ -1,11 +1,11 @@
 <template>
   <div>
     <transition enter-active-class="animated bounceIn">
-      <div class="warn" v-if="show">
-        <img :src="warn" alt="">
-        <p>{{warnText}}</p>
-        <div class="warn-sure" @click="show">确认</div>
-      </div>
+        <div class="warn" v-if="show" >
+          <img :src="warn" alt="">
+          <p>{{warnText}}</p>
+          <div class="warn-sure">{{sure}}</div>
+        </div>
     </transition>
   </div>
 </template>
@@ -15,19 +15,12 @@
 
   export default {
     name: "jumpkuang",
+    props: ["warnText", "sure", 'show'],
     data() {
       return {
         warn,
-        show:true,
-        props: ["warnText"]
       }
     },
-    methods:{
-      show(){
-        this.show=false;
-      }
-    }
-
   }
 </script>
 
@@ -36,6 +29,9 @@
     width: 12rem;
     background: white;
     border-radius: .25rem;
+    position: fixed;
+    left: 2rem;
+    top: 26.4%;
     text-align: center;
     padding-top: .6rem;
   }

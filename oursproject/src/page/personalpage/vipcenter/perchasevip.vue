@@ -18,42 +18,42 @@
           <img src="./image/zhifubao.png" alt="">
           <span>支付宝</span>
         </div>
-        <input type="radio" name="pay" class="radio">
+        <img :src="payapp" alt="" @click="zhifubao">
       </section>
       <section class="pay-item-container">
         <div class="pay-item">
           <img src="./image/weixin.png" alt="">
           <span>微信</span>
         </div>
-        <input type="radio" name="pay" class="radio">
+        <img :src="wechat" alt="" @click="weixin">
       </section>
     </section>
-    <div class="determine" @click="show=!show">确认支付</div>
-    <div class="vipwarn-container">
-      <transition enter-active-class="animated bounceIn">
-        <div class="warn" v-if="show">
-          <img src="../../../components/User/img/警告.png" alt="">
-          <p>{{warnText}}</p>
-          <div class="warn-sure" @click="show=!show">确认</div>
-        </div>
-      </transition>
-    </div>
+    <div class="determine" @click="showPayWarn=!showPayWarn">确认支付</div>
     <!--<div class="vipwarn-container">-->
-      <!--<transition enter-active-class="animated bounceIn">-->
-        <!--<div class="warn" v-if="payOvertime.show">-->
-          <!--<img src="../../../components/User/img/警告.png" alt="">-->
-          <!--<p>{{payOvertime.text}}</p>-->
-          <!--<div class="warn-sure" @click="payOvertime.show=!payOvertime.show">确认</div>-->
-        <!--</div>-->
-      <!--</transition>-->
+    <!--<transition enter-active-class="animated bounceIn">-->
+    <!--<div class="warn" v-if="payOvertime.show">-->
+    <!--<img src="../../../components/User/img/警告.png" alt="">-->
+    <!--<p>{{payOvertime.text}}</p>-->
+    <!--<div class="warn-sure" @click="payOvertime.show=!payOvertime.show">确认</div>-->
     <!--</div>-->
-    <!--<Jumpkuang :warnText="warnText"></Jumpkuang>-->
+    <!--</transition>-->
+    <!--</div>-->
+    <div @click="toOrder">
+      <Jumpkuang :warnText="warnText" :sure='sure' :show="showPayWarn" ></Jumpkuang>
+    </div>
+    <div @click="showpayOvertime=!showpayOvertime">
+      <Jumpkuang :warnText="overtimetext" :sure='sure' :show="showpayOvertime" ></Jumpkuang>
+    </div>
+
   </div>
 </template>
 
 <script>
+  import grey from "./image/grey.png"
+  import green from "./image/green.png"
   import header from "../../../components/foodheader/foodheader"
-// import jumpkuang from "../../../components/jumpkuangkuang/jumpkuang";
+  import jumpkuang from "../../../components/jumpkuangkuang/jumpkuang";
+
   export default {
     name: "perchasevip",
     data() {
@@ -61,37 +61,58 @@
         title: "在线支付",
         minute: "15",
         second: "00",
-        timer:null,
-        warnText:"当前环境无法支付，请打开官方APP进行付款",
-        sure:"确认" ,
-        show:false,
-        payOvertime:{text:"支付超时",show:false}
+        timer: null,
+        warnText: "当前环境无法支付，请打开官方APP进行付款",
+        sure: "确认",
+        showPayWarn: false,showpayOvertime:false,
+        overtimetext: "支付超时",
+        wechat:grey,
+        payapp:green
+      }
+    },
+    methods:{
+      toOrder(){
+        this.showPayWarn = false
+         this.$router.push('/order');
+      },
+      zhifubao(){
+        if (this.payapp == grey&&this.wechat==green) {
+          this.payapp=green;
+          this.wechat=grey;
+        }
+      },
+      weixin(){
+        if (this.wechat == grey&&this.payapp==green) {
+          this.wechat=green;
+          this.payapp=grey
+        }
       }
     },
     components: {
       Header: header,
-      // Jumpkuang: jumpkuang
+      Jumpkuang: jumpkuang
     },
     mounted() {
       var minute = 14;
       var second = 60;
-      this.timer = setInterval(()=>{
+      this.timer = setInterval(() => {
         if (second == '00') {
           second = 59;
           minute--;
-          if (minute<10){
-            minute="0"+minute
+          if (minute < 10) {
+            minute = "0" + minute
           }
-        }second--;
-        if (second<10){
-          second="0"+second
         }
-        if (minute=='00'&&second=='00') {
+        second--;
+        if (second < 10) {
+          second = "0" + second
+        }
+        if (minute == '00' && second == '00') {
           clearInterval(this.timer)
-          this.payOvertime.show=true
+          this.showpayOvertime = true
         }
-        this.minute=minute
-        this.second=second
+        this.minute = minute
+        this.second = second
       }, 1000);
     }
 
@@ -101,27 +122,17 @@
 <style scoped>
   /*单选框*/
   /*input[type='radio'].radio {*/
-    /*opacity:0;*/
-    /*display:inline-block;*/
-    /*height:20px;*/
+  /*opacity:0;*/
+  /*display:inline-block;*/
+  /*height:20px;*/
   /*}*/
   /*input[type='radio'].radio:checked + .radio {*/
-    /*background:url('./image/weixin.png') no-repeat;*/
+  /*background:url('./image/weixin.png') no-repeat;*/
   /*}*/
   /*input*/
   /*弹框*/
-  .vipwarn-container{
+  .vipwarn-container {
     /*position: relative;*/
-  }
-  .warn {
-    width: 12rem;
-    background: white;
-    border-radius: .25rem;
-    position: fixed;
-    left: 2rem;
-    top: 28%;
-    text-align: center;
-    padding-top: .6rem;
   }
 
   .warn img:nth-of-type(1) {
@@ -148,7 +159,7 @@
   }
 
   /*时间*/
-  .second,.minute {
+  .second, .minute {
     display: inline-block;
     width: 2rem;
     /*letter-spacing: ;*/
@@ -175,7 +186,8 @@
     display: flex;
     justify-content: center;
   }
-  .time span:nth-of-type(2),.time span:nth-of-type(4){
+
+  .time span:nth-of-type(2), .time span:nth-of-type(4) {
     margin: 0 .4rem;
     line-height: 1.3rem;
   }
@@ -202,6 +214,10 @@
     line-height: 2.6rem;
   }
 
+  .pay-item-container img{
+    width: 1rem;
+    height: 1rem;
+  }
   .pay-list .pay-item {
     display: flex;
     align-items: center;
