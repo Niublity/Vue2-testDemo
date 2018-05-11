@@ -48,7 +48,7 @@
         <!--商品界面-->
         <div class="wares" v-show="showWares">
           <ul class="wares-left">
-            <li  v-for="(categoty,index) in categotyList" ref="nav" class="left-li"
+            <li v-for="(categoty,index) in categotyList" ref="nav" class="left-li"
                 @click="foodclass(index,$event)">
               <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
                    class="sales-logo">
@@ -120,7 +120,45 @@
         </div>
         <!--评价界面-->
         <div class="evaluate" v-show="showEvaluate">
-          评价列表
+          <header class="evaluate-header">
+            <section class="evaluate-header-left">
+              <p>4.7</p>
+              <p>综合评价</p>
+              <p>高于周边商家76.9%</p>
+            </section>
+            <section class="evaluate-header-right">
+              <div>
+                <span class="headtxt">服务态度</span>
+                <el-rate
+                  v-model="value1"
+                  disabled
+                  show-score
+                  text-color="#ff9900"
+                  score-template="{value}">
+                </el-rate>
+              </div>
+              <div>
+                <span  class="headtxt">菜品评价</span>
+                <el-rate
+                  v-model="value2"
+                  disabled
+                  show-score
+                  text-color="#ff9900"
+                  score-template="{value}">
+                </el-rate>
+              </div>
+              <p>
+                <span class="headtxt">送达时间</span>
+                <span class="send-minute">分钟</span></p>
+            </section>
+          </header>
+          <section>
+            <ul class="evaclassify-con">
+              <li v-for="eva in evaluateClassifys" @click="classifytxt" :class="classifys">
+                <span>{{eva.name}}</span><span>({{eva.count}})</span>
+              </li>
+            </ul>
+          </section>
         </div>
       </div>
     </div>
@@ -153,6 +191,8 @@
     name: "shopcar",
     data() {
       return {
+        value1: 4.7,
+        value2: 4.8,
         title: "购物车",
         pic: {next, bgimg, close},
         showWares: true,
@@ -161,7 +201,9 @@
         categotyList: [],
         sizedetail: [],
         showchoosesize: false,
-        isActive: ""
+        isActive: "",
+        classifys:'classifyNormal',
+        evaluateClassifys:[]
       }
     },
     components: {
@@ -170,13 +212,16 @@
     created() {
       this.$http.get("http://cangdu.org:8001/shopping/getcategory/1").then((response) => {
         this.categotyList = response.data.category_list;
-        this.$nextTick(()=>{
-          if(this.$refs.aaa.childNodes[0].offsetTop==this.$refs.aaa.scrollTop)
-          {
+        this.$nextTick(() => {
+          if (this.$refs.aaa.childNodes[0].offsetTop == this.$refs.aaa.scrollTop) {
             this.$refs.nav[0].classList.add("active")
           }
         })
       });
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings/tags").then((response)=>{
+        console.log(response.data)
+        this.evaluateClassifys=response.data
+      })
     },
     mounted() {
       this.$refs.aaa.addEventListener('scroll', this.handleScroll)
@@ -212,24 +257,125 @@
         // console.log($event.target.offsetTop)
         console.log(this.$refs.aaa.scrollTop)
         // this.$refs.aaa.scrollTop=this.$refs.aaa.childNodes[index].offsetTop
-        this.publicfunction.jump(index,this.$refs.aaa)
+        this.publicfunction.jump(index, this.$refs.aaa)
       },
-      handleScroll(index,$event) {
-        for(var i =1;i<=this.$refs.aaa.childNodes.length;i++){
-          if(this.$refs.aaa.childNodes[i-1].offsetTop<=this.$refs.aaa.scrollTop&&this.$refs.aaa.scrollTop<this.$refs.aaa.childNodes[i].offsetTop){
-            this.$refs.nav[i-1].classList.add("active")
+      handleScroll(index, $event) {
+        for (var i = 1; i <= this.$refs.aaa.childNodes.length; i++) {
+          if (this.$refs.aaa.childNodes[i - 1].offsetTop <= this.$refs.aaa.scrollTop && this.$refs.aaa.scrollTop < this.$refs.aaa.childNodes[i].offsetTop) {
+            this.$refs.nav[i - 1].classList.add("active")
           }
           else {
-            this.$refs.nav[i-1].classList.remove("active")
+            this.$refs.nav[i - 1].classList.remove("active")
           }
         }
       },
+      classifytxt(){
+        this.classifys='classifyClick'
+      }
     }
 
   }
 </script>
+<style>
+  .el-rate__text{
+    font-size: .55rem;
+    font-weight: 200;
+    color: #f60 !important;
+    margin-left: .5rem;
+  }
+  .el-rate__item .el-rate__icon {
+    width: 4px;
+    font-size: 10px;
+  }
+</style>
+<style scope>
 
-<style scoped>
+  /*评价界面*/
+  .evaluate {
+    width: 16rem;
+    box-sizing: border-box;
+    background: #f5f5f5;
+  }
+
+  .evaluate-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: .8rem .5rem;
+    margin-bottom: .5rem;
+    box-sizing: border-box;
+    background: white;
+  }
+
+  /*header左*/
+  .evaluate-header-left {
+    text-align: center;
+    margin-right: .4rem;
+  }
+
+  .evaluate-header p, .evaluate-header span {
+    font-weight: 200;
+  }
+
+  .evaluate-header .evaluate-header-left p:first-of-type {
+    font-size: 1.2rem;
+    color: #f60;
+  }
+
+  .evaluate-header .evaluate-header-left p:nth-of-type(2) {
+    font-size: .65rem;
+    color: #666;
+    margin: .3rem 0;
+  }
+
+  .evaluate-header .evaluate-header-left p:nth-of-type(3) {
+    font-size: .4rem;
+    color: #999;
+  }
+
+  /*header右*/
+  .evaluate-header-right .headtxt {
+    color: #666;
+    font-size: .65rem;
+    line-height: 1rem;
+    margin-right: .5rem;
+  }
+  .evaluate-header-right div{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .send-minute {
+    font-size: .4rem !important;
+    color: #999 !important;
+  }
+
+  /*评价分类*/
+  .evaclassify-con{
+    background: white;
+    display: flex;
+  }
+  .evaclassify-con li{
+    font-size: .6rem;
+    padding: .5rem;
+    border-radius: .2rem;
+    border: 1px;
+    margin: 0 .4rem .2rem 0;
+    font-weight: 200;
+  }
+  /*正常*/
+  .classifyNormal{
+    color: #6d7885;
+    background: #ebf5ff;
+  }
+  .classifyClick{
+    background-color: #3190e8;
+    color: #fff;
+  }
+  .classifyUnsatisfy{
+    background-color: #f5f5f5;
+    color: #aaa;
+  }
   .shopcarbody {
     position: relative;
   }

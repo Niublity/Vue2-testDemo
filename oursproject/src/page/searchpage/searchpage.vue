@@ -5,11 +5,13 @@
       <input type="text" placeholder="请输入商家或美食名称" class="search-food">
       <div class="submit">提交</div>
     </form>
+    <Footer class="footer"></Footer>
   </div>
 </template>
 
 <script>
   import header from "../../components/foodheader/foodheader"
+  import footer from "../../components/footernav/footernav"
     export default {
         name: "searchpage",
       data(){
@@ -18,12 +20,20 @@
          }
       },
       components:{
-          Header:header
+          Header:header,
+        Footer:footer
       }
     }
 </script>
 
 <style scoped>
+  .footer{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
   form{
     background-color: #fff;
     padding: .5rem;
