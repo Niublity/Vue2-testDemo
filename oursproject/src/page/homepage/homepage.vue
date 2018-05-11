@@ -7,16 +7,16 @@
     <div class=" swiper-container foods_kind">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <a href="##" class="link_to_food" v-for="kind1 in kindOne">
+          <router-link v-for="kind1 in kindOne" :to="{name:'Shopshow',query:{title:kind1.title}}" :key="kind1.id" class="link_to_food" >
           <img :src="'https://fuss10.elemecdn.com'+kind1.image_url" alt="">
           <span>{{kind1.title}}</span>
-          </a>
+          </router-link>
         </div>
         <div class="swiper-slide">
-          <a href="##" class="link_to_food"  v-for="kind2 in kindTwo">
+          <router-link class="link_to_food" v-for="kind2 in kindTwo" :to="{name:'Shopshow',query:{title:kind2.title}}" :key="kind2.id">
             <img :src="'https://fuss10.elemecdn.com'+kind2.image_url" alt="">
             <span>{{kind2.title}}</span>
-          </a>
+          </router-link>
         </div>
       </div>
       <!--分页器-->
@@ -30,19 +30,11 @@
     <goodlist></goodlist>
     <!--导航栏-->
     <footernav class="footernav"></footernav>
-
   </div>
-
-
 </template>
 
 <script>
-  /*引入图片*/
-  // import drink from "./img/drink.jpeg";
-  // import scbl from "./img/chsd.jpeg";
-  // import ms from "./img/ms.jpeg";
-  // import jc from "./img/js.jpeg";
-  // import xdth from "./img/xpth.jpeg";
+
   import search from "./img/搜索.png";
   import user from "./img/商户线性.png";
   import business from "./img/商家 (3).png";
@@ -57,21 +49,11 @@
     name: "homepage",
     data() {
       return {
-        title:"111",
+        title:"",
         img:{business, search, user},
         foodkinds:[],
         kindOne:[],
         kindTwo:[],
-        // lunboOne: [
-        //   {pic: drink, name: "甜品饮品"},
-        //   {pic: scbl, name: "商超便利"},
-        //   {pic: ms, name: "美食"},
-        //   {pic: jc, name: "简餐"},
-        //   {pic: xdth, name: "新店特惠"},
-        //   {pic: drink, name: "准时达"},
-        //   {pic: drink, name: "预定早餐"},
-        //   {pic: drink, name: "土豪推荐"},
-        // ]
       }
     },
     created(){
@@ -91,6 +73,7 @@
           })
         },200)
       })
+      this.title=this.$store.state.city.address
     },
     components:{
       footernav,

@@ -9,7 +9,8 @@
     </div>
     <form class="city_form">
       <form>
-        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword" @keyup.13="refreshPage()" required="required">
+        <input type="text" placeholder="输入学校、商务楼、地址" class="form_input" v-model="keyword" @keyup.13="refreshPage()"
+               required="required">
         <input type="submit" class="form_btn" @click="renderSearch" value="提交">
       </form>
     </form>
@@ -24,12 +25,12 @@
       <footer class="clear-all-history" @click="clearHistory">清空所有</footer>
     </section>
     <ul class="search_record">
-      <router-link to="/home">
+      <div>
         <li v-for="record in searchRecord" @click="requireInfor(record)" v-if="record">
           <h4 class="record_title">{{record.name}}</h4>
           <p class="record_address">{{record.address}}</p>
         </li>
-      </router-link>
+      </div>
     </ul>
   </div>
 </template>
@@ -62,7 +63,6 @@
       this.axios.get("http://cangdu.org:8001/v1/cities/" + this.cityID).then((response) => {
         //console.log(response.data);
         this.citys = response.data;
-
       })
       if (localStorage.getItem("Record")) {
         this.Records = (JSON.parse(localStorage.getItem("Record")))
@@ -73,23 +73,23 @@
       renderSearch() {
         //获取搜索信息
         this.$http.get("http://cangdu.org:8001/v1/pois?city_id=" + this.cityID + "&keyword=" + this.keyword + "&type=search").then((response) => {
-          //console.log(response.data);
           this.searchRecord = response.data;
         })
       },
       refreshPage() {
         console.log("你按了回车")
         this.$http.get("http://cangdu.org:8001/v1/pois?city_id=" + this.cityID + "&keyword=" + this.keyword + "&type=search").then((response) => {
-          //console.log(response.data);
           this.searchRecord = response.data;
         })
       },
       requireInfor(record) {
+        this.$store.commit("setCityInfo", {record})
+        this.$router.push({name:"Home"})
         if (localStorage.getItem("Record")) {
           this.Records = JSON.parse(localStorage.getItem("Record"))
         }
-        for(var i=0;i<this.Records.length;i++){
-          if(this.Records[i].name==record.name){
+        for (var i = 0; i < this.Records.length; i++) {
+          if (this.Records[i].name == record.name) {
             return
           }
         }

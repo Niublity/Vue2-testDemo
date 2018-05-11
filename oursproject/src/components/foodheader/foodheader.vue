@@ -39,6 +39,9 @@
   }
 
   .foodheader_line_des {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     width: 8rem;
     position: absolute;
     left: 27%;
