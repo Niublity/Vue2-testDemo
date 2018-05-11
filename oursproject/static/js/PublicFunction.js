@@ -8,6 +8,7 @@ let sliceArray = function (array, size) {
   return result;
 }
 let dealarray = function (array) {
+
   let x = [...array]
   if (x.length == 0) {
     return "b/ff/533cf9617bd57fe1dfb05603bebcfpng.png"
