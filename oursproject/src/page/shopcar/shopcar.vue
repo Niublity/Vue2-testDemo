@@ -47,12 +47,14 @@
       <div class="information">
         <!--商品界面-->
         <div class="wares" v-show="showWares">
+          <!--左边分类-->
           <ul class="wares-left">
             <li v-for="(categoty,index) in categotyList" ref="nav" class="left-li"
                 @click="foodclass(index,$event)">
               <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
                    class="sales-logo">
               <span :href="'#'+categoty.name">{{categoty.name}}</span>
+              <span id="countred" v-if="countShow">{{count}}</span>
             </li>
           </ul>
           <!--商品详情-->
@@ -88,7 +90,14 @@
                       <span>{{food.specfoods[0].price}}</span>
                       <span>起</span>
                     </p>
-                    <div v-if="food.specfoods.length==1" class="countplus">+</div>
+                    <div v-if="food.specfoods.length==1" class="reduce-plus">
+                      <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
+                        <div v-show="countShow" class="countreduce" @click="reduceFood">-</div>
+                      </transition>
+                      <span v-show="countShow">{{count}}</span>
+                      <div class="countplus" @click="addFood">+</div>
+                    </div>
+
                     <div v-else class="choose-size" @click="showInfor(food.specfoods)">
                       选规格
                     </div>
@@ -159,36 +168,33 @@
               </li>
             </ul>
           </section>
-          <ul>
-            <li class="eva-detail-con">
+          <ul class="evaluate-rating">
+            <li class="eva-detail-con" v-for="evadetail in evaDetails">
               <section class="eva-detail-left">
                 <img src="./img/default.jpg" alt="">
               </section>
               <section class="eva-detail-right">
                 <p class="detail-one">
-                  <span>4*******b</span>
-                  <span>2017-02-10</span>
+                  <span>{{evadetail.username}}</span>
+                  <span>{{evadetail.rated_at}}</span>
                 </p>
                 <p class="detail-two">
                   <el-rate
-                    v-model="rating"
+                    v-model="evadetail.rating_star"
                     disabled
                     text-color="#ff9900"
-                    score-template="{value}">
+                    score-template="{value}" class="rating-start">
                   </el-rate>
-                  <span>按时送达</span>
+                  <span class="send-ontime">{{evadetail.time_spent_desc
+}}</span>
                 </p>
                 <ul class="detail-img">
-                  <li>
-                    <img src="./img/default.jpg" alt="">
-                  </li>
-                  <li>
-                    <img src="./img/default.jpg" alt="">
+                  <li v-for="fooddetail in evadetail.item_ratings">
+                    <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(fooddetail.image_hash)" alt="">
                   </li>
                 </ul>
                 <ul class="detail-foodname">
-                  <li>超级至尊比萨-铁盘</li>
-                  <li>韩式浓情风味鸡(标准份)</li>
+                  <li v-for="fooddetail in evadetail.item_ratings">{{fooddetail.food_name}}</li>
                 </ul>
               </section>
             </li>
@@ -198,16 +204,17 @@
     </div>
 
     <div class="shopcar_footer" v-if="!showEvaluate">
-      <div>
+      <div class="footer-con">
         <div class="carico">
           <img src="./img/shopcar.png" alt="">
+          <span id="countred-car" v-if="countShow">{{count}}</span>
         </div>
         <div class="car_num">
           <p>￥0.00</p>
           <p>配送费5￥</p>
         </div>
-        <div class="missingmoney">
-          <span>还差￥20起送</span>
+        <div :class="countShow? 'toPays':'missingmoney'">
+          <span>{{toPay}}</span>
         </div>
       </div>
     </div>
@@ -225,6 +232,9 @@
     name: "shopcar",
     data() {
       return {
+        count: 0,
+        countShow: false,
+        toPay: "还差￥20起送",
         rating: 5,
         value1: null,
         value2: null,
@@ -238,7 +248,8 @@
         showchoosesize: false,
         isActive: "",
         classifys: 'classifyNormal',
-        evaluateClassifys: []
+        evaluateClassifys: [],
+        evaDetails: []
       }
     },
     components: {
@@ -247,7 +258,8 @@
     created() {
       //请假信息
       this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings?offset=0&limit=10").then((response) => {
-        console.log(response.data)
+        console.log(response.data);
+        this.evaDetails = response.data;
       })
       //评价分数
       this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings/scores").then((response) => {
@@ -319,6 +331,24 @@
       },
       classifytxt() {
         this.classifys = 'classifyClick'
+      },
+      addFood() {
+        this.countShow = true
+        setTimeout(()=>{
+          this.count++;
+        },10)
+
+          this.toPay = "去结算"
+
+      },
+      reduceFood() {
+        if (this.count == 1) {
+          this.countShow = false
+          this.count=0
+          this.toPay = "还差￥20起送"
+        } else {
+          this.count--
+        }
       }
     }
 
@@ -336,8 +366,46 @@
     width: 4px;
     font-size: 10px;
   }
+
+  .rating-start .el-rate__icon {
+    width: 3px;
+    font-size: 9px;
+  }
 </style>
 <style scope>
+/*添加购物车动画*/
+
+.animated{
+  -webkit-animation-delay: .01s;
+  -webkit-animation-duration: .6s;
+}
+  /*红色count*/
+  #countred-car {
+    position: absolute;
+    top: .13rem;
+    left: 1.8rem;
+  }
+
+  #countred {
+    position: absolute;
+    top: .1rem;
+    left: 3rem;
+  }
+
+  #countred-car, #countred {
+    display: block;
+    min-width: .6rem;
+    height: .6rem;
+    line-height: .55rem;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    background-color: red;
+    font-size: .5rem;
+    font-weight: 200;
+    box-sizing: border-box;
+    border: .025rem solid #ff461d;
+  }
 
   /*评价界面*/
   .evaluate {
@@ -346,9 +414,11 @@
     background: #f5f5f5;
     overflow: scroll;
   }
-  .evaluate::-webkit-scrollbar{
+
+  .evaluate::-webkit-scrollbar {
     display: none;
   }
+
   .evaluate-header {
     width: 100%;
     display: flex;
@@ -440,6 +510,11 @@
   }
 
   /*评价信息*/
+  .evaluate-rating {
+    padding: 0 .5rem;
+    background: white;
+  }
+
   .eva-detail-con {
     display: flex;
     justify-content: flex-start;
@@ -458,6 +533,10 @@
   }
 
   /*评价信息右一*/
+  .eva-detail-right {
+    width: 12.9rem;
+  }
+
   .detail-one {
     display: flex;
     justify-content: space-between;
@@ -471,33 +550,43 @@
   .detail-one span:nth-of-type(2) {
     font-size: .4rem;
     color: #999;
+    font-weight: 200;
   }
 
   /*评价信息右二*/
-  .detail-two{
+  .detail-two {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin-top: .17rem;
   }
-  .detail-two span:nth-child(2){
+
+  .detail-two .send-ontime {
     font-size: .55rem;
     color: #666;
+    font-weight: 200;
+    margin-left: .2rem;
+
   }
+
   /*评价信息右三图片*/
-  .detail-img{
+  .detail-img {
     display: flex;
   }
-  .detail-img li img{
+
+  .detail-img li img {
     width: 3rem;
     height: 3rem;
-    margin-right: .4rem;
+    margin: .3rem .4rem .4rem 0;
   }
+
   /*评价信息右四图片*/
-  .detail-foodname{
+  .detail-foodname {
     display: flex;
   }
-  .detail-foodname li{
-    width: 2.2rem;
+
+  .detail-foodname li {
+    width: 1.79rem;
     color: #999;
     font-size: .55rem;
     border: .025rem solid #ebebeb;
@@ -507,8 +596,10 @@
     text-overflow: ellipsis;
     padding: .2rem;
     margin-right: .4rem;
+    font-weight: 200;
 
   }
+
   .shopcarbody {
     position: relative;
   }
@@ -937,9 +1028,11 @@
   /*右五*/
   .food-footer {
     width: 8rem;
+    height: 1.2rem;
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    margin-top: .3rem;
+    margin-top: .1rem;
   }
 
   .food-price {
@@ -980,7 +1073,8 @@
     color: #fff;
     background: #3190e8;
     font-weight: 100;
-    padding: .2rem .25rem;
+    padding: .3rem .2rem;
+    line-height: .6rem;
     border: 1px solid #3190e8;
     -webkit-border-radius: .2rem;
     -moz-border-radius: .2rem;
@@ -988,12 +1082,37 @@
     /*margin-left: 4rem;*/
   }
 
+  .reduce-plus {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .reduce-plus span {
+    min-width: 1.4rem;
+    text-align: center;
+    font-size: .65rem;
+    color: #666;
+  }
+
+  .countreduce {
+    display: block;
+    border: 1px solid #3190e8;
+    color: #3190e8;
+    width: .78rem;
+    height: .78rem;
+  }
+
   .countplus {
+    background-color: #3190e8;
+    color: white;
     width: .8rem;
     height: .8rem;
+  }
+
+  .countplus, .countreduce {
+
     border-radius: 50%;
-    background-color: #007aff;
-    color: white;
     line-height: .65rem;
     font-size: .8rem;
     text-align: center;
@@ -1146,22 +1265,27 @@
     font-weight: 100;
   }
 
-  .missingmoney {
+  .footer-con div:nth-of-type(3) {
     position: absolute;
     right: 0;
     top: 0;
-
     width: 5rem;
     height: 100%;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #535356 !important;
-    /*z-index: 1001;*/
   }
 
-  .missingmoney span {
+  .missingmoney {
+    background-color: #535356 !important;
+  }
+
+  .toPays {
+    background-color: #4cd964 !important;
+  }
+
+  .footer-con div:nth-of-type(3) span {
     font-size: .62rem;
     color: #fff;
     font-weight: 200;
