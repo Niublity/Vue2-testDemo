@@ -138,7 +138,7 @@
                 </el-rate>
               </div>
               <div>
-                <span  class="headtxt">菜品评价</span>
+                <span class="headtxt">菜品评价</span>
                 <el-rate
                   v-model="value2"
                   disabled
@@ -159,11 +159,45 @@
               </li>
             </ul>
           </section>
+          <ul>
+            <li class="eva-detail-con">
+              <section class="eva-detail-left">
+                <img src="./img/default.jpg" alt="">
+              </section>
+              <section class="eva-detail-right">
+                <p class="detail-one">
+                  <span>4*******b</span>
+                  <span>2017-02-10</span>
+                </p>
+                <p class="detail-two">
+                  <el-rate
+                    v-model="rating"
+                    disabled
+                    text-color="#ff9900"
+                    score-template="{value}">
+                  </el-rate>
+                  <span>按时送达</span>
+                </p>
+                <ul class="detail-img">
+                  <li>
+                    <img src="./img/default.jpg" alt="">
+                  </li>
+                  <li>
+                    <img src="./img/default.jpg" alt="">
+                  </li>
+                </ul>
+                <ul class="detail-foodname">
+                  <li>超级至尊比萨-铁盘</li>
+                  <li>韩式浓情风味鸡(标准份)</li>
+                </ul>
+              </section>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <div class="shopcar_footer">
+    <div class="shopcar_footer" v-if="!showEvaluate">
       <div>
         <div class="carico">
           <img src="./img/shopcar.png" alt="">
@@ -191,8 +225,9 @@
     name: "shopcar",
     data() {
       return {
-        value1: 4.7,
-        value2: 4.8,
+        rating: 5,
+        value1: null,
+        value2: null,
         title: "购物车",
         pic: {next, bgimg, close},
         showWares: true,
@@ -202,14 +237,30 @@
         sizedetail: [],
         showchoosesize: false,
         isActive: "",
-        classifys:'classifyNormal',
-        evaluateClassifys:[]
+        classifys: 'classifyNormal',
+        evaluateClassifys: []
       }
     },
     components: {
       Header: header
     },
     created() {
+      //请假信息
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings?offset=0&limit=10").then((response) => {
+        console.log(response.data)
+      })
+      //评价分数
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings/scores").then((response) => {
+        //console.log(typeof parseInt(response.data.service_score.toFixed(1)));
+        this.value1 = Number(response.data.service_score.toFixed(1))
+        this.value2 = Number(response.data.food_score.toFixed(1))
+      })
+      //评价分类
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings/tags").then((response) => {
+        //console.log(response.data)
+        this.evaluateClassifys = response.data
+      })
+      //购物车
       this.$http.get("http://cangdu.org:8001/shopping/getcategory/1").then((response) => {
         this.categotyList = response.data.category_list;
         this.$nextTick(() => {
@@ -218,10 +269,7 @@
           }
         })
       });
-      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings/tags").then((response)=>{
-        console.log(response.data)
-        this.evaluateClassifys=response.data
-      })
+
     },
     mounted() {
       this.$refs.aaa.addEventListener('scroll', this.handleScroll)
@@ -269,20 +317,21 @@
           }
         }
       },
-      classifytxt(){
-        this.classifys='classifyClick'
+      classifytxt() {
+        this.classifys = 'classifyClick'
       }
     }
 
   }
 </script>
 <style>
-  .el-rate__text{
+  .el-rate__text {
     font-size: .55rem;
     font-weight: 200;
     color: #f60 !important;
     margin-left: .5rem;
   }
+
   .el-rate__item .el-rate__icon {
     width: 4px;
     font-size: 10px;
@@ -295,8 +344,11 @@
     width: 16rem;
     box-sizing: border-box;
     background: #f5f5f5;
+    overflow: scroll;
   }
-
+  .evaluate::-webkit-scrollbar{
+    display: none;
+  }
   .evaluate-header {
     width: 100%;
     display: flex;
@@ -340,41 +392,122 @@
     line-height: 1rem;
     margin-right: .5rem;
   }
-  .evaluate-header-right div{
+
+  .evaluate-header-right div {
     display: flex;
     justify-content: flex-start;
     align-items: center;
   }
+
   .send-minute {
     font-size: .4rem !important;
     color: #999 !important;
   }
 
   /*评价分类*/
-  .evaclassify-con{
+  .evaclassify-con {
     background: white;
     display: flex;
-  }
-  .evaclassify-con li{
-    font-size: .6rem;
+    flex-wrap: wrap;
     padding: .5rem;
+  }
+
+  .evaclassify-con li {
+    padding: .3rem;
     border-radius: .2rem;
     border: 1px;
     margin: 0 .4rem .2rem 0;
-    font-weight: 200;
-  }
-  /*正常*/
-  .classifyNormal{
     color: #6d7885;
     background: #ebf5ff;
+
   }
-  .classifyClick{
+
+  .evaclassify-con li span {
+    font-size: .6rem;
+    font-weight: 200;
+
+  }
+
+  /*正常*/
+  .classifyClick {
     background-color: #3190e8;
     color: #fff;
   }
-  .classifyUnsatisfy{
+
+  .classifyUnsatisfy {
     background-color: #f5f5f5;
     color: #aaa;
+  }
+
+  /*评价信息*/
+  .eva-detail-con {
+    display: flex;
+    justify-content: flex-start;
+    background: white;
+    border-top: 1px solid #f1f1f1;
+    padding: .6rem 0;
+  }
+
+  /*评价信息左*/
+  .eva-detail-left img {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    border: .025rem;
+    margin-right: .8rem;
+  }
+
+  /*评价信息右一*/
+  .detail-one {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .detail-one span:nth-of-type(1) {
+    font-size: .55rem;
+    color: #666;
+  }
+
+  .detail-one span:nth-of-type(2) {
+    font-size: .4rem;
+    color: #999;
+  }
+
+  /*评价信息右二*/
+  .detail-two{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .detail-two span:nth-child(2){
+    font-size: .55rem;
+    color: #666;
+  }
+  /*评价信息右三图片*/
+  .detail-img{
+    display: flex;
+  }
+  .detail-img li img{
+    width: 3rem;
+    height: 3rem;
+    margin-right: .4rem;
+  }
+  /*评价信息右四图片*/
+  .detail-foodname{
+    display: flex;
+  }
+  .detail-foodname li{
+    width: 2.2rem;
+    color: #999;
+    font-size: .55rem;
+    border: .025rem solid #ebebeb;
+    border-radius: .15rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: .2rem;
+    margin-right: .4rem;
+
   }
   .shopcarbody {
     position: relative;
