@@ -21,12 +21,6 @@
         warn,
       }
     },
-    // methods:{
-    //   hides(){
-    //     this.show=false
-    //   }
-    // }
-
   }
 </script>
 

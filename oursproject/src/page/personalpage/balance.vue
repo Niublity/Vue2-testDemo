@@ -5,7 +5,7 @@
       <div class="detail">
         <div class="balancetop">
           <div><span>当前余额</span></div>
-          <div><img src="./img/10.png" alt=""><span>余额说明</span></div>
+          <router-link  to="/balance/balancedetail"><img src="./img/10.png" alt=""><span>余额说明</span></router-link>
         </div>
         <div class="money">
           <span>0.00</span>
@@ -21,6 +21,9 @@
       <img src="./img/11.png" alt="">
       <p>暂无明细记录</p>
     </div>
+    <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
+      <router-view class="cover"></router-view>
+    </transition>
   </div>
 
 
@@ -43,10 +46,19 @@
 </script>
 
 <style scoped>
+  .cover {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: white;
+    z-index: 100;
+  }
+
   .balancewrap {
     padding: .3rem;
     background-color: #3190e8;
-
   }
 
   .detail {
@@ -64,8 +76,7 @@
     justify-content: space-between;
   }
 
-
-  .balancetop div:nth-child(2) {
+  .balancetop a {
     display: flex;
     align-items: center;
     color: #3190e8;
@@ -76,10 +87,12 @@
     height: .6rem;
     margin-right: .2rem;
   }
-  .money{
-    font-family: Helvetica Neue,Tahoma,Arial;
-   margin-top: .4rem;
+
+  .money {
+    font-family: Helvetica Neue, Tahoma, Arial;
+    margin-top: .4rem;
   }
+
   .money span:nth-child(1) {
     font-size: 1.8rem;
     color: #333;
@@ -102,28 +115,33 @@
     background-color: #ccc;
 
   }
-  .btnsunmit span{
+
+  .btnsunmit span {
     font-weight: 100;
   }
-  .dealdetail{
+
+  .dealdetail {
 
     font-size: .6rem;
     color: #999;
     line-height: 2rem;
     padding-left: .5rem;
   }
-  .no_logo{
+
+  .no_logo {
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  .no_logo img{
+
+  .no_logo img {
     width: 8rem;
     height: 5rem;
   }
-  .no_logo p{
+
+  .no_logo p {
     margin-top: .5rem;
     font-size: .7rem;
     color: #666;

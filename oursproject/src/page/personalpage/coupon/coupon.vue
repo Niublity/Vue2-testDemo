@@ -6,61 +6,70 @@
       <div @click="couponShow"><span :class="showCoupon? 'outline':''">商家代金券</span></div>
     </div>
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-      <section class="hongbao_container" v-if="showHongbao">
-        <div class="hongbao_header">
-          <div>有<span> 3 </span>个红包即将到期</div>
-          <div><img src="./img/10.png" alt=""><span>红包说明</span></div>
-        </div>
-        <ul class="hongbao_list">
-          <li v-for="coupon in coupons">
-            <section class="list_item">
-              <div>
-                <div><span>￥</span>
-                  <span>{{[...JSON.stringify(coupon.amount)][0]}}</span>
-                  <span>.</span>
-                  <span>{{[...JSON.stringify(coupon.amount)][2]}}0</span>
+      <section v-if="showHongbao">
+        <section class="hongbao_container">
+          <div class="hongbao_header">
+            <div>有<span> 3 </span>个红包即将到期</div>
+            <router-link to="/coupon/couponinfor" class="redinfor"><img src="../img/10.png" alt=""><span>红包说明</span>
+            </router-link>
+          </div>
+          <ul class="hongbao_list">
+            <li v-for="coupon in coupons">
+              <section class="list_item">
+                <div>
+                  <div><span>￥</span>
+                    <span>{{[...JSON.stringify(coupon.amount)][0]}}</span>
+                    <span>{{[...JSON.stringify(coupon.amount)][1]}}</span>
+                    <span>{{[...JSON.stringify(coupon.amount)][2]}}</span>
+                  </div>
+                  <p>满{{coupon.sum_condition}}元可用</p>
                 </div>
-                <p>满{{coupon.sum_condition}}元可用</p>
-              </div>
-              <div>
-                <p>{{coupon.name}}</p>
-                <p>{{coupon.end_date}}到期</p>
-                <p>限收获手机号为</p><span>{{coupon.phone}}</span>
-              </div>
-              <div>剩3日</div>
-            </section>
-          </li>
-        </ul>
-        <p>
-          限品类：快餐便当、特色菜系、小吃夜宵、甜品饮品、异国料理
-        </p>
-        <div class="footernav">
-          <div><span>兑换红包</span></div>
-          <div><span>推荐有奖</span></div>
-        </div>
+                <div>
+                  <p>{{coupon.name}}</p>
+                  <p>{{coupon.end_date}}到期</p>
+                  <p>限收获手机号为</p><span>{{coupon.phone}}</span>
+                </div>
+                <div>剩3日</div>
+              </section>
+            </li>
+          </ul>
+          <p>
+            限品类：快餐便当、特色菜系、小吃夜宵、甜品饮品、异国料理
+          </p>
+        </section>
+        <footer>
+          <div class="footernav">
+            <div><span>兑换红包</span></div>
+            <div><span>推荐有奖</span></div>
+          </div>
+        </footer>
       </section>
+
+
     </transition>
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
       <section class="coupon-container" v-if="showCoupon">
         <p class="coupon-wratop ">
-          <img src="./img/11111.png" alt="">
-          <span>商家代金券说明</span>
+          <img src="../img/11111.png" alt="">
+          <router-link to="/coupon/sellerdetail">商家代金券说明</router-link>
         </p>
         <section class="unable-use">
-          <img src="./vipcenter/image/voucher.png" alt="">
+          <img src="../vipcenter/image/voucher.png" alt="">
           <p>无法使用代金券</p>
           <p>非客户端或客户端版本过低</p>
           <div>下载或升级客户端</div>
         </section>
       </section>
     </transition>
-
+    <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+      <router-view class="children-ponsition"></router-view>
+    </transition>
   </div>
 
 </template>
 
 <script>
-  import header from "../../components/foodheader/foodheader"
+  import header from "../../../components/foodheader/foodheader"
 
   export default {
     name: "coupon",
@@ -99,6 +108,15 @@
 </script>
 
 <style scoped>
+  .children-ponsition {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: white;
+  }
+
   /*商家代金券*/
   .coupon-container {
     text-align: center;
@@ -123,7 +141,7 @@
     margin-right: .2rem;
   }
 
-  .coupon-wratop span {
+  .coupon-wratop a {
     color: #3190e8;
   }
 
@@ -215,7 +233,7 @@
     color: red;
   }
 
-  .hongbao_header div:nth-child(2) {
+  .redinfor {
     display: flex;
     align-items: center;
     color: #3190e8;

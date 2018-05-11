@@ -71,12 +71,13 @@
   .descriptions{
     background: white;
     font-size: .6rem;
-    /*color: #999;*/
-    font-size: .6rem;
+    height: 26.4rem;
     padding: 0rem .7rem 0;
-    overflow-x: hidden;
-    /*white-space: nowrap;*/
+    overflow:scroll;
     text-overflow: ellipsis;
+  }
+  .descriptions::-webkit-scrollbar{
+    display: none;
   }
   .infomation {
     /*font-size: .6rem;*/

@@ -5,7 +5,7 @@
       <div class="detail">
         <div class="balancetop">
           <div><span>当前积分</span></div>
-          <div><img src="./img/10.png" alt=""><span>积分说明</span></div>
+          <router-link class="balancetopa" to="/integral/integraldetail"><img src="./img/10.png" alt=""><span>积分说明</span></router-link>
         </div>
         <div class="money">
           <span>0</span>
@@ -28,6 +28,9 @@
         <p>快去下单赚取大量积分吧</p>
         <div class="warn-sure" @click="hides">确认</div>
       </div>
+    </transition>
+    <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
+    <router-view class="cover"></router-view>
     </transition>
   </div>
 
@@ -63,6 +66,19 @@
 </script>
 
 <style scoped>
+  .cover{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    overflow: scroll;
+    background-color: white;
+    z-index: 100;
+  }
+  .cover::-webkit-scrollbar{
+    display: none;
+  }
   .balancewrap {
     padding: .3rem;
     background-color: #3190e8;
@@ -84,7 +100,7 @@
     justify-content: space-between;
   }
 
-  .balancetop div:nth-child(2) {
+  .balancetopa {
     display: flex;
     align-items: center;
     color: #3190e8;
@@ -195,6 +211,9 @@
     border: 1px;
     border-radius: .15rem;
     font-weight: 200;
+  }
+  .animated {
+    -webkit-animation-duration: .5s;
   }
 </style>
 
