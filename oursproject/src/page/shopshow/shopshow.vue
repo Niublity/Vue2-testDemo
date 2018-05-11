@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Foodheader class="foodheader"></Foodheader>
+    <Foodheader :title="title" class="foodheader"></Foodheader>
     <Foodshowlist class="shopshowcenter"></Foodshowlist>
     <Footer class="footer"></Footer>
   </div>
@@ -13,10 +13,19 @@
 
   export default {
     name: "shopshow",
+    data(){
+      return{
+        title:""
+      }
+
+    },
     components: {
       Foodheader: foodheader,
       Footer: footer,
       Foodshowlist:foodshowlist
+    },
+    created(){
+      this.title=this.$route.query.title
     }
   }
 </script>

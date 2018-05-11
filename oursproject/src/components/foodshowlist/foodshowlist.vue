@@ -91,7 +91,7 @@
     data() {
       return {
         imgsss:imgsss,
-        title: "准时达",
+        title: "",
         listmenuleftshow: false,
         listmenucentershow: false,
         listmenurightshow: false,
@@ -112,11 +112,12 @@
         this.listdatamenu = response.data
         console.log(this.publicfunction.dealarray(response.data[1].image_url))
       })
+      this.title=this.$route.query.title
     },
     methods: {
       listmenuleft() {
         if (this.listmenuleftshow) {
-          this.title = "准时达"
+          this.title = this.$route.query.title
         }
         else {
           this.title = "分类"

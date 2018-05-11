@@ -24,12 +24,12 @@
       <footer class="clear-all-history" @click="clearHistory">清空所有</footer>
     </section>
     <ul class="search_record">
-      <router-link to="/home">
+      <div>
         <li v-for="record in searchRecord" @click="requireInfor(record)" v-if="record">
           <h4 class="record_title">{{record.name}}</h4>
           <p class="record_address">{{record.address}}</p>
         </li>
-      </router-link>
+      </div>
     </ul>
   </div>
 </template>
@@ -85,6 +85,7 @@
         })
       },
       requireInfor(record) {
+        console.log(record)
         if (localStorage.getItem("Record")) {
           this.Records = JSON.parse(localStorage.getItem("Record"))
         }
