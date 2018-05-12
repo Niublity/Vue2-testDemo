@@ -233,7 +233,7 @@
   .transition-box_1 {
     position: fixed;
     left: 0;
-    top: 3.3rem;
+    top: 3.52rem;
     display: flex;
     width: 100%;
     z-index: 3;
@@ -331,7 +331,7 @@
   .transition-box_2 {
     position: fixed;
     left: 0;
-    top: 3.3rem;
+    top: 3.52rem;
     z-index: 3;
   }
 
@@ -375,7 +375,7 @@
   .transition-box_3 {
     position: fixed;
     left: 0;
-    top: 3.3rem;
+    top: 3.52rem;
     width: 100%;
     z-index: 3;
     background-color: white;

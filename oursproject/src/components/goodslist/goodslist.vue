@@ -1,21 +1,28 @@
 <template>
   <div class="goodslistbody">
     <ul class="goodslist">
-      <li>
+      <li v-for="value in Infor">
         <div class="goodslist_left">
-          <img src="./img/2.jpeg" alt="">
+          <img :src="'https://elm.cangdu.org/img/'+value.image_path" alt="">
         </div>
         <div class="goodslist_right">
           <div class="goodslist_right_first">
-            <div><span>品牌</span><span>黄焖鸡米饭</span></div>
-            <div><span>保准票</span></div>
+            <div><span>品牌</span><span>{{value.name}}</span></div>
+            <div v-if="value.supports"><span v-for="mode in value.supports">{{mode.icon_name}}</span></div>
           </div>
           <div class="goodslist_right_second">
             <div class="ratescore">
-              <span>月销售106单</span>
+              <el-rate
+                v-model="value.rating"
+                disabled
+                show-score
+                text-color="#ff9900"
+                score-template="{value}">
+              </el-rate>
+              <div><span>月销售{{value.recent_order_num}}单</span></div>
             </div>
             <div>
-              <div class="trs">蜂鸟转送</div>
+              <div v-if="value.delivery_mode" class="trs">{{value.delivery_mode.text}}</div>
               <div class="ontime">准时达</div>
             </div>
           </div>
@@ -23,12 +30,12 @@
             <div>
               <span>￥20起送</span>
               <span>/</span>
-              <span>配送费约￥5</span>
+              <span>{{value.piecewise_agent_fee.tips}}</span>
             </div>
             <div>
-              <span>1453.8公里</span>
+              <span>{{value.distance}}</span>
               <span>/</span>
-              <span class="trstime">1小时5分钟</span>
+              <span class="trstime">{{value.order_lead_time}}</span>
             </div>
           </div>
         </div>
@@ -42,24 +49,28 @@
     name: "goodslist",
     data() {
       return {
-        score: 3.7,
-        Infor:[]
+        Infor: []
       }
     },
-    created(){
-
+    created() {
+      // console.log(this.$route.query.restaurant_category_id )
+      this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude+"?restaurant_category_id="+this.$route.query.restaurant_category_id ).then((response) => {
+        console.log("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude+"?restaurant_category_id="+this.$route.query.restaurant_category_id )
+        this.Infor = response.data
+      })
     }
   }
 </script>
 <style>
 
   .ratescore .el-rate {
-    /*height: 0.4rem;*/
+    /*height: 1rem;*/
+    /*line-height: 0;*/
   }
 
   .ratescore .el-rate span i {
     font-size: .4rem;
-    margin-right: 0rem;
+    margin-right: -.1rem;
   }
 
   .ratescore .el-rate .el-rate__text {
@@ -105,8 +116,19 @@
     font-family: PingFangSC-Regular;
   }
 
+  .goodslist_right_first > div:nth-child(1) span:nth-child(1) {
+    content: "\54C1\724C";
+    display: inline-block;
+    font-size: .5rem;
+    line-height: .6rem;
+    color: #333;
+    background-color: #ffd930;
+    padding: 0 .1rem;
+    border-radius: .1rem;
+    margin-right: .2rem;
+  }
+
   .goodslist_right_second {
-    /*width: 100%;*/
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -116,13 +138,14 @@
     margin-top: .52rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
-
-  .ratescore span {
+  .ratescore>div:nth-child(2){
+  }
+  .ratescore>div:nth-child(2) span {
+    margin-left: .2rem;
     font-size: 0.4rem;
-    vertical-align: baseline;
     color: #666;
-    transform: scale(.8)
   }
 
   .goodslist_right_second > div:nth-child(2) {
@@ -133,6 +156,7 @@
   }
 
   .trs {
+    font-size: .4rem;
     color: #fff;
     background-color: #3190e8;
     border: .025rem solid #3190e8;
@@ -142,6 +166,7 @@
   }
 
   .ontime {
+    font-size: .4rem;
     padding: .04rem .08rem 0;
     border-radius: .08rem;
     margin-left: .08rem;
