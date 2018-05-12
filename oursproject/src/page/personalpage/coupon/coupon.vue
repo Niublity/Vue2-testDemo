@@ -97,6 +97,7 @@
         this.$router.push({path:"/coupon/exchange"})
       },
       recommend() {
+        this.$router.push({path:"/coupon/encourage"})
       }
     },
     created() {

@@ -29,6 +29,7 @@ import IntegralDetail from "../page/personalpage/integraldetail/intergraldetail"
 import SellerDetail from "../page/personalpage/coupon/sellerdetail"
 import BalanceDetail from "../page/personalpage/balacnedetail/balancedetail"
 import Exchange from "../page/personalpage/coupon/exchangehongbao"
+import Encourage from "../page/personalpage/coupon/encourage"
 
 Vue.use(Router)
 
@@ -117,6 +118,10 @@ export default new Router({
         }, {
           path: "exchange",
           component:Exchange
+        },
+        {
+          path:"encourage",
+          component:Encourage
         }
       ]
     }, {
