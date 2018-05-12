@@ -58,24 +58,17 @@
     },
     created() {
       this.axios.get(apiguess).then((response) => {
-        // console.log(response.data);
         this.guess = response.data;
-        // console.log(this.guess.id)
       })
       this.axios.get(apihot).then((response) => {
-        // console.log(response.data);
         this.CityHots = response.data;
       });
       this.axios.get(apigroup).then((response) => {
-        //console.log(response.data);
         this.groupss = this.group(response.data)
       });
       this.$http.get(apiguess).then((response) => {
-        // console.log(response.data);
         this.guess = response.data;
         this.localnow = response.data.id;
-        // console.log(this.localnow)
-        // console.log(this.$router.params);
       })
     },
     methods: {
