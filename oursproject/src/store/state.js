@@ -6,7 +6,8 @@ let state = {
     longitude:null,
     geohash:""
   },
-  cost:0,
+  costs:0,
+  costCount:0,
   count:null,
 };
 export default state;

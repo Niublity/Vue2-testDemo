@@ -54,7 +54,7 @@
               <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
                    class="sales-logo">
               <span :href="'#'+categoty.name">{{categoty.name}}</span>
-              <span id="countred" v-if="countShow">{{count}}</span>
+              <span id="countred" v-if="countShow">0</span>
             </li>
           </ul>
           <!--商品详情-->
@@ -69,7 +69,7 @@
                 <span class="title-infor">...</span>
               </header>
               <!--内容  第二层循环 食物具体信息-->
-              <section class="waresr-list" v-for="food in cate.foods">
+              <section class="waresr-list" v-for="(food,indextwo) in cate.foods">
                 <img :src="'https://elm.cangdu.org/img/'+food.image_path" alt="" class="food-img">
                 <!--食品描述：右-->
                 <div class="food-describe">
@@ -92,13 +92,16 @@
                     </p>
                     <div v-if="food.specfoods.length==1" class="reduce-plus">
                       <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
-                        <div v-show="countShow" class="countreduce" @click="reduceFood">-</div>
+                        <div v-if="counts[indextwo]" v-show="counts[indextwo].showCounts" class="countreduce"
+                             @click="reduceFood(index,indextwo,$event)" ref="reducee">-
+                        </div>
                       </transition>
-                      <span v-show="countShow">{{count}}</span>
-                      <div class="countplus" @click="addFood">+</div>
+                      <span v-if="counts[indextwo]"
+                            v-show="counts[indextwo].showCounts">{{counts[indextwo].count}}</span>
+                      <div class="countplus" ref="bbb" @click="addFood(index,indextwo,food)">+</div>
                     </div>
 
-                    <div v-else class="choose-size" @click="showInfor(food.specfoods)">
+                    <div v-else class="choose-size" ref="bbb reducee"  @click="showInfor(food.specfoods)">
                       选规格
                     </div>
                     <div v-if="showchoosesize" class="choose-box">
@@ -208,10 +211,10 @@
       <div class="footer-con">
         <div class="carico">
           <img src="./img/shopcar.png" alt="">
-          <span id="countred-car" v-if="countShow">{{count}}</span>
+          <span id="countred-car" v-if="countShow">{{$store.state.costCount}}</span>
         </div>
         <div class="car_num">
-          <p>￥0.00</p>
+          <p>￥<span>{{$store.state.costs}}</span>.00</p>
           <p>配送费5￥</p>
         </div>
         <div :class="countShow? 'toPays':'missingmoney'">
@@ -233,7 +236,8 @@
     name: "shopcar",
     data() {
       return {
-        count: 0,
+
+        counts: [],
         countShow: false,
         toPay: "还差￥20起送",
         rating: 5,
@@ -260,7 +264,7 @@
 
       //评价信息
       this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings?offset=0&limit=10").then((response) => {
-        console.log(response.data);
+
         this.evaDetails = response.data;
       })
       //评价分数
@@ -276,14 +280,18 @@
       })
       //购物车
       this.$http.get("http://cangdu.org:8001/shopping/getcategory/1").then((response) => {
+        // console.log(response.data);
         this.categotyList = response.data.category_list;
         this.$nextTick(() => {
           if (this.$refs.aaa.childNodes[0].offsetTop == this.$refs.aaa.scrollTop) {
             this.$refs.nav[0].classList.add("active")
           }
-        })
+          for (var j = 0; j < this.$refs.bbb.length; j++) {
+            this.counts.push({count: 0, showCounts: false})
+          }
+          // console.log(this.counts)
+        });
       });
-
     },
     mounted() {
       this.$refs.aaa.addEventListener('scroll', this.handleScroll)
@@ -331,9 +339,6 @@
           }
         }
       },
-      // classifytxt() {
-      //   this.classifys = 'classifyClick'
-      // },
       myClick($event) {
         var bgs = $event.currentTarget
         for (var i = 0; i < bgs.parentNode.childNodes.length; i++) {
@@ -343,21 +348,39 @@
         $event.currentTarget.style.background = "#3190e8"
         $event.currentTarget.style.color = "#fff"
       },
-      addFood() {
+      addFood(index, indextwo, food) {
+        // console.log(food.specfoods[0].price)
+        //购物车总价显示
         this.countShow = true
-        setTimeout(() => {
-          this.count++;
-        }, 10)
+        this.counts[indextwo].showCounts = true
+        this.counts[indextwo].count++;
         this.toPay = "去结算"
-
+        console.log(index);
+        console.log(indextwo);
+        //触发costsSum 仓库状态改变，
+        this.$store.commit('costsSum', food.specfoods[0].price)
       },
-      reduceFood() {
-        if (this.count == 1) {
+      reduceFood(index, indextwo,$event) {
+        // console.log(this.counts[indextwo])
+        //购物车
+        if (this.$store.state.costCount == 1) {
           this.countShow = false
-          this.count = 0
+          this.$store.state.costCount = 0
+          this.$store.state.costs = 0
           this.toPay = "还差￥20起送"
         } else {
-          this.count--
+          this.$store.commit('costsSumReduce', 20)
+
+        }
+        console.log($event.currentTarget.parentNode.childNodes)
+        // console.log(this.$refs.reducee[indextwo])
+        if (this.counts[indextwo].count == 1) {
+          this.counts[indextwo].count = 0
+          console.log("156w45456")
+          $event.currentTarget.parentNode.childNodes[0].style.display="none"
+          $event.currentTarget.parentNode.childNodes[2].style.display="none"
+        } else if (this.counts[indextwo].count >0) {
+          this.counts[indextwo].count--
         }
       }
     }
