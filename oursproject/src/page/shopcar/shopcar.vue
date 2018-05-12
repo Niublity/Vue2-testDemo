@@ -163,7 +163,8 @@
           </header>
           <section>
             <ul class="evaclassify-con">
-              <li v-for="eva in evaluateClassifys" @click="classifytxt" :class="classifys">
+              <li v-for="eva in evaluateClassifys" :class="eva.name=='不满意'? 'classifyUnsatisfy':''"
+                  @click='myClick($event)'>
                 <span>{{eva.name}}</span><span>({{eva.count}})</span>
               </li>
             </ul>
@@ -256,7 +257,8 @@
       Header: header
     },
     created() {
-      //请假信息
+
+      //评价信息
       this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings?offset=0&limit=10").then((response) => {
         console.log(response.data);
         this.evaDetails = response.data;
@@ -329,22 +331,30 @@
           }
         }
       },
-      classifytxt() {
-        this.classifys = 'classifyClick'
+      // classifytxt() {
+      //   this.classifys = 'classifyClick'
+      // },
+      myClick($event) {
+        var bgs = $event.currentTarget
+        for (var i = 0; i < bgs.parentNode.childNodes.length; i++) {
+          bgs.parentNode.childNodes[i].style.background = ""
+          bgs.parentNode.childNodes[i].style.color = ""
+        }
+        $event.currentTarget.style.background = "#3190e8"
+        $event.currentTarget.style.color = "#fff"
       },
       addFood() {
         this.countShow = true
-        setTimeout(()=>{
+        setTimeout(() => {
           this.count++;
-        },10)
-
-          this.toPay = "去结算"
+        }, 10)
+        this.toPay = "去结算"
 
       },
       reduceFood() {
         if (this.count == 1) {
           this.countShow = false
-          this.count=0
+          this.count = 0
           this.toPay = "还差￥20起送"
         } else {
           this.count--
@@ -373,12 +383,13 @@
   }
 </style>
 <style scope>
-/*添加购物车动画*/
+  /*添加购物车动画*/
 
-.animated{
-  -webkit-animation-delay: .01s;
-  -webkit-animation-duration: .6s;
-}
+  .animated {
+    -webkit-animation-delay: .01s;
+    -webkit-animation-duration: .6s;
+  }
+
   /*红色count*/
   #countred-car {
     position: absolute;
@@ -500,11 +511,10 @@
 
   /*正常*/
   .classifyClick {
-    background-color: #3190e8;
-    color: #fff;
+    color: #fff !important;
   }
 
-  .classifyUnsatisfy {
+  .evaclassify-con .classifyUnsatisfy {
     background-color: #f5f5f5;
     color: #aaa;
   }
