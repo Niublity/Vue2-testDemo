@@ -1,6 +1,8 @@
 <template>
   <div class="shopcarbody">
-    <div class="specs-cover" v-show="showChoose"></div>
+    <transition name="cover">
+      <div class="specs-cover" v-show="showChoose" @click="hideShowFoodList"></div>
+    </transition>
     <Header class="shopcar_line" :title="title"></Header>
     <!--购物车中心界面-->
     <div class="shopcar_center">
@@ -51,10 +53,12 @@
           <ul class="wares-left">
             <li v-for="(categoty,index) in categotyList" ref="nav" class="left-li"
                 @click="foodclass(index,$event)">
-              <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
+              <img v-if="categoty.icon_url!=''"
+                   :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
                    class="sales-logo">
               <span :href="'#'+categoty.name">{{categoty.name}}</span>
-              <span id="countred" v-if="countShow">0</span>
+              <span id="countred" v-if="countss[index]"
+                    v-show="countss[index].showCounts">{{countss[index].count}}</span>
             </li>
           </ul>
           <!--商品详情-->
@@ -101,7 +105,7 @@
                       <div class="countplus" ref="bbb" @click="addFood(index,indextwo,food)">+</div>
                     </div>
 
-                    <div v-else class="choose-size" ref="bbb reducee"  @click="showInfor(food.specfoods)">
+                    <div v-else class="choose-size" ref="bbb reducee" @click="showInfor(food.specfoods)">
                       选规格
                     </div>
                     <div v-if="showchoosesize" class="choose-box">
@@ -209,7 +213,7 @@
 
     <div class="shopcar_footer" v-if="!showEvaluate">
       <div class="footer-con">
-        <div class="carico">
+        <div :class="countShow? 'blue':'carico'" @click="showCarFoodList">
           <img src="./img/shopcar.png" alt="">
           <span id="countred-car" v-if="countShow">{{$store.state.costCount}}</span>
         </div>
@@ -221,7 +225,33 @@
           <span>{{toPay}}</span>
         </div>
       </div>
+
     </div>
+    <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
+      <ul class="car-foodlist" v-show="showCarFood">
+        <div class="foodlist-top">
+          <span>购物车</span>
+          <p>
+            <img src="./img/detele.png" alt="">
+            <span>清空</span>
+          </p>
+        </div>
+        <ul>
+          <li class="foodlist-content">
+            <p>食品名字</p>
+            <p class="car-price"><span>￥</span><span>20</span></p>
+            <div class="reduce-plus">
+              <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
+                <div class="countreduce">-</div>
+              </transition>
+              <span>0</span>
+              <div class="countplus">+</div>
+            </div>
+          </li>
+        </ul>
+      </ul>
+    </transition>
+    <!--</div>-->
   </div>
 </template>
 
@@ -236,7 +266,8 @@
     name: "shopcar",
     data() {
       return {
-
+        showCarFood: false,
+        countss: [],
         counts: [],
         countShow: false,
         toPay: "还差￥20起送",
@@ -289,10 +320,14 @@
           for (var j = 0; j < this.$refs.bbb.length; j++) {
             this.counts.push({count: 0, showCounts: false})
           }
+          for (var j = 0; j < this.categotyList.length; j++) {
+            this.countss.push({count: 0, showCounts: false})
+          }
           // console.log(this.counts)
         });
       });
     },
+
     mounted() {
       this.$refs.aaa.addEventListener('scroll', this.handleScroll)
     },
@@ -349,19 +384,22 @@
         $event.currentTarget.style.color = "#fff"
       },
       addFood(index, indextwo, food) {
-        // console.log(food.specfoods[0].price)
         //购物车总价显示
         this.countShow = true
         this.counts[indextwo].showCounts = true
         this.counts[indextwo].count++;
+        this.countss[index].showCounts = true
+        this.countss[index].count++;
+        //console.log(this.countss)
         this.toPay = "去结算"
         console.log(index);
         console.log(indextwo);
+        console.log(food.name);
+        console.log(this.counts[indextwo].count)
         //触发costsSum 仓库状态改变，
-        this.$store.commit('costsSum', food.specfoods[0].price)
+        this.$store.commit('costsSum', food.specfoods[0].price,food.name,this.counts[indextwo].count)
       },
-      reduceFood(index, indextwo,$event) {
-        // console.log(this.counts[indextwo])
+      reduceFood(index, indextwo, $event) {
         //购物车
         if (this.$store.state.costCount == 1) {
           this.countShow = false
@@ -370,18 +408,24 @@
           this.toPay = "还差￥20起送"
         } else {
           this.$store.commit('costsSumReduce', 20)
-
         }
-        console.log($event.currentTarget.parentNode.childNodes)
-        // console.log(this.$refs.reducee[indextwo])
         if (this.counts[indextwo].count == 1) {
           this.counts[indextwo].count = 0
-          console.log("156w45456")
-          $event.currentTarget.parentNode.childNodes[0].style.display="none"
-          $event.currentTarget.parentNode.childNodes[2].style.display="none"
-        } else if (this.counts[indextwo].count >0) {
+          // console.log("156w45456")
+          this.counts[indextwo].showCounts = false
+        }
+        if (this.counts[indextwo].count > 0) {
           this.counts[indextwo].count--
         }
+
+      },
+      showCarFoodList() {
+        this.showCarFood = !this.showCarFood
+        this.showChoose = !this.showChoose
+      },
+      hideShowFoodList(){
+        this.showCarFood = false
+        this.showChoose = false
       }
     }
 
@@ -408,9 +452,12 @@
 <style scope>
   /*添加购物车动画*/
 
-  .animated {
+  .fadeInRight {
     -webkit-animation-delay: .01s;
     -webkit-animation-duration: .6s;
+  }
+  .fadeInUp,.fadeOutDown{
+    -webkit-animation-duration: .5s;
   }
 
   /*红色count*/
@@ -440,6 +487,19 @@
     box-sizing: border-box;
     border: .025rem solid #ff461d;
   }
+  /*蒙板*/
+  .specs-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .4);
+    z-index: 103;
+  }
+  /*.cover-enter-active, .cover-leave-active{*/
+  /*opacity: 0.5;*/
+  /*}*/
 
   /*评价界面*/
   .evaluate {
@@ -637,16 +697,7 @@
     position: relative;
   }
 
-  /*蒙板*/
-  .specs-cover {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(0, 0, 0, .4);
-    z-index: 103;
-  }
+
 
   /*nav*/
   .shopcar_line {
@@ -880,6 +931,7 @@
   }
 
   .wares-left .left-li {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1079,13 +1131,15 @@
   }
 
   .food-price span:nth-of-type(1),
-  .specs-price span:nth-of-type(1) {
+  .specs-price span:nth-of-type(1),
+  .car-price span:nth-of-type(1) {
     font-size: .5rem;
     color: #f60;
   }
 
   .food-price span:nth-of-type(2),
-  .specs-price span:nth-of-type(2) {
+  .specs-price span:nth-of-type(2),
+  .car-price span:nth-of-type(2) {
     font-size: .7rem;
     color: #f60;
     font-weight: 700;
@@ -1247,24 +1301,33 @@
   }
 
   /*footer*/
+  .footerlist {
+    height: 2rem;
+    position: relative;
+  }
+
   .shopcar_footer {
     color: white;
     position: fixed;
     bottom: 0;
-    z-index: 100;
+    z-index: 120;
     width: 100%;
     height: 2rem;
     background-color: #3d3d3f;
   }
 
-  .shopcar_footer > div {
+  /*.shopcar_footer > div {*/
+  /**/
+  /*}*/
+
+  .footer-con {
     width: 100%;
     height: 100%;
     position: relative;
+    z-index: 300;
   }
 
-  .carico {
-    background-color: #3d3d3f;
+  .footer-con div:nth-of-type(1) {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1274,9 +1337,19 @@
     position: absolute;
     left: .5rem;
     bottom: .5rem;
+    border: .18rem solid #444;
+    box-sizing: border-box;
   }
 
-  .carico > img {
+  .carico {
+    background-color: #3d3d3f;
+  }
+
+  .blue {
+    background-color: #3190e8;
+  }
+
+  .footer-con div:nth-of-type(1) > img {
     width: 1.2rem;
   }
 
@@ -1322,5 +1395,59 @@
     font-size: .62rem;
     color: #fff;
     font-weight: 200;
+  }
+
+  .car-foodlist {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 2rem;
+    z-index: 104;
+    background-color: #fff;
+    color: #666;
+    padding-bottom: .4rem;
+  }
+
+  .foodlist-top {
+    background-color: #eceff1;
+    display: flex;
+    justify-content: space-between;
+    padding: .3rem .6rem;
+  }
+
+  .foodlist-top span {
+    color: #666;
+    font-weight: 200;
+  }
+
+  .foodlist-top span:nth-of-type(1) {
+    font-size: .7rem;
+  }
+
+  .foodlist-top p:nth-of-type(1) span {
+    font-size: .6rem;
+  }
+
+  .foodlist-top p:nth-of-type(1) img {
+    width: .7rem;
+    height: .7rem;
+    vertical-align: middle;
+  }
+
+  .foodlist-content {
+    display: flex;
+    justify-content: space-between;
+    padding: .6rem .5rem;
+  }
+
+  .foodlist-content p:nth-of-type(1) {
+    width: 55%;
+    font-size: .7rem;
+    color: #666;
+    /*font-weight: 200;*/
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>
