@@ -198,7 +198,7 @@
                 </p>
                 <ul class="detail-img">
                   <li v-for="fooddetail in evadetail.item_ratings">
-                    <img :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(fooddetail.image_hash)" alt="">
+                    <img v-if="fooddetail.image_hash!=''"  :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(fooddetail.image_hash)" alt="">
                   </li>
                 </ul>
                 <ul class="detail-foodname">
@@ -274,7 +274,7 @@
         rating: 5,
         value1: null,
         value2: null,
-        title: "购物车",
+        title: "店家详情",
         pic: {next, bgimg, close},
         showWares: true,
         showEvaluate: false,
@@ -295,23 +295,23 @@
     created() {
 
       //评价信息
-      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings?offset=0&limit=10").then((response) => {
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/"+this.$route.query.id+"/ratings?offset=0&limit=10").then((response) => {
 
         this.evaDetails = response.data;
       })
       //评价分数
-      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings/scores").then((response) => {
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/"+this.$route.query.id+"/ratings/scores").then((response) => {
         //console.log(typeof parseInt(response.data.service_score.toFixed(1)));
         this.value1 = Number(response.data.service_score.toFixed(1))
         this.value2 = Number(response.data.food_score.toFixed(1))
       })
       //评价分类
-      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/1/ratings/tags").then((response) => {
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/"+this.$route.query.id+"/ratings/tags").then((response) => {
         //console.log(response.data)
         this.evaluateClassifys = response.data
       })
       //购物车
-      this.$http.get("http://cangdu.org:8001/shopping/getcategory/1").then((response) => {
+      this.$http.get("http://cangdu.org:8001/shopping/getcategory/"+this.$route.query.id).then((response) => {
         // console.log(response.data);
         this.categotyList = response.data.category_list;
         this.$nextTick(() => {
