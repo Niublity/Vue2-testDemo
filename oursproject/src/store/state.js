@@ -11,6 +11,6 @@ let state = {
   costCount: 0,
   count: null,
   shopCarList:[],
-  foodindex: 0
+  foodindex: 0,
 };
 export default state;

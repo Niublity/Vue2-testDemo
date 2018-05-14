@@ -242,10 +242,10 @@
             <p class="car-price"><span>￥</span><span>{{list.price}}</span></p>
             <div class="reduce-plus">
               <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-                <div class="countreduce">-</div>
+                <div class="countreduce" @click="shopCarDataR(list)">-</div>
               </transition>
               <span>{{list.count}}</span>
-              <div class="countplus">+</div>
+              <div class="countplus" @click="shopCarDataAdd(list)">+</div>
             </div>
           </li>
         </ul>
@@ -414,7 +414,10 @@
           this.$store.state.costs = 0
           this.toPay = "还差￥20起送"
         } else {
-          this.$store.commit('costsSumReduce', 20)
+          this.$store.commit('costsSumReduce',{
+            name:food.name,
+            price:food.specfoods[0].price
+          })
         }
         if (this.counts[indextwo].count == 1) {
           this.counts[indextwo].count = 0
@@ -433,6 +436,13 @@
       hideShowFoodList(){
         this.showCarFood = false
         this.showChoose = false
+      },
+      shopCarDataAdd(list){
+        console.log(list)
+        this.$store.commit("shopCarDataAdd",list)
+      },
+      shopCarDataR(list){
+        console.log(list);
       }
     }
 
