@@ -20,7 +20,8 @@
           <div class="leftshowulL">
             <ul>
               <li v-for="(value,index) in listdatamenu" @click="detail(value,index,$event)">
-                <div><img v-if="index!=0" :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(value.image_url)" alt=""><span>{{value.name}}</span>
+                <div><img v-if="index!=0"
+                          :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(value.image_url)" alt=""><span>{{value.name}}</span>
                 </div>
                 <div><span>{{value.count}}</span><img v-if="index!=0" src="./img/4.png" alt=""></div>
               </li>
@@ -28,7 +29,8 @@
           </div>
           <div class="leftshowulR">
             <ul class="leftshowulR_inner">
-              <li v-for="details in detaillist"><span>{{details.name}}</span><span>{{details.count}}</span></li>
+              <li v-for="details in detaillist" @click="rightdetail(details.id,details.name)">
+                <span>{{details.name}}</span><span>{{details.count}}</span></li>
             </ul>
           </div>
         </div>
@@ -36,22 +38,22 @@
       <transition name="el-zoom-in-top">
         <div v-show="listmenucentershow" class="transition-box transition-box_2">
           <ul>
-            <li @click="rightmark=!rightmark">
+            <li @click="rightmarkaa(4)">
               <img src="./img/5.png" alt="">
               <p>
                 智能排序
                 <img v-show="rightmark" src="./img/11.png" alt="">
               </p>
             </li>
-            <li><img src="./img/6.png" alt="">
+            <li @click="rightmarkaa(5)"><img src="./img/6.png" alt="">
               <p>距离最近</p></li>
-            <li><img src="./img/9.png" alt="">
+            <li @click="rightmarkaa(6)"><img src="./img/9.png" alt="">
               <p>销量最高</p></li>
-            <li><img src="./img/8.png" alt="">
+            <li @click="rightmarkaa(1)"><img src="./img/8.png" alt="">
               <p>起送价最低</p></li>
-            <li><img src="./img/7.png" alt="">
+            <li @click="rightmarkaa(2)"><img src="./img/7.png" alt="">
               <p>配送速度更快</p></li>
-            <li><img src="./img/10.png" alt="">
+            <li @click="rightmarkaa(3)"><img src="./img/10.png" alt="">
               <p>评分最高</p></li>
           </ul>
         </div>
@@ -80,7 +82,7 @@
         </div>
       </transition>
     </div>
-    <Goodslist class="Goodslist"></Goodslist>
+    <Goodslist class="Goodslist" ref="foodlist"></Goodslist>
     <div v-bind:class="{covermask:iscovermask}"></div>
   </div>
 </template>
@@ -110,7 +112,7 @@
     created() {
       let api = "http://cangdu.org:8001/shopping/v2/restaurant/category"
       this.$http.get(api).then((response) => {
-        // console.log(response.data)
+        console.log(response.data)
         this.listdatamenu = response.data
       })
       this.title = this.$route.query.title
@@ -161,7 +163,7 @@
         }
       },
       detail(x, index, $event) {
-        console.log(index)
+        // console.log(index)
         if (index == 0) {
           return
         }
@@ -169,10 +171,21 @@
         for (let i = 0; i < el.parentElement.children.length; i++) {
           el.parentElement.children[i].className = ""
         }
+        console.log(this.detaillist)
+        this.$store.commit("setFoodindex",x.id)
         this.detaillist = x.sub_categories
         el.className = "backgroundactive"
       },
-      rightmarkaa(){
+      rightmarkaa(index) {
+        this.$store.commit("setSort", {index})
+        this.$refs.foodlist.getclicksort()
+      },
+      rightdetail(index, name) {
+        this.title = name
+        this.$store.commit("setFoodindex", {index})
+        this.$refs.foodlist.getclickInfo()
+        this.listmenuleftshow = !this.listmenuleftshow
+        this.iscovermask = false
 
       }
     }

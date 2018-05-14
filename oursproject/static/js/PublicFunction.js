@@ -84,8 +84,8 @@ function jump(index, localposition) {
           localposition.scrollTop = localposition.childNodes[index].offsetTop
           clearInterval(timer1)
         }
-      }, 50)
-    }, 100)
+      }, 20)
+    }, 200)
   }
   else if (X < Y) {
     setTimeout(() => {
@@ -101,8 +101,8 @@ function jump(index, localposition) {
           localposition.scrollTop = localposition.childNodes[index].offsetTop
           clearInterval(timer1)
         }
-      }, 50)
-    }, 100)
+      }, 20)
+    }, 200)
   }
 }
 
