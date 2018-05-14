@@ -11,7 +11,7 @@ let mutations = {
     state.city.sort = num
   },
   setFoodindex(state,num){
-    console.log(num)
+    // console.log(num)
     state.foodindex = num
   },
   costsSum(state,costsParam){

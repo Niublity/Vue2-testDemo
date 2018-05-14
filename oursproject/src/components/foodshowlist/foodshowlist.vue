@@ -82,7 +82,7 @@
         </div>
       </transition>
     </div>
-    <Goodslist class="Goodslist" ref="foodlist"></Goodslist>
+    <Goodslist class="Goodslist" ref="foodlist" :Infor="Infor"></Goodslist>
     <div v-bind:class="{covermask:iscovermask}"></div>
   </div>
 </template>
@@ -102,7 +102,8 @@
         rightmark: false,
         iscovermask: false,
         listdatamenu: "",
-        detaillist: ""
+        detaillist: "",
+        Infor: []
 
       }
     },
@@ -112,12 +113,14 @@
     created() {
       let api = "http://cangdu.org:8001/shopping/v2/restaurant/category"
       this.$http.get(api).then((response) => {
-        console.log(response.data)
         this.listdatamenu = response.data
       })
+      this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_id=" + this.$route.query.restaurant_category_id).then((response) => {
+        console.log(response.data)
+        this.Infor = response.data
+      })
       this.title = this.$route.query.title
-      // console.log(this.title)
-      // this.detail()
+
     },
     methods: {
       listmenuleft() {
@@ -163,7 +166,6 @@
         }
       },
       detail(x, index, $event) {
-        // console.log(index)
         if (index == 0) {
           return
         }
@@ -171,19 +173,34 @@
         for (let i = 0; i < el.parentElement.children.length; i++) {
           el.parentElement.children[i].className = ""
         }
-        console.log(this.detaillist)
-        this.$store.commit("setFoodindex",x.id)
+        console.log(x.id)
+        this.$store.commit("setFoodindex", x.id)
         this.detaillist = x.sub_categories
         el.className = "backgroundactive"
       },
+      //排序
       rightmarkaa(index) {
         this.$store.commit("setSort", {index})
-        this.$refs.foodlist.getclicksort()
+        if (this.$store.state.foodindex.index) {
+          // 小列表排序
+          this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index + "&order_by=" + this.$store.state.city.sort.index).then((response) => {
+            console.log("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index + "&order_by=" + this.$store.state.city.sort.index)
+            console.log(response.data)
+            this.Infor = response.data
+          })
+        } else {
+          //大列表排序
+          this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_id=" + this.$route.query.restaurant_category_id + "&order_by=" + index).then((response) => {
+            this.Infor = response.data
+          })
+        }
       },
       rightdetail(index, name) {
         this.title = name
         this.$store.commit("setFoodindex", {index})
-        this.$refs.foodlist.getclickInfo()
+        this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index).then((response) => {
+          this.Infor = response.data
+        })
         this.listmenuleftshow = !this.listmenuleftshow
         this.iscovermask = false
 

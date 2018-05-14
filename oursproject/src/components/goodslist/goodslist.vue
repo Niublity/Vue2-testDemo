@@ -2,43 +2,45 @@
   <div class="goodslistbody">
     <ul class="goodslist">
       <li v-for="value in Infor">
-        <div class="goodslist_left">
-          <img :src="'https://elm.cangdu.org/img/'+value.image_path" alt="">
-        </div>
-        <div class="goodslist_right">
-          <div class="goodslist_right_first">
-            <div><span>品牌</span><span>{{value.name}}</span></div>
-            <div v-if="value.supports"><span v-for="mode in value.supports">{{mode.icon_name}}</span></div>
+        <router-link :to="{name:'Shopcar',query:{id:value.id}}">
+          <div class="goodslist_left">
+            <img :src="'https://elm.cangdu.org/img/'+value.image_path" alt="">
           </div>
-          <div class="goodslist_right_second">
-            <div class="ratescore">
-              <el-rate
-                v-model="value.rating"
-                disabled
-                show-score
-                text-color="#ff9900"
-                score-template="{value}">
-              </el-rate>
-              <div><span>月销售{{value.recent_order_num}}单</span></div>
+          <div class="goodslist_right">
+            <div class="goodslist_right_first">
+              <div><span>品牌</span><span>{{value.name}}</span></div>
+              <div v-if="value.supports"><span v-for="mode in value.supports">{{mode.icon_name}}</span></div>
             </div>
-            <div>
-              <div v-if="value.delivery_mode" class="trs">{{value.delivery_mode.text}}</div>
-              <div class="ontime">准时达</div>
+            <div class="goodslist_right_second">
+              <div class="ratescore">
+                <el-rate
+                  v-model="value.rating"
+                  disabled
+                  show-score
+                  text-color="#ff9900"
+                  score-template="{value}">
+                </el-rate>
+                <div><span>月销售{{value.recent_order_num}}单</span></div>
+              </div>
+              <div>
+                <div v-if="value.delivery_mode" class="trs">{{value.delivery_mode.text}}</div>
+                <div class="ontime">准时达</div>
+              </div>
+            </div>
+            <div class="goodslist_right_third">
+              <div>
+                <span>￥20起送</span>
+                <span>/</span>
+                <span>{{value.piecewise_agent_fee.tips}}</span>
+              </div>
+              <div>
+                <span>{{value.distance}}</span>
+                <span>/</span>
+                <span class="trstime">{{value.order_lead_time}}</span>
+              </div>
             </div>
           </div>
-          <div class="goodslist_right_third">
-            <div>
-              <span>￥20起送</span>
-              <span>/</span>
-              <span>{{value.piecewise_agent_fee.tips}}</span>
-            </div>
-            <div>
-              <span>{{value.distance}}</span>
-              <span>/</span>
-              <span class="trstime">{{value.order_lead_time}}</span>
-            </div>
-          </div>
-        </div>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -47,45 +49,19 @@
 <script>
   export default {
     name: "goodslist",
+    props: ["Infor"],
     data() {
-      return {
-        Infor: []
-      }
+      return {}
     },
     created() {
-      // console.log(this.$route.query.restaurant_category_id )
-      this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude).then((response) => {
-        // console.log(response.data)
-        this.Infor = response.data
-      })
     },
-    methods: {
-      //  获取点击标签的信息
-      getclickInfo() {
-        this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index).then((response) => {
-          console.log(response.data)
-          this.Infor = response.data
-        })
-
-      },
-      //获取排序
-      getclicksort() {
-        this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index + "&order_by="+this.$store.state.city.sort.index).then((response) => {
-          console.log("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index + "&order_by="+this.$store.state.city.sort.index)
-          console.log(response.data)
-          // this.Infor = response.data
-        })
-      }
-    }
+    methods: {}
 
 
   }
 </script>
 <style>
-
   .ratescore .el-rate {
-    /*height: 1rem;*/
-    /*line-height: 0;*/
   }
 
   .ratescore .el-rate span i {
@@ -103,7 +79,7 @@
     padding-bottom: 1.95rem;
   }
 
-  .goodslist li {
+  .goodslist li a{
     padding: .7rem .4rem;
     display: flex;
     justify-content: space-between;
@@ -146,6 +122,17 @@
     padding: 0 .1rem;
     border-radius: .1rem;
     margin-right: .2rem;
+  }
+  .goodslist_right_first > div:nth-child(1) span:nth-child(2) {
+    color: #333;
+  }
+  .goodslist_right_first > div:nth-child(2) span {
+    font-size: .5rem;
+    color: #999;
+    border: .025rem solid #f1f1f1;
+    padding: 0 .04rem;
+    border-radius: .08rem;
+    margin-left: .05rem;
   }
 
   .goodslist_right_second {
