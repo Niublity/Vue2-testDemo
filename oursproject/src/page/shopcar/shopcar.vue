@@ -97,7 +97,7 @@
                     <div v-if="food.specfoods.length==1" class="reduce-plus">
                       <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
                         <div v-if="counts[indextwo]" v-show="counts[indextwo].showCounts" class="countreduce"
-                             @click="reduceFood(index,indextwo,$event)" ref="reducee">-
+                             @click="reduceFood(index,indextwo,food)" ref="reducee">-
                         </div>
                       </transition>
                       <span v-if="counts[indextwo]"
@@ -228,7 +228,7 @@
 
     </div>
     <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-      <ul class="car-foodlist" v-show="showCarFood">
+      <section class="car-foodlist" v-show="showCarFood">
         <div class="foodlist-top">
           <span>购物车</span>
           <p>
@@ -236,20 +236,20 @@
             <span>清空</span>
           </p>
         </div>
-        <ul>
-          <li class="foodlist-content">
-            <p>食品名字</p>
-            <p class="car-price"><span>￥</span><span>20</span></p>
+        <ul class="foodlist-container">
+          <li class="foodlist-content" v-for="list in shopCarList">
+            <p>{{list.name}}</p>
+            <p class="car-price"><span>￥</span><span>{{list.price}}</span></p>
             <div class="reduce-plus">
               <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
                 <div class="countreduce">-</div>
               </transition>
-              <span>0</span>
+              <span>{{list.count}}</span>
               <div class="countplus">+</div>
             </div>
           </li>
         </ul>
-      </ul>
+      </section>
     </transition>
     <!--</div>-->
   </div>
@@ -285,7 +285,8 @@
         isActive: "",
         classifys: 'classifyNormal',
         evaluateClassifys: [],
-        evaDetails: []
+        evaDetails: [],
+        shopCarList:[]
       }
     },
     components: {
@@ -390,16 +391,22 @@
         this.counts[indextwo].count++;
         this.countss[index].showCounts = true
         this.countss[index].count++;
-        //console.log(this.countss)
         this.toPay = "去结算"
-        console.log(index);
-        console.log(indextwo);
-        console.log(food.name);
-        console.log(this.counts[indextwo].count)
+        // console.log(index);
+        // console.log(indextwo);
         //触发costsSum 仓库状态改变，
-        this.$store.commit('costsSum', food.specfoods[0].price,food.name,this.counts[indextwo].count)
+        this.$store.commit('costsSum',{
+          name:food.name,
+          count:this.counts[indextwo].count,
+          price:food.specfoods[0].price
+        });
+        // console.log(this.$store.state.shopCarList)
+        this.shopCarList=this.$store.state.shopCarList
       },
-      reduceFood(index, indextwo, $event) {
+      reduceFood(index, indextwo, food) {
+        console.log(food.name);
+        console.log(food.specfoods[0].price)
+        console.log(this.counts[indextwo].count)
         //购物车
         if (this.$store.state.costCount == 1) {
           this.countShow = false
@@ -411,12 +418,12 @@
         }
         if (this.counts[indextwo].count == 1) {
           this.counts[indextwo].count = 0
-          // console.log("156w45456")
           this.counts[indextwo].showCounts = false
         }
         if (this.counts[indextwo].count > 0) {
           this.counts[indextwo].count--
         }
+
 
       },
       showCarFoodList() {
@@ -1406,6 +1413,13 @@
     background-color: #fff;
     color: #666;
     padding-bottom: .4rem;
+  }
+  .foodlist-container{
+    max-height: 16.85rem;
+    overflow: scroll;
+  }
+  .foodlist-container::-webkit-scrollbar{
+    display: none;
   }
 
   .foodlist-top {

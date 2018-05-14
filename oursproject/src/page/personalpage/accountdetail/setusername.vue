@@ -3,12 +3,12 @@
     <Header :title="title"></Header>
     <section id="setusername1">
       <section class="setusername">
-        <input type="text" placeholder="请输入用户名" v-model="username" :class="justify?'normal':'warninput'">
-        <p  :class="[justify?'normal':'warn']">用户名只能修改一次（5-24字符之间）</p>
+        <input type="text" placeholder="请输入用户名" v-model="username" :class="justify?'normal':'warninput'" ref="redInput">
+        <p :class="[justify?'normal':'warn']" ref="red">用户名只能修改一次（5-24字符之间）</p>
       </section>
       <section>
         <div class="sure-set">
-          <button class="sureset-btn">确认修改</button>
+          <button class="sureset-btn" @click="emptyJudge">确认修改</button>
         </div>
       </section>
     </section>
@@ -26,9 +26,22 @@
         username: "",
       }
     },
-    computed:{
+    methods: {
+      emptyJudge() {
+        if (this.username == "") {
+          this.$refs.red.className = "warn"
+          this.$refs.redInput.className = "warninput"
+        }
+        // else {
+        //   this.$refs.red.style.color = ""
+        //   this.$refs.redInput.style.borderColor = ""
+        // }
+      }
+
+    },
+    computed: {
       justify() {
-        if (this.username==''){
+        if (this.username == '') {
           return true
         } else {
           return this.username.search(/^[\w\W]{5,24}$/i) + 1;
@@ -68,20 +81,19 @@
   }
 
   .normal {
-    color: #666;
+    color: #666 !important;
   }
 
   .warn {
-    color: #ea3106 ;
+    color: #ea3106;
   }
 
-  .normal:focus {
-    border-color: #ddd;
+  .normal{
+    border-color: #ddd !important;
   }
 
-  .warninput:focus {
-    border-color: #ea3106;
-
+  .warninput {
+    border-color: #ea3106 !important;
   }
 
   .setusername p {
