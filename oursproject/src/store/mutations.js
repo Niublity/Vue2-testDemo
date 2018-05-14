@@ -6,6 +6,14 @@ let mutations = {
     state.city.latitude = obj.record.latitude
     state.city.longitude = obj.record.longitude
   },
+  setSort(state,num){
+    // console.log("+++++++")
+    state.city.sort = num
+  },
+  setFoodindex(state,num){
+    console.log(num)
+    state.foodindex = num
+  },
   costsSum(state,costsParam){
     state.costCount+=1
     //配送总价

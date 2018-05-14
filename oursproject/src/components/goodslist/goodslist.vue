@@ -54,11 +54,31 @@
     },
     created() {
       // console.log(this.$route.query.restaurant_category_id )
-      this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude+"?restaurant_category_id="+this.$route.query.restaurant_category_id ).then((response) => {
-        console.log("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude+"?restaurant_category_id="+this.$route.query.restaurant_category_id )
+      this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude).then((response) => {
+        // console.log(response.data)
         this.Infor = response.data
       })
+    },
+    methods: {
+      //  获取点击标签的信息
+      getclickInfo() {
+        this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index).then((response) => {
+          console.log(response.data)
+          this.Infor = response.data
+        })
+
+      },
+      //获取排序
+      getclicksort() {
+        this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index + "&order_by="+this.$store.state.city.sort.index).then((response) => {
+          console.log("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index + "&order_by="+this.$store.state.city.sort.index)
+          console.log(response.data)
+          // this.Infor = response.data
+        })
+      }
     }
+
+
   }
 </script>
 <style>
@@ -140,9 +160,11 @@
     align-items: center;
     justify-content: space-between;
   }
-  .ratescore>div:nth-child(2){
+
+  .ratescore > div:nth-child(2) {
   }
-  .ratescore>div:nth-child(2) span {
+
+  .ratescore > div:nth-child(2) span {
     margin-left: .2rem;
     font-size: 0.4rem;
     color: #666;
