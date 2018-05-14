@@ -7,14 +7,17 @@
     <div class=" swiper-container foods_kind">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <router-link v-for="kind1 in kindOne" :to="{name:'Shopshow',query:{title:kind1.title,restaurant_category_id:kind1.id,geohash:$store.state.city.geohash}}" :key="kind1.id"
+          <router-link v-for="kind1 in kindOne"
+                       :to="{name:'Shopshow',query:{title:kind1.title,restaurant_category_id:kind1.id,geohash:$store.state.city.geohash}}"
+                       :key="kind1.id"
                        class="link_to_food">
             <img :src="'https://fuss10.elemecdn.com'+kind1.image_url" alt="">
             <span>{{kind1.title}}</span>
           </router-link>
         </div>
         <div class="swiper-slide">
-          <router-link class="link_to_food" v-for="kind2 in kindTwo" :to="{name:'Shopshow',query:{title:kind2.title,restaurant_category_id:kind2.id,geohash:$store.state.city.geohash}}"
+          <router-link class="link_to_food" v-for="kind2 in kindTwo"
+                       :to="{name:'Shopshow',query:{title:kind2.title,restaurant_category_id:kind2.id,geohash:$store.state.city.geohash}}"
                        :key="kind2.id">
             <img :src="'https://fuss10.elemecdn.com'+kind2.image_url" alt="">
             <span>{{kind2.title}}</span>
@@ -29,7 +32,7 @@
       <img :src="img.business" alt="" style="width: .6rem;vertical-align: middle">
       <span>附近商家</span>
     </div>
-    <goodlist></goodlist>
+    <goodlist :Infor="shopInfor"></goodlist>
     <!--导航栏-->
     <footernav class="footernav"></footernav>
   </div>
@@ -79,7 +82,8 @@
       })
       //附近商家
       this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude).then((response) => {
-        // console.log(response.data)
+        console.log(response.data)
+        this.shopInfor = response.data
       })
     },
     components: {

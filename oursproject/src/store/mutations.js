@@ -10,8 +10,8 @@ let mutations = {
     // console.log("+++++++")
     state.city.sort = num
   },
-  setFoodindex(state, num) {
-    console.log(num)
+  setFoodindex(state,num){
+    // console.log(num)
     state.foodindex = num
   },
   costsSum(state, shopCarList) {

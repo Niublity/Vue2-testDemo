@@ -30,6 +30,7 @@ import SellerDetail from "../page/personalpage/coupon/sellerdetail"
 import BalanceDetail from "../page/personalpage/balacnedetail/balancedetail"
 import Exchange from "../page/personalpage/coupon/exchangehongbao"
 import Encourage from "../page/personalpage/coupon/encourage"
+import Businessinfo from "../page/shopcar/businessinfo"
 
 Vue.use(Router)
 
@@ -190,6 +191,11 @@ export default new Router({
       path: "/servercenter/:id",
       name: "Detail",
       component: Detail
+    },
+    {
+      path:"/businessinfor",
+      name:"Businessinfo",
+      component:Businessinfo
     }
   ]
 })
