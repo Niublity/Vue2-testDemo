@@ -7,27 +7,28 @@
     <!--购物车中心界面-->
     <div class="shopcar_center">
       <!--背景图片-->
-      <img :src="pic.bgimg" alt="" class="bgimg">
+      <img :src="'//elm.cangdu.org/img/'+restaurantInfor.image_path" alt="" class="bgimg">
     </div>
     <!--购物车顶端-->
     <div class="shopcar-center-top">
       <div class="showtitle">
         <div class="showtitle-left">
-          <img src="./img/elmlogo.jpeg" alt="">
+          <img :src="'//elm.cangdu.org/img/'+restaurantInfor.image_path" alt="">
         </div>
         <div class="showtitle-right">
-          <div class="right-title"><span>效果演示</span></div>
+          <div class="right-title"><span>{{restaurantInfor.name}}</span></div>
           <div>
             <p class="distribute-infor"><span>商家配送</span>/<span>分钟送达</span>/<span>配送费￥5</span></p>
           </div>
-          <p>公告：欢迎光临，用餐高峰请提前下单，如您对我们的美食味道，配送时效和我们的服务有任何不满，请直接致电1111111111，直接致电！</p>
+          <router-link to="/shopcar/businessinfor">
+            <p>公告：{{restaurantInfor.promotion_info}}</p></router-link>
         </div>
-        <a href="##"><img :src="pic.next" alt="" class="next"></a>
+        <router-link to="/shopcar/businessinfor"><img :src="pic.next" alt="" class="next"></router-link>
       </div>
-      <a href="##" class="activity">
-        <p class="activity-left">
-          <span>减</span>
-          <span>满30减5，满60减8(APP专享)</span>
+      <a href="##" class="activity" v-if="restaurantInfor.activities!=''">
+        <p class="activity-left" v-for="active in restaurantInfor.activities">
+          <span>{{active.icon_name}}</span>
+          <span>{{active.description}}(APP专享)</span>
         </p>
         <p class="activity-right">
           <span>1个活动</span>
@@ -71,6 +72,7 @@
                   <h4>{{cate.name}}</h4> <span>{{cate.description}}</span>
                 </section>
                 <span class="title-infor">...</span>
+
               </header>
               <!--内容  第二层循环 食物具体信息-->
               <section class="waresr-list" v-for="(food,indextwo) in cate.foods">
@@ -94,14 +96,21 @@
                       <span>{{food.specfoods[0].price}}</span>
                       <span>起</span>
                     </p>
+                    <!--添加食品-->
                     <div v-if="food.specfoods.length==1" class="reduce-plus">
                       <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
-                        <div v-if="counts[indextwo]" v-show="counts[indextwo].showCounts" class="countreduce"
-                             @click="reduceFood(index,indextwo,food)" ref="reducee">-
+                        <div v-if="counts[indextwo]&&countss[index]"
+                             v-show="counts[indextwo].showCounts&&countss[index].count!=0"
+                             class="countreduce"
+                             @click="reduceFood(index,indextwo,food)"
+                             ref="reducee">
+                          -
                         </div>
                       </transition>
                       <span v-if="counts[indextwo]"
-                            v-show="counts[indextwo].showCounts">{{counts[indextwo].count}}</span>
+                            v-show="counts[indextwo].showCounts">
+                        {{comparisondata(food)}}
+                      </span>
                       <div class="countplus" ref="bbb" @click="addFood(index,indextwo,food)">+</div>
                     </div>
 
@@ -198,7 +207,8 @@
                 </p>
                 <ul class="detail-img">
                   <li v-for="fooddetail in evadetail.item_ratings">
-                    <img v-if="fooddetail.image_hash!=''"  :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(fooddetail.image_hash)" alt="">
+                    <img v-if="fooddetail.image_hash!=''"
+                         :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(fooddetail.image_hash)" alt="">
                   </li>
                 </ul>
                 <ul class="detail-foodname">
@@ -213,15 +223,15 @@
 
     <div class="shopcar_footer" v-if="!showEvaluate">
       <div class="footer-con">
-        <div :class="countShow? 'blue':'carico'" @click="showCarFoodList">
+        <div :class="$store.state.costCount!=0? 'blue':'carico'" @click="showCarFoodList">
           <img src="./img/shopcar.png" alt="">
-          <span id="countred-car" v-if="countShow">{{$store.state.costCount}}</span>
+          <span id="countred-car" v-if="$store.state.costCount">{{$store.state.costCount}}</span>
         </div>
         <div class="car_num">
           <p>￥<span>{{$store.state.costs}}</span>.00</p>
           <p>配送费5￥</p>
         </div>
-        <div :class="countShow? 'toPays':'missingmoney'">
+        <div :class="$store.state.costCount? 'toPays':'missingmoney'">
           <span>{{toPay}}</span>
         </div>
       </div>
@@ -251,7 +261,7 @@
         </ul>
       </section>
     </transition>
-    <!--</div>-->
+    <router-view class="position-shopcar"></router-view>
   </div>
 </template>
 
@@ -269,7 +279,6 @@
         showCarFood: false,
         countss: [],
         counts: [],
-        countShow: false,
         toPay: "还差￥20起送",
         rating: 5,
         value1: null,
@@ -286,49 +295,53 @@
         classifys: 'classifyNormal',
         evaluateClassifys: [],
         evaDetails: [],
-        shopCarList:[]
+        shopCarList: [],
+        ccc: null,
+        restaurantInfor: {}
       }
     },
     components: {
       Header: header
     },
     created() {
-
       //评价信息
-      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/"+this.$route.query.id+"/ratings?offset=0&limit=10").then((response) => {
-
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/" + this.$route.query.id + "/ratings?offset=0&limit=10").then((response) => {
         this.evaDetails = response.data;
       })
       //评价分数
-      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/"+this.$route.query.id+"/ratings/scores").then((response) => {
-        //console.log(typeof parseInt(response.data.service_score.toFixed(1)));
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/" + this.$route.query.id + "/ratings/scores").then((response) => {
+        //console.log(typeof parseInt(response.data.service_score.toFixed(1;
         this.value1 = Number(response.data.service_score.toFixed(1))
         this.value2 = Number(response.data.food_score.toFixed(1))
       })
       //评价分类
-      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/"+this.$route.query.id+"/ratings/tags").then((response) => {
+      this.$http.get("http://cangdu.org:8001/ugc/v2/restaurants/" + this.$route.query.id + "/ratings/tags").then((response) => {
         //console.log(response.data)
         this.evaluateClassifys = response.data
       })
       //购物车
-      this.$http.get("http://cangdu.org:8001/shopping/getcategory/"+this.$route.query.id).then((response) => {
-        // console.log(response.data);
+      this.$http.get("http://cangdu.org:8001/shopping/getcategory/" + this.$route.query.id).then((response) => {
         this.categotyList = response.data.category_list;
         this.$nextTick(() => {
           if (this.$refs.aaa.childNodes[0].offsetTop == this.$refs.aaa.scrollTop) {
             this.$refs.nav[0].classList.add("active")
           }
           for (var j = 0; j < this.$refs.bbb.length; j++) {
-            this.counts.push({count: 0, showCounts: false})
+            this.counts.push({count: 0, showCounts: false, indextwo: null})
           }
           for (var j = 0; j < this.categotyList.length; j++) {
-            this.countss.push({count: 0, showCounts: false})
+            this.countss.push({count: 0, showCounts: false, index: null})
           }
-          // console.log(this.counts)
         });
+        this.shopCarList = this.$store.state.shopCarList
       });
-    },
+      //餐馆详情
+      this.$http.get("http://cangdu.org:8001/shopping/restaurant/" + this.$route.query.id).then((response) => {
+        // console.log(response.data)
+        this.restaurantInfor = response.data;
+      })
 
+    },
     mounted() {
       this.$refs.aaa.addEventListener('scroll', this.handleScroll)
     },
@@ -385,25 +398,22 @@
         $event.currentTarget.style.color = "#fff"
       },
       addFood(index, indextwo, food) {
-        //购物车总价显示
-        this.countShow = true
         this.counts[indextwo].showCounts = true
         this.counts[indextwo].count++;
         this.countss[index].showCounts = true
         this.countss[index].count++;
         this.toPay = "去结算"
-        // console.log(index);
-        // console.log(indextwo);
-        //触发costsSum 仓库状态改变，
-        this.$store.commit('costsSum',{
-          name:food.name,
-          count:this.counts[indextwo].count,
-          price:food.specfoods[0].price
+        this.$store.commit('costsSum', {
+          name: food.name,
+          count: this.counts[indextwo].count,
+          price: food.specfoods[0].price,
+          index: indextwo
         });
-        // console.log(this.$store.state.shopCarList)
-        this.shopCarList=this.$store.state.shopCarList
       },
       reduceFood(index, indextwo, food) {
+        if (this.counts[indextwo].count > 0) {
+          this.counts[indextwo].count--
+        }
         console.log(food.name);
         console.log(food.specfoods[0].price)
         console.log(this.counts[indextwo].count)
@@ -414,36 +424,43 @@
           this.$store.state.costs = 0
           this.toPay = "还差￥20起送"
         } else {
-          this.$store.commit('costsSumReduce',{
-            name:food.name,
-            price:food.specfoods[0].price
+          this.$store.commit('costsSumReduce', {
+            name: food.name,
+            price: food.specfoods[0].price
           })
         }
         if (this.counts[indextwo].count == 1) {
           this.counts[indextwo].count = 0
           this.counts[indextwo].showCounts = false
         }
-        if (this.counts[indextwo].count > 0) {
-          this.counts[indextwo].count--
-        }
-
 
       },
       showCarFoodList() {
         this.showCarFood = !this.showCarFood
         this.showChoose = !this.showChoose
       },
-      hideShowFoodList(){
+      hideShowFoodList() {
         this.showCarFood = false
         this.showChoose = false
       },
-      shopCarDataAdd(list){
-        console.log(list)
-        this.$store.commit("shopCarDataAdd",list)
+      shopCarDataAdd(list) {
+        this.$store.commit("shopCarDataAdd", list)
       },
-      shopCarDataR(list){
+      shopCarDataR(list) {
         console.log(list);
+        this.$store.commit("shopCarDataR", list)
       }
+    },
+    computed: {
+      // comparisondata() {
+      //   return function (data) {
+      //     for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
+      //       if (this.$store.state.shopCarList[i].name == data.name) {
+      //         return this.$store.state.shopCarList[i].count
+      //       }
+      //     }
+      //   }
+      // }
     }
 
   }
@@ -467,13 +484,24 @@
   }
 </style>
 <style scope>
+  .position-shopcar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    background-color: #ebebeb;
+  }
+
   /*添加购物车动画*/
 
   .fadeInRight {
     -webkit-animation-delay: .01s;
     -webkit-animation-duration: .6s;
   }
-  .fadeInUp,.fadeOutDown{
+
+  .fadeInUp, .fadeOutDown {
     -webkit-animation-duration: .5s;
   }
 
@@ -504,6 +532,7 @@
     box-sizing: border-box;
     border: .025rem solid #ff461d;
   }
+
   /*蒙板*/
   .specs-cover {
     position: fixed;
@@ -514,6 +543,7 @@
     background: rgba(0, 0, 0, .4);
     z-index: 103;
   }
+
   /*.cover-enter-active, .cover-leave-active{*/
   /*opacity: 0.5;*/
   /*}*/
@@ -713,8 +743,6 @@
   .shopcarbody {
     position: relative;
   }
-
-
 
   /*nav*/
   .shopcar_line {
@@ -1424,11 +1452,13 @@
     color: #666;
     padding-bottom: .4rem;
   }
-  .foodlist-container{
+
+  .foodlist-container {
     max-height: 16.85rem;
     overflow: scroll;
   }
-  .foodlist-container::-webkit-scrollbar{
+
+  .foodlist-container::-webkit-scrollbar {
     display: none;
   }
 

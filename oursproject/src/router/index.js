@@ -49,7 +49,14 @@ export default new Router({
     {
       path: "/shopcar",
       name: "Shopcar",
-      component: Shopcar
+      component: Shopcar,
+      children:[
+        {
+          path:"businessinfor",
+          name:"Businessinfo",
+          component:Businessinfo
+        }
+      ]
     },
     {
       path: "/personal",
@@ -191,11 +198,6 @@ export default new Router({
       path: "/servercenter/:id",
       name: "Detail",
       component: Detail
-    },
-    {
-      path:"/businessinfor",
-      name:"Businessinfo",
-      component:Businessinfo
     }
   ]
 })

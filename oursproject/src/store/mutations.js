@@ -46,20 +46,45 @@ let mutations = {
       if (state.shopCarList[i].name == reduceList.name) {
         state.shopCarList[i].price -= reduceList.price
         state.shopCarList[i].count--
-        if (state.shopCarList[i].price==0) {
-          state.shopCarList.splice(i,1);
+        if (state.shopCarList[i].price == 0) {
+          state.shopCarList.splice(i, 1);
         }
       }
     }
   },
-  shopCarDataAdd(state,list){
+  shopCarDataAdd(state, list) {
     for (var i = 0; i < state.shopCarList.length; i++) {
       if (state.shopCarList[i].name == list.name) {
-        state.shopCarList[i].price += state.shopCarList[i].price/state.shopCarList[i].count
-        console.log(state.shopCarList[i].price)
+        console.log(state.shopCarList[i].index);
+        state.shopCarList[i].price += state.shopCarList[i].price / state.shopCarList[i].count
         state.shopCarList[i].count++
+        state.costCount++
+        state.costs += state.shopCarList[i].price / state.shopCarList[i].count
       }
     }
+  },
+  shopCarDataR(state, list) {
+    for (var i = 0; i < state.shopCarList.length; i++) {
+      if (state.shopCarList[i].name == list.name) {
+        if (state.shopCarList[i].count == 0) {
+          state.costs -= state.shopCarList[i].price
+        }
+        else {
+          state.costs -= state.shopCarList[i].price / state.shopCarList[i].count
+        }
+        state.shopCarList[i].price -= state.shopCarList[i].price / state.shopCarList[i].count
+        state.shopCarList[i].count--
+        state.costCount--
+        if (state.shopCarList[i].count == 0) {
+          state.shopCarList.splice(i, 1)
+        }
+        console.log(state.shopCarList)
+
+      }
+    }
+  },
+  deteleList(state,) {
+
   }
 };
 export default mutations;
