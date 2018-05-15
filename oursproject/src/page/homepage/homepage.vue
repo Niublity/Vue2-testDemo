@@ -12,7 +12,7 @@
                        :key="kind1.id"
                        class="link_to_food">
             <img :src="'https://fuss10.elemecdn.com'+kind1.image_url" alt="">
-            <span>{{kind1.title}}</span>
+            <span v-if="test(10)">{{kind1.title}}</span>
           </router-link>
         </div>
         <div class="swiper-slide">
@@ -92,6 +92,17 @@
       Header: header
     },
     mounted() {
+    },
+    methods:{
+      test(index){
+        if(index>5){
+          return true
+        }
+        else{
+          return false
+        }
+
+      }
     }
   }
 </script>

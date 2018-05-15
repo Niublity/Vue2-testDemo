@@ -5,6 +5,7 @@
       <input type="text" placeholder="请输入商家或美食名称" class="search-food">
       <div class="submit">提交</div>
     </form>
+    
 
     <Footernav class="searchpage"></Footernav>
   </div>
@@ -56,6 +57,7 @@
     color: #333;
     border: .025rem solid #e4e4e4;
     font-weight: 600;
+    outline: none;
   }
 
   .submit {

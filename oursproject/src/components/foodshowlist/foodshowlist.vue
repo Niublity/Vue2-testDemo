@@ -185,7 +185,7 @@
           // 小列表排序
           this.$http.get("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index + "&order_by=" + this.$store.state.city.sort.index).then((response) => {
             console.log("http://cangdu.org:8001/shopping/restaurants?latitude=" + this.$store.state.city.latitude + "&longitude=" + this.$store.state.city.longitude + "&restaurant_category_ids[]=" + this.$store.state.foodindex.index + "&order_by=" + this.$store.state.city.sort.index)
-            console.log(response.data)
+            // console.log(response.data)
             this.Infor = response.data
           })
         } else {
