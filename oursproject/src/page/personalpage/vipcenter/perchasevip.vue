@@ -97,7 +97,7 @@
       var second = 60;
       this.timer = setInterval(() => {
         if (second == '00') {
-          second = 59;
+          second = 60;
           minute--;
           if (minute < 10) {
             minute = "0" + minute
@@ -113,7 +113,7 @@
         }
         this.minute = minute
         this.second = second
-      }, 1000);
+      }, 500);
     }
 
   }

@@ -31,7 +31,7 @@ import BalanceDetail from "../page/personalpage/balacnedetail/balancedetail"
 import Exchange from "../page/personalpage/coupon/exchangehongbao"
 import Encourage from "../page/personalpage/coupon/encourage"
 import Businessinfo from "../page/shopcar/businessinfo"
-
+import Orderforgoods from "../page/shopcar/orderforgoods"
 Vue.use(Router)
 
 export default new Router({
@@ -198,6 +198,11 @@ export default new Router({
       path: "/servercenter/:id",
       name: "Detail",
       component: Detail
+    },
+    {
+      path: "/orderforgoods",
+      name:"Orderforgoods",
+      component:Orderforgoods
     }
   ]
 })
