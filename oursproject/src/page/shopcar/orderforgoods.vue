@@ -1,6 +1,7 @@
 <template>
   <div class="sure-orderforgoods">
     <Header :title="title" class="sure-orderforgoods-header"></Header>
+    <div class="sure-orderforgoods-mark"></div>
     <img src="./img/商户线性.png" alt="" class="orderfg-top">
     <!--个人信息-->
     <section class="ouser-Infor">
@@ -35,7 +36,7 @@
       <div class="opay-way-one">
         <span>支付方式</span>
         <p>
-          <a href="##">
+          <a href="##" @click="showPayWay=!showPayWay">
             <span>在线支付</span>
             <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
           </a>
@@ -69,6 +70,7 @@
         </footer>
       </section>
     </section>
+    <!--备注信息-->
     <section class="oremark">
       <section class="oremark-wrapper">
         <span>订单备注</span>
@@ -89,8 +91,22 @@
       <div>
         <span>待支付 <span>￥</span><span>1111</span></span>
       </div>
-      <div>确认下单</div>
+      <div>
+        <router-link to="/perchasevip" class="orderforgoods-surpay">确认下单</router-link>
+      </div>
     </footer>
+    <!--支付方式-->
+    <section class="opay-way-choose" v-if="showPayWay">
+      <header class="opaytitle">支付方式</header>
+      <section class="opay-option">
+        <span>货到付款 <span>（商家不支持货到付款）</span></span>
+        <img src="../personalpage/vipcenter/image/grey.png" alt="">
+      </section>
+      <section class="opay-option">
+        <span>在线支付</span>
+        <img src="../personalpage/vipcenter/image/green.png" alt="">
+      </section>
+    </section>
   </div>
 
 </template>
@@ -102,7 +118,8 @@
     name: "orderforgoods",
     data() {
       return {
-        title: "确认订单"
+        title: "确认订单",
+        showPayWay:false
       }
     },
     components: {
@@ -112,19 +129,32 @@
 </script>
 
 <style scoped>
-.sure-orderforgoods{
-  overflow-y: scroll;
-  padding-bottom: 10rem;
-}
-.sure-orderforgoods-header{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-.sure-orderforgoods::-webkit-scrollbar{
-  display: none;
-}
+  .sure-orderforgoods-mark{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-inex:203;
+    background-color: rgba(0,0,0,.3);
+
+  }
+  .sure-orderforgoods {
+    overflow-y: scroll;
+    padding-bottom: 10rem;
+  }
+
+  .sure-orderforgoods-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .sure-orderforgoods::-webkit-scrollbar {
+    display: none;
+  }
+
   /*导航栏*/
   .orderfg-top {
     width: .9rem;
@@ -368,34 +398,85 @@
     color: #aaa;
     font-weight: 100;
   }
+
   /*footer*/
-  .confirm-order{
+  .confirm-order {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     display: flex;
+    z-index: 100;
     /*justify-content: space-between;*/
     width: 100%;
     height: 2rem;
     box-sizing: border-box;
   }
-  .confirm-order div{
+
+  .confirm-order div {
     line-height: 2rem;
     color: white;
     font-weight: 100;
   }
-  .confirm-order div:nth-of-type(1){
+
+  .confirm-order div:nth-of-type(1) {
     flex: 5;
     background-color: #3c3c3c;
     padding-left: .7rem;
     font-size: .7rem;
   }
 
-  .confirm-order div:nth-of-type(2){
+  .confirm-order div:nth-of-type(2) {
     background-color: #56d176;
-    font-size: .75rem;
+
     text-align: center;
     flex: 2;
+  }
+
+  .orderforgoods-surpay {
+    color: white;
+    font-size: .75rem;
+    font-weight: 100;
+  }
+
+  /*在线支付选择*/
+  .sure-orderforgoods .opay-way-choose{
+    width: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 10rem;
+    background-color: #fff;
+  }
+  .opay-way-choose .opaytitle {
+    background-color: #fafafa;
+    font-size: .7rem;
+    color: #333;
+    line-height: 2rem;
+    text-align: center;
+  }
+
+  .opay-way-choose .opay-option:nth-of-type(2) span {
+    color: #333;
+  }
+
+  .opay-way-choose .opay-option span {
+    font-weight: 200;
+  }
+
+  .opay-way-choose .opay-option {
+    font-size: .7rem;
+    color: #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 .7rem;
+    line-height: 2.5rem;
+  }
+
+  .opay-option img {
+    width: .8rem;
+    height: .8rem;
   }
 </style>
