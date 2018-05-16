@@ -35,10 +35,10 @@
       <div class="opay-way-one">
         <span>支付方式</span>
         <p>
-          <a href="##" @click="showPayWay=!showPayWay">
+          <router-link to="/orderforgoods/orderRemark" @click="showPayWay=!showPayWay">
             <span>在线支付</span>
             <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
-          </a>
+          </router-link>
         </p>
       </div>
       <div class="opay-way-two">
@@ -109,6 +109,7 @@
       </section>
     </transition>
     <div class="sure-orderforgoods-mark" v-if="showPayWay" @click="showPayWay=!showPayWay"></div>
+    <router-view class="position"></router-view>
   </div>
 
 </template>
@@ -131,6 +132,15 @@
 </script>
 
 <style scoped>
+.position{
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 210;
+  background-color: #f5f5f5;
+}
   .fadeInUp,.fadeOutDown{
     -webkit-animation-duration: .2s;
   }
@@ -148,6 +158,7 @@
   .sure-orderforgoods {
     overflow-y: scroll;
     padding-bottom: 3rem;
+    position: relative;
   }
 
   .sure-orderforgoods-header {
