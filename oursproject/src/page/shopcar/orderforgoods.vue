@@ -1,7 +1,6 @@
 <template>
   <div class="sure-orderforgoods">
     <Header :title="title" class="sure-orderforgoods-header"></Header>
-    <div class="sure-orderforgoods-mark"></div>
     <img src="./img/商户线性.png" alt="" class="orderfg-top">
     <!--个人信息-->
     <section class="ouser-Infor">
@@ -96,17 +95,20 @@
       </div>
     </footer>
     <!--支付方式-->
-    <section class="opay-way-choose" v-if="showPayWay">
-      <header class="opaytitle">支付方式</header>
-      <section class="opay-option">
-        <span>货到付款 <span>（商家不支持货到付款）</span></span>
-        <img src="../personalpage/vipcenter/image/grey.png" alt="">
+    <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
+      <section class="opay-way-choose" v-if="showPayWay">
+        <header class="opaytitle">支付方式</header>
+        <section class="opay-option">
+          <span>货到付款 <span>（商家不支持货到付款）</span></span>
+          <img src="../personalpage/vipcenter/image/grey.png" alt="">
+        </section>
+        <section class="opay-option">
+          <span>在线支付</span>
+          <img src="../personalpage/vipcenter/image/green.png" alt="">
+        </section>
       </section>
-      <section class="opay-option">
-        <span>在线支付</span>
-        <img src="../personalpage/vipcenter/image/green.png" alt="">
-      </section>
-    </section>
+    </transition>
+    <div class="sure-orderforgoods-mark" v-if="showPayWay" @click="showPayWay=!showPayWay"></div>
   </div>
 
 </template>
@@ -119,7 +121,7 @@
     data() {
       return {
         title: "确认订单",
-        showPayWay:false
+        showPayWay: false
       }
     },
     components: {
@@ -129,19 +131,23 @@
 </script>
 
 <style scoped>
-  .sure-orderforgoods-mark{
+  .fadeInUp,.fadeOutDown{
+    -webkit-animation-duration: .2s;
+  }
+  .sure-orderforgoods-mark {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    z-inex:203;
-    background-color: rgba(0,0,0,.3);
+    z-index: 180;
+    background-color: rgba(0, 0, 0, .3);
 
   }
+
   .sure-orderforgoods {
     overflow-y: scroll;
-    padding-bottom: 10rem;
+    padding-bottom: 3rem;
   }
 
   .sure-orderforgoods-header {
@@ -440,7 +446,7 @@
   }
 
   /*在线支付选择*/
-  .sure-orderforgoods .opay-way-choose{
+  .sure-orderforgoods .opay-way-choose {
     width: 100%;
     position: fixed;
     left: 0;
@@ -448,7 +454,9 @@
     bottom: 0;
     min-height: 10rem;
     background-color: #fff;
+    z-index: 200;
   }
+
   .opay-way-choose .opaytitle {
     background-color: #fafafa;
     font-size: .7rem;
