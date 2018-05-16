@@ -38,19 +38,24 @@ let mutations = {
   costsSumReduce(state, reduceList) {
     if (state.costCount != 0 && state.costs != 0) {
       state.costCount -= 1;
-      //配送总价
+      //配送总价+
       state.costs -= reduceList.price;
     }
     console.log(reduceList);
     for (var i = 0; i < state.shopCarList.length; i++) {
+      console.log("BBBBBBBBBBBBBBBBBB")
       if (state.shopCarList[i].name == reduceList.name) {
+        console.log("AAAAAAAAAAAAAAAAA")
         state.shopCarList[i].price -= reduceList.price
         state.shopCarList[i].count--
         if (state.shopCarList[i].price == 0) {
+          // console.log(state.shopCarList.splice(i, 1));
           state.shopCarList.splice(i, 1);
         }
       }
     }
+    console.log(state.shopCarList);
+
   },
   shopCarDataAdd(state, list) {
     for (var i = 0; i < state.shopCarList.length; i++) {
@@ -83,8 +88,5 @@ let mutations = {
       }
     }
   },
-  deteleList(state,) {
-
-  }
 };
 export default mutations;
