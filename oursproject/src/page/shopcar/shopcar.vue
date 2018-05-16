@@ -72,7 +72,6 @@
                   <h4>{{cate.name}}</h4> <span>{{cate.description}}</span>
                 </section>
                 <span class="title-infor">...</span>
-
               </header>
               <!--内容  第二层循环 食物具体信息-->
               <section class="waresr-list" v-for="(food,indextwo) in cate.foods">
@@ -111,9 +110,9 @@
                       <!--显示数量-->
                       <span
                         v-if="testarray.length"
-                        v-show="testshowcounts(index,indextwo)">
+                        v-show="comparisondata(food,index,indextwo)">
                         <!--{{testarray[index][indextwo].count}}-->
-                        {{comparisondata(food)}}
+                        {{comparisondata(food,index,indextwo)}}
                       </span>
                       <!--加号-->
                       <div class="countplus" :ref="'b'+index" @click="addFood(index,indextwo,food)">+</div>
@@ -333,7 +332,7 @@
           // for(var x in this.$refs){
           //   console.log(x)
           //   console.log(this.$refs[x])
-          // }
+          // }-
           if (this.$refs.aaa.childNodes[0].offsetTop == this.$refs.aaa.scrollTop) {
             this.$refs.nav[0].classList.add("active")
           }
@@ -341,11 +340,16 @@
             this.countss.push({count: 0, showCounts: false})
             this.testarray[i] = new Array()
             for (var j = 0; j < this.categotyList[i].foods.length; j++) {
-              this.testarray[i][j] = {count: 0, showCounts: false, index: i, indextwo: j}
+              this.testarray[i][j] = {
+                count: 0,
+                showCounts: false,
+                index: i,
+                indextwo: j,
+                name: this.categotyList[i].foods[j].name
+              }
             }
           }
         });
-        // console.log(this.testarray)
         this.shopCarList = this.$store.state.shopCarList
       });
       // console.log(this.countss)
@@ -353,7 +357,6 @@
       this.$http.get("http://cangdu.org:8001/shopping/restaurant/" + this.$route.query.id).then((response) => {
         this.restaurantInfor = response.data;
       })
-
     },
     mounted() {
       this.$refs.aaa.addEventListener('scroll', this.handleScroll)
@@ -426,14 +429,13 @@
       },
       //购物车操作
       addFood(index, indextwo, food) {
-        for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
-          if (this.$store.state.shopCarList[i].name == food.name) {
-            this.testarray[index][indextwo].count = this.$store.state.shopCarList[i].count
-          }
-        }
-        // console.log(food)
+        // for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
+        //   if (this.$store.state.shopCarList[i].name == food.name) {
+        //     this.testarray[index][indextwo].count = this.$store.state.shopCarList[i].count
+        //   }
+        // }
         this.testarray[index][indextwo].showCounts = true
-        this.testarray[index][indextwo].count++
+        // this.testarray[index][indextwo].count++
         // {
         //   // this.counts[indextwo].showCounts = true
         //   // this.counts[indextwo].count++;
@@ -452,15 +454,15 @@
         for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
           if (this.$store.state.shopCarList[i].name == food.name) {
             this.testarray[index][indextwo].count = this.$store.state.shopCarList[i].count
+            console.log(this.testarray[index][indextwo])
           }
         }
         this.testarray[index][indextwo].count--
         if (this.testarray[index][indextwo].count == 0) {
           this.testarray[index][indextwo].showCounts = false
         }
-        // console.log(food.name);
         //购物车
-        if (this.$store.state.costCount == 1) {
+        if (this.$store.state.costCount == 0) {
           this.countShow = false
           this.$store.state.costCount = 0
           this.$store.state.costs = 0
@@ -471,8 +473,8 @@
             price: food.specfoods[0].price
           })
         }
-        console.log(this.$store.state.shopCarList)
-        console.log(this.testarray[index][indextwo])
+        // console.log(this.$store.state.shopCarList)
+        // console.log(this.testarray[index][indextwo])
         this.$forceUpdate();
       },
       showCarFoodList() {
@@ -488,12 +490,27 @@
         console.log(this.$store.state.shopCarList)
       },
       shopCarDataR(list) {
+        for (var i = 0; i < this.testarray.length; i++) {
+          for (var j = 0; j < this.testarray[i].length; j++) {
+            if (this.testarray[i][j].name == list.name) {
+              for (var k = 0; k < this.$store.state.shopCarList.length; k++) {
+                if (this.$store.state.shopCarList[k].name == list.name) {
+                  if(this.$store.state.shopCarList[k].count==1){
+                    this.testarray[i][j].showCounts=false
+                    console.log(this.testarray[i][j])
+                  }
+                  console.log(this.$store.state.shopCarList[k].count)
+                }
+              }
+            }
+          }
+        }
         console.log(list);
         this.$store.commit("shopCarDataR", list)
+
       }
     },
     watch: {
-
       "testarray": {
         handler: function (newval, oldval) {
           for (var i = 0; i < this.testarray.length; i++) {
@@ -506,13 +523,13 @@
         },
         deep: true
       }
-
     },
     computed: {
       comparisondata() {
         return function (data) {
           for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
             if (this.$store.state.shopCarList[i].name == data.name) {
+
               return this.$store.state.shopCarList[i].count
             }
           }
@@ -520,7 +537,6 @@
         }
       }
     }
-
   }
 </script>
 <style>

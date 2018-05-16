@@ -15,19 +15,27 @@ let mutations = {
     state.foodindex = num
   },
   costsSum(state, shopCarList) {
-    // console.log(shopCarList);
+
     //购物车数量
     state.costCount += 1;
     //配送总价
     state.costs += shopCarList.price;
+
     //购物车列表
     state.shopCarList.push(shopCarList);
+    shopCarList.count+=1
+    // console.log(state.shopCarList)
     var len = state.shopCarList.length
     for (var i = 0; i < len; i++) {
       for (var j = i + 1; j < len; j++) {
+        // if(state.shopCarList[i].name!=null){
+        //
+        // }
         if (state.shopCarList[i].name == state.shopCarList[j].name) {
           state.shopCarList[i].price += state.shopCarList[j].price
-          state.shopCarList[i].count = state.shopCarList[j].count
+          // state.shopCarList[i].count = state.shopCarList[j].count
+          state.shopCarList[i].count++
+          // console.log(shopCarList);
           state.shopCarList.splice(j, 1);
           len--
           j--
@@ -43,9 +51,7 @@ let mutations = {
     }
     console.log(reduceList);
     for (var i = 0; i < state.shopCarList.length; i++) {
-      console.log("BBBBBBBBBBBBBBBBBB")
       if (state.shopCarList[i].name == reduceList.name) {
-        console.log("AAAAAAAAAAAAAAAAA")
         state.shopCarList[i].price -= reduceList.price
         state.shopCarList[i].count--
         if (state.shopCarList[i].price == 0) {
