@@ -32,11 +32,12 @@ import Exchange from "../page/personalpage/coupon/exchangehongbao"
 import Encourage from "../page/personalpage/coupon/encourage"
 import Businessinfo from "../page/shopcar/businessinfo"
 import Orderforgoods from "../page/shopcar/orderforgoods"
+import OrderRemark from "../page/shopcar/orderRemark"
+
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: "/home",
       name: "Home",
       component: Home
@@ -50,13 +51,11 @@ export default new Router({
       path: "/shopcar",
       name: "Shopcar",
       component: Shopcar,
-      children:[
-        {
-          path:"businessinfor",
-          name:"Businessinfo",
-          component:Businessinfo
-        }
-      ]
+      children: [{
+        path: "businessinfor",
+        name: "Businessinfo",
+        component: Businessinfo
+      }]
     },
     {
       path: "/personal",
@@ -92,30 +91,25 @@ export default new Router({
       path: "/balance",
       name: "Balance",
       component: Balance,
-      children: [
-        {
-          path: "balancedetail",
-          component: BalanceDetail
-        }
-      ]
+      children: [{
+        path: "balancedetail",
+        component: BalanceDetail
+      }]
     },
     {
       path: "/integral",
       name: "Integral",
       component: Integral,
-      children: [
-        {
-          path: "integraldetail",
-          name: "IntegralDetail",
-          component: IntegralDetail
-        }
-      ]
+      children: [{
+        path: "integraldetail",
+        name: "IntegralDetail",
+        component: IntegralDetail
+      }]
     }, {
       path: "/coupon",
       name: "Coupon",
       component: Coupon,
-      children: [
-        {
+      children: [{
           path: 'couponinfor',
           name: 'CouponInfor',
           component: CouponInfor
@@ -125,11 +119,11 @@ export default new Router({
           component: SellerDetail
         }, {
           path: "exchange",
-          component:Exchange
+          component: Exchange
         },
         {
-          path:"encourage",
-          component:Encourage
+          path: "encourage",
+          component: Encourage
         }
       ]
     }, {
@@ -147,8 +141,7 @@ export default new Router({
       path: "/vipcenter",
       name: "Vipcenter",
       component: Vipcenter,
-      children: [
-        {
+      children: [{
           path: "exchangevip",
           name: "Exchangevip",
           component: Exchangevip
@@ -174,8 +167,7 @@ export default new Router({
       path: "/accountdetail",
       name: "Accountdetail",
       component: Accountdetail,
-      children: [
-        {
+      children: [{
           path: 'setusername',
           name: Setusername,
           component: Setusername
@@ -184,13 +176,11 @@ export default new Router({
           path: 'editaddress',
           name: "Editaddress",
           component: Editaddress,
-          children: [
-            {
-              path: "newaddress",
-              name: "Newaddress",
-              component: Newaddress
-            }
-          ]
+          children: [{
+            path: "newaddress",
+            name: "Newaddress",
+            component: Newaddress
+          }]
         }
       ]
     },
@@ -201,8 +191,16 @@ export default new Router({
     },
     {
       path: "/orderforgoods",
-      name:"Orderforgoods",
-      component:Orderforgoods
+      name: "Orderforgoods",
+      component: Orderforgoods,
+      children:[
+         {
+          path: "orderRemark",
+          name: "OrderRemark",
+          component: OrderRemark
+        }
+
+      ]
     }
   ]
 })
