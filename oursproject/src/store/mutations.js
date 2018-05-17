@@ -23,19 +23,12 @@ let mutations = {
 
     //购物车列表
     state.shopCarList.push(shopCarList);
-    shopCarList.count+=1
-    // console.log(state.shopCarList)
     var len = state.shopCarList.length
     for (var i = 0; i < len; i++) {
       for (var j = i + 1; j < len; j++) {
-        // if(state.shopCarList[i].name!=null){
-        //
-        // }
         if (state.shopCarList[i].name == state.shopCarList[j].name) {
           state.shopCarList[i].price += state.shopCarList[j].price
-          // state.shopCarList[i].count = state.shopCarList[j].count
-          state.shopCarList[i].count++
-          // console.log(shopCarList);
+          state.shopCarList[i].count = state.shopCarList[j].count
           state.shopCarList.splice(j, 1);
           len--
           j--
@@ -49,19 +42,15 @@ let mutations = {
       //配送总价+
       state.costs -= reduceList.price;
     }
-    console.log(reduceList);
     for (var i = 0; i < state.shopCarList.length; i++) {
       if (state.shopCarList[i].name == reduceList.name) {
         state.shopCarList[i].price -= reduceList.price
         state.shopCarList[i].count--
         if (state.shopCarList[i].price == 0) {
-          // console.log(state.shopCarList.splice(i, 1));
           state.shopCarList.splice(i, 1);
         }
       }
     }
-    console.log(state.shopCarList);
-
   },
   shopCarDataAdd(state, list) {
     for (var i = 0; i < state.shopCarList.length; i++) {
@@ -89,7 +78,6 @@ let mutations = {
         if (state.shopCarList[i].count == 0) {
           state.shopCarList.splice(i, 1)
         }
-        console.log(state.shopCarList)
 
       }
     }

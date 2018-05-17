@@ -65,7 +65,7 @@
           <!--商品详情-->
           <ul class="wares-right" ref="aaa">
             <!--第一层循环创建  分类-->
-            <li v-for="(cate,index) in categotyList" :ref="'a'+index">
+            <li v-for="(cate,index) in categotyList">
               <!--标题-->
               <header style="background:#f5f5f5;" class="wares-header" @click="handleScroll(index,$event)">
                 <section class="waresfood-title">
@@ -115,13 +115,13 @@
                         {{comparisondata(food,index,indextwo)}}
                       </span>
                       <!--加号-->
-                      <div class="countplus" :ref="'b'+index" @click="addFood(index,indextwo,food)">+</div>
+                      <div class="countplus" @click="addFood(index,indextwo,food)">+</div>
                     </div>
 
-                    <div v-else class="choose-size" :ref="'b'+index" @click="showInfor(food.specfoods)">
+                    <div v-else class="choose-size" @click="showInfor(food.specfoods)">
                       选规格
                     </div>
-                    <div v-if="showchoosesize" class="choose-box">
+                    <div v-show="showchoosesize(index,indextwo,A,B)" class="choose-box">
                       <header class="specs-header">
                         <strong class="food-name">{{sizedetail[0].name}}</strong>
                         <img :src="pic.close" alt="" class="specs-close" @click="hideInfor">
@@ -133,11 +133,12 @@
                             {{value.specs_name}}
                           </li>
                         </ul>
+                        <!--规格选择加入购物车-->
                         <footer class="specs-footer">
                           <p class="specs-price">
-                            <span>￥</span><span>{{sizedetail[0].price}}</span>
+                            <span>￥</span><span>{{sizedetail[0].price}}---{{index}}</span>
                           </p>
-                          <div class="addto-car">加入购物车</div>
+                          <div class="addto-car" @click="addFood(index,indextwo,food)">加入购物车</div>
                         </footer>
                       </section>
                     </div>
@@ -253,7 +254,7 @@
         </div>
         <ul class="foodlist-container">
           <li class="foodlist-content" v-for="list in shopCarList">
-            <p>{{list.name}}</p>
+            <p><span>{{list.name}}</span></p>
             <p class="car-price"><span>￥</span><span>{{list.price}}</span></p>
             <div class="reduce-plus">
               <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
@@ -295,7 +296,6 @@
         showChoose: false,
         categotyList: [],
         sizedetail: [],
-        showchoosesize: false,
         isActive: "",
         classifys: 'classifyNormal',
         evaluateClassifys: [],
@@ -345,11 +345,27 @@
                 showCounts: false,
                 index: i,
                 indextwo: j,
-                name: this.categotyList[i].foods[j].name
+                name: this.categotyList[i].foods[j].name,
+                specifications: []
+              }
+
+              if (this.categotyList[i].foods[j].specfoods.length != 1) {
+                for (var k = 0; k < this.categotyList[i].foods[j].specfoods.length; k++) {
+                  this.testarray[i][j].specifications.push(
+                    {
+                      specs_name:this.categotyList[i].foods[j].specfoods[k].specs_name,
+                      specs_price:this.categotyList[i].foods[j].specfoods[k].price,
+                    }
+
+                  )
+                }
               }
             }
           }
         });
+        // console.log(this.categotyList)
+        console.log(this.testarray)
+
         this.shopCarList = this.$store.state.shopCarList
       });
       // console.log(this.countss)
@@ -362,13 +378,6 @@
       this.$refs.aaa.addEventListener('scroll', this.handleScroll)
     },
     methods: {
-      test(index, indextwo) {
-        // console.log("---------")
-        // console.log(index)
-        // console.log(indextwo)
-        // if(this.testarray[index][indextwo].length)
-        return true
-      },
       toWares() {
         console.log("商品界面");
         this.showWares = true;
@@ -379,9 +388,12 @@
         this.showWares = false;
         this.showEvaluate = true;
       },
-      showInfor(array) {
+      // showchoosesize(index,indextwo,A,B){
+      //   return true
+      // },
+      showInfor(array,index,indextwo) {
         this.showChoose = !this.showChoose
-        this.showchoosesize = true
+        // this.showchoosesize( , ,index,indextwo)
         this.sizedetail = array
       },
       hideInfor() {
@@ -393,6 +405,7 @@
           $event.target.parentNode.childNodes[i].className = ""
         }
         $event.target.className = "specs-activity"
+        // console.log($event.target.innerText)
       },
       foodclass(index, $event) {
         console.log(this.$refs.aaa.scrollTop)
@@ -429,18 +442,11 @@
       },
       //购物车操作
       addFood(index, indextwo, food) {
-        // for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
-        //   if (this.$store.state.shopCarList[i].name == food.name) {
-        //     this.testarray[index][indextwo].count = this.$store.state.shopCarList[i].count
-        //   }
-        // }
+        console.log(index)
+        console.log(indextwo)
+        console.log(food)
+        this.testarray[index][indextwo].count++
         this.testarray[index][indextwo].showCounts = true
-        // this.testarray[index][indextwo].count++
-        // {
-        //   // this.counts[indextwo].showCounts = true
-        //   // this.counts[indextwo].count++;
-        //   // this.countss[index].showCounts = true
-        //   // this.countss[index].count++;
         this.toPay = "去结算"
         this.$store.commit('costsSum', {
           name: food.name,
@@ -454,7 +460,6 @@
         for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
           if (this.$store.state.shopCarList[i].name == food.name) {
             this.testarray[index][indextwo].count = this.$store.state.shopCarList[i].count
-            console.log(this.testarray[index][indextwo])
           }
         }
         this.testarray[index][indextwo].count--
@@ -473,8 +478,6 @@
             price: food.specfoods[0].price
           })
         }
-        // console.log(this.$store.state.shopCarList)
-        // console.log(this.testarray[index][indextwo])
         this.$forceUpdate();
       },
       showCarFoodList() {
@@ -490,24 +493,18 @@
         console.log(this.$store.state.shopCarList)
       },
       shopCarDataR(list) {
+        this.$store.commit("shopCarDataR", list)
         for (var i = 0; i < this.testarray.length; i++) {
           for (var j = 0; j < this.testarray[i].length; j++) {
             if (this.testarray[i][j].name == list.name) {
-              for (var k = 0; k < this.$store.state.shopCarList.length; k++) {
-                if (this.$store.state.shopCarList[k].name == list.name) {
-                  if(this.$store.state.shopCarList[k].count==1){
-                    this.testarray[i][j].showCounts=false
-                    console.log(this.testarray[i][j])
-                  }
-                  console.log(this.$store.state.shopCarList[k].count)
-                }
+              this.testarray[i][j].count--
+              if (this.testarray[i][j].count == 0) {
+                this.testarray[i][j].showCounts = false
               }
             }
           }
         }
-        console.log(list);
-        this.$store.commit("shopCarDataR", list)
-
+        this.$forceUpdate();
       }
     },
     watch: {
@@ -529,7 +526,6 @@
         return function (data) {
           for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
             if (this.$store.state.shopCarList[i].name == data.name) {
-
               return this.$store.state.shopCarList[i].count
             }
           }
