@@ -118,25 +118,33 @@
                       <div class="countplus" @click="addFood(index,indextwo,food)">+</div>
                     </div>
 
-                    <div v-else class="choose-size" @click="showInfor(food.specfoods)">
-                      选规格
+                    <div v-else class="choose-size" >
+                      <div v-if="true"
+                           v-show="true"
+                           class="countreduce"
+                      >
+                        -
+                      </div>
+                      <span>{{classfoodcount(food)}}</span>
+                      <span @click="showInfor(food.specfoods,index,indextwo)">选规格</span>
+
                     </div>
-                    <div v-show="showchoosesize(index,indextwo,A,B)" class="choose-box">
+                    <div v-if="testarray.length&&testarray[index][indextwo].classfood" v-show="true" class="choose-box">
                       <header class="specs-header">
                         <strong class="food-name">{{sizedetail[0].name}}</strong>
-                        <img :src="pic.close" alt="" class="specs-close" @click="hideInfor">
+                        <img :src="pic.close" alt="" class="specs-close" @click="hideInfor(index,indextwo)">
                       </header>
                       <section class="specs-details">
                         <p class="specs-details-title">规格</p>
                         <ul class="activity-container">
-                          <li @click="chooseclass($event)" v-for="value in sizedetail">
+                          <li v-for="(value,indexthree) in sizedetail" @click="chooseclass($event,value,indexthree)">
                             {{value.specs_name}}
                           </li>
                         </ul>
                         <!--规格选择加入购物车-->
                         <footer class="specs-footer">
                           <p class="specs-price">
-                            <span>￥</span><span>{{sizedetail[0].price}}---{{index}}</span>
+                            <span>￥</span><span v-if="classfoodcost==''">{{sizedetail[0].price}}</span><span v-else>{{classfoodcost}}</span>
                           </p>
                           <div class="addto-car" @click="addFood(index,indextwo,food)">加入购物车</div>
                         </footer>
@@ -145,7 +153,6 @@
                   </div>
                 </div>
               </section>
-
             </li>
           </ul>
         </div>
@@ -284,7 +291,7 @@
       return {
         showCarFood: false,
         countss: [],
-        counts: [],
+        classfoodcost: "",
         toPay: "还差￥20起送",
         rating: 5,
         value1: null,
@@ -303,7 +310,9 @@
         shopCarList: [],
         ccc: null,
         restaurantInfor: {},
-        testarray: []
+        testarray: [],
+        classfood_size: null,
+        intercount: null
       }
     },
     components: {
@@ -346,17 +355,18 @@
                 index: i,
                 indextwo: j,
                 name: this.categotyList[i].foods[j].name,
-                specifications: []
+                specifications: [],
+                classfood: false
               }
 
               if (this.categotyList[i].foods[j].specfoods.length != 1) {
                 for (var k = 0; k < this.categotyList[i].foods[j].specfoods.length; k++) {
                   this.testarray[i][j].specifications.push(
                     {
-                      specs_name:this.categotyList[i].foods[j].specfoods[k].specs_name,
-                      specs_price:this.categotyList[i].foods[j].specfoods[k].price,
+                      spec_count: 0,
+                      specs_name: this.categotyList[i].foods[j].specfoods[k].specs_name,
+                      specs_price: this.categotyList[i].foods[j].specfoods[k].price,
                     }
-
                   )
                 }
               }
@@ -368,7 +378,6 @@
 
         this.shopCarList = this.$store.state.shopCarList
       });
-      // console.log(this.countss)
       //餐馆详情
       this.$http.get("http://cangdu.org:8001/shopping/restaurant/" + this.$route.query.id).then((response) => {
         this.restaurantInfor = response.data;
@@ -391,24 +400,33 @@
       // showchoosesize(index,indextwo,A,B){
       //   return true
       // },
-      showInfor(array,index,indextwo) {
+      showInfor(array, index, indextwo) {
+        this.sizedetail = array
+        this.testarray[index][indextwo].classfood = true
         this.showChoose = !this.showChoose
         // this.showchoosesize( , ,index,indextwo)
-        this.sizedetail = array
+
       },
-      hideInfor() {
-        this.showchoosesize = !this.showchoosesize
+      hideInfor(index, indextwo) {
+        this.testarray[index][indextwo].classfood = false
+        this.classfoodcost = ''
         this.showChoose = !this.showChoose
       },
-      chooseclass($event) {
+      chooseclass($event, value, indexthree) {
+        console.log(value)
+        console.log(indexthree)
+        this.intercount = indexthree
+        this.classfood_size = {
+          spec_name: value.specs_name,
+          spec_price: value.price
+        }
+        this.classfoodcost = value.price
         for (var i = 0; i < $event.target.parentNode.childNodes.length; i++) {
           $event.target.parentNode.childNodes[i].className = ""
         }
         $event.target.className = "specs-activity"
-        // console.log($event.target.innerText)
       },
       foodclass(index, $event) {
-        console.log(this.$refs.aaa.scrollTop)
         this.publicfunction.jump(index, this.$refs.aaa)
       },
       handleScroll(index, $event) {
@@ -433,27 +451,30 @@
       testshowdelete(index, indextwo) {
         return this.testarray[index][indextwo].showCounts
       },
-      testshowcounts(index, indextwo) {
-        if (this.testarray[index][indextwo].count > 0) {
-          return true
-        } else {
-          return false
-        }
-      },
       //购物车操作
       addFood(index, indextwo, food) {
-        console.log(index)
-        console.log(indextwo)
+        // console.log(index)
+        // console.log(indextwo)
         console.log(food)
         this.testarray[index][indextwo].count++
         this.testarray[index][indextwo].showCounts = true
         this.toPay = "去结算"
-        this.$store.commit('costsSum', {
+        var objstorefood = {
           name: food.name,
           count: this.testarray[index][indextwo].count,
           price: food.specfoods[0].price,
-        });
-        // }
+          specifications: []
+        }
+        if (this.classfood_size != null) {
+          // console.log(this.testarray[index][indextwo].specifications[this.intercount])
+          objstorefood.count = ++this.testarray[index][indextwo].specifications[this.intercount].spec_count
+          objstorefood.specifications.push(this.classfood_size)
+          objstorefood.price = this.classfood_size.spec_price
+          this.classfood_size = null
+          this.intercount = null
+        }
+        // console.log(objstorefood)
+        this.$store.commit('costsSum', objstorefood);
         this.$forceUpdate();
       },
       reduceFood(index, indextwo, food) {
@@ -490,9 +511,11 @@
       },
       shopCarDataAdd(list) {
         this.$store.commit("shopCarDataAdd", list)
+        console.log(list)
         console.log(this.$store.state.shopCarList)
       },
       shopCarDataR(list) {
+
         this.$store.commit("shopCarDataR", list)
         for (var i = 0; i < this.testarray.length; i++) {
           for (var j = 0; j < this.testarray[i].length; j++) {
@@ -529,7 +552,17 @@
               return this.$store.state.shopCarList[i].count
             }
           }
-
+        }
+      },
+      classfoodcount() {
+        return function (data) {
+          var classfoodsize =0
+          for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
+              if (data.name==this.$store.state.shopCarList[i].name) {
+                classfoodsize += this.$store.state.shopCarList[i].count
+              }
+          }
+          return classfoodsize
         }
       }
     }
@@ -1270,18 +1303,30 @@
   /*右五右*/
   .choose-size {
     position: relative;
-    display: block;
-    font-size: .55rem;
-    color: #fff;
-    background: #3190e8;
-    font-weight: 100;
+    display: flex;
+    align-items: center;
     padding: .3rem .2rem;
     line-height: .6rem;
-    border: 1px solid #3190e8;
     -webkit-border-radius: .2rem;
     -moz-border-radius: .2rem;
-    border-radius: .2rem;
     /*margin-left: 4rem;*/
+  }
+  .choose-size>span:nth-child(2){
+    display: block;
+    margin: 0 .6rem;
+  }
+  .choose-size>span:nth-child(3) {
+    display: block;
+    font-weight: 100;
+    width: 2rem;
+    height: 1rem;
+    text-align: center;
+    line-height: 1rem;
+    border: 1px solid #3190e8;
+    border-radius: .2rem;
+    background: #3190e8;
+    font-size: .55rem;
+    color: #fff;
   }
 
   .reduce-plus {
@@ -1329,7 +1374,7 @@
     width: 70%;
     border: 1px;
     border-radius: .2rem;
-    z-index: 105;
+    z-index: 800;
   }
 
   /*弹框header*/
