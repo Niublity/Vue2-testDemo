@@ -1,25 +1,100 @@
-
 <template>
   <div>
-      1111
+    <Header :title="title"></Header>
+    <section class="quick-remark">
+      <p>快速备注</p>
+      <ul class="remark-items-container">
+        <li class="remark-items" v-for="(remarktips,Index) in remarkInfor" >
+          <span v-for="(val,index) in remarktips" @click="chooseRemark(index,$event)">{{val}}</span>
+        </li>
+      </ul>
+    </section>
+    <!-- <section class="other-remark"></section>
+    <section class="sure-remark"></section> -->
   </div>
 </template>
 
 <script>
+import header from "../../components/foodheader/foodheader";
 export default {
-    name:"orderRemark",
-  data () {
-    return {
-    };
-  },
-  methods: {}
-}
-
+    name: "orderRemark",
+    data() {
+        return {
+            title: "订单备注",
+            remarkInfor: [],
+            remarktips: []
+        };
+    },
+    components: {
+        Header: header
+    },
+    methods: {
+        chooseRemark( index,$event) {
+          console.log(index);
+        console.log($event.currentTarget.parentNode.childNodes[index])
+        for(let i=0;i<$event.currentTarget.parentNode.childNodes.length;i++){
+            $event.currentTarget.parentNode.childNodes[i].style.background=""
+             $event.currentTarget.parentNode.childNodes[i].style.color=""
+        }
+        $event.currentTarget.style.background="#3190e8";
+        $event.currentTarget.style.color="#fff";
+        }
+    },
+    created() {
+        this.$http
+            .get("http://cangdu.org:8001/v1/carts/1/remarks")
+            .then(response => {
+                // console.log(typeof response.data.remarks[0]);
+                this.remarkInfor = response.data.remarks;
+                for (let i = 0; i < this.remarkInfor.length; i++) {
+                    // console.log(this.remarkInfor[i]);
+                    for (let key in this.remarkInfor[i]) {
+                        // console.log(this.remarkInfor[i][key]);
+                    }
+                }
+            });
+    }
+};
 </script>
 <style lang='scss' scoped>
-div{
-    width: 100px;
-    height: 100px;
-    background: #000;
+.quick-remark {
+    background-color: #fff;
+    margin-top: 0.4rem;
+    padding: 0 0.6rem 1rem;
+}
+.remark-items-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.remark-items-container .remark-items {
+    margin: 0 0.6rem 0.6rem 0;
+    box-sizing: border-box;
+}
+
+.quick-remark p:nth-child(1) {
+    font-size: 0.65rem;
+    color: #333;
+    line-height: 2rem;
+}
+.remark-items-container .remark-items span:first-child {
+    border-left: 0.025rem solid #3190e8;
+    border-top-left-radius: 0.2rem;
+    border-bottom-left-radius: 0.2rem;
+}
+.remark-items-container .remark-items span:last-child {
+    border-top-right-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;
+    border-right: 0.025rem solid #3190e8 !important;
+}
+.remark-items-container .remark-items span:nth-child(2) {
+    border-left: solid 0px red;
+    border-right: solid 0px red;
+}
+.quick-remark .remark-items span {
+    font-size: 0.6rem;
+    color: #333;
+    padding: 0.4rem 0.6rem;
+    border: 0.025rem solid #3190e8;
+    display: inline-block
 }
 </style>
