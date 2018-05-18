@@ -72,6 +72,12 @@
       Footernav: footernav,
       Header: header
     },
+    created(){
+      let url = "http://cangdu.org:8001/v1/user"
+      this.$http.get(url).then((response)=>{
+        console.log(response)
+      })
+    },
     methods: {
       balance() {
         this.$router.push("/balance")

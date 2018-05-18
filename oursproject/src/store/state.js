@@ -12,5 +12,8 @@ let state = {
   count: null,
   shopCarList:[],
   foodindex: 0,
+  userInfo:null,
+  loginstatus:false,
+  user_id:null
 };
 export default state;

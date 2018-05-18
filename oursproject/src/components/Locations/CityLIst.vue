@@ -4,7 +4,8 @@
     <div class="city_header">
       <span class="head_logo" @click="reload">ele.me</span>
       <span>
-        <router-link to="/login" class="head_login">登录|</router-link><a href="##" class="head_login">注册</a>
+        <router-link v-if="this.$store.state.loginstatus" to="/personal"><img src="./img/user.png" style="height: 1.3rem;width: 1.3rem" alt=""></router-link>
+        <router-link v-else to="/login" class="head_login">登录|注册</router-link>
       </span>
     </div>
     <div class="header_two">
@@ -25,7 +26,6 @@
         </li>
       </ul>
     </div>
-
     <!--所有城市-->
     <div class="city_list" v-for="(groups,index) in groupss">
       <h4 class="city_title">{{index}} <span v-if="index=='A'">（按字母排序）</span></h4>
@@ -40,7 +40,7 @@
 
 <script>
   /*引入图片*/
-  import user from './img/user.jpg';
+  import user from './img/user.png';
 
   //请求接口文档
   let apihot = "http://cangdu.org:8001/v1/cities?type=hot";
@@ -76,7 +76,6 @@
         location.reload();
       }
     }
-
   }
 
 </script>

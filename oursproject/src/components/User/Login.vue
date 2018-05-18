@@ -80,7 +80,6 @@
         })
       },
       tran($event) {
-        // console.log($event.currentTarget)
         // $event.currentTarget：绑定事件的标签返回的是一个对象
         var el = $event.currentTarget
         //console.log(el.children[0])
@@ -93,8 +92,6 @@
 
       },
       warnHide(){
-        //console.log("触发登录事件");
-
         if (this.warntxts.psdtxt==''&&this.warntxts.usertxt!=''){
           this.warnTxt="请输入密码";
           this.show = true;
@@ -113,7 +110,16 @@
           console.log(data)
           Vue.postLogin(url,data,res=>{
             console.log(res);
-            // this.$router.push({name:})
+            if(res.message){
+              this.show = true;
+              this.warnTxt=res.message
+              this.exchangephoto()
+            }else
+            {
+              this.$store.commit("setUserId",data.username)
+              this.$store.commit("setUserInfo",res)
+              this.$router.push({name:'CityList'})
+            }
           })
         }
 
