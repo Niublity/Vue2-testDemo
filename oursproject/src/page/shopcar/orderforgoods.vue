@@ -6,7 +6,7 @@
     <section class="ouser-Infor">
       <section class="ouser-Infor-left">
         <img src="./img/定位.png" alt="" class="olocation">
-        <div class="left-username">
+        <!-- <div class="left-username">
           <p>
             <span>111</span>
             <span>先生</span>
@@ -16,11 +16,12 @@
             <span>公司</span>
             <span>帝湖花园22栋</span>
           </p>
-        </div>
+        </div> -->
+        <p class="new-adress">请添加一个收货地址</p>
       </section>
-      <a href="##">
+      <router-link to="/orderforgoods/chooseAddress">
         <img src="../personalpage/img/14.png" alt="" class="tochoose-address">
-      </a>
+      </router-link>
     </section>
     <!--送达时间-->
     <section class="osend-time">
@@ -73,17 +74,17 @@
     <section class="oremark">
       <section class="oremark-wrapper">
         <span>订单备注</span>
-        <a href="##" class="oremark-tochoose">
+        <router-link to="/orderforgoods/orderRemark" class="oremark-tochoose">
           <span>备注信息</span>
           <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
-        </a>
+        </router-link>
       </section>
       <section class="oremark-wrapper border">
         <span>发票抬头</span>
-        <a href="##" class="oremark-tochoose">
+        <router-link to="/orderforgoods/orderbill" class="oremark-tochoose">
           <span>不需要开发票</span>
           <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
-        </a>
+        </router-link>
       </section>
     </section>
     <footer class="confirm-order">
@@ -109,7 +110,9 @@
       </section>
     </transition>
     <div class="sure-orderforgoods-mark" v-if="showPayWay" @click="showPayWay=!showPayWay"></div>
+    <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight" mode="out-in">
     <router-view class="position"></router-view>
+    </transition> 
   </div>
 
 </template>
@@ -130,8 +133,21 @@
     }
   }
 </script>
-
+<style>
+.sure-remark div:nth-child(1),.sure-choose div:nth-child(1) {
+    background-color: #4cd964;
+    font-size: 0.7rem;
+    color: #fff;
+    text-align: center;
+    margin: 0 0.7rem;
+    line-height: 1.8rem;
+    border-radius: 0.2rem;
+}
+</style>
 <style scoped>
+.fadeInRight,.fadeOutRight{
+  -webkit-animation-duration: .5s;
+}
 .position{
   position: fixed;
   left: 0;
@@ -189,7 +205,7 @@
     padding: 0 .6rem;
     align-items: center;
     min-height: 3.5rem;
-    margin-top: 2.5rem;
+    margin-top: 2rem;
 
   }
 
@@ -497,5 +513,9 @@
   .opay-option img {
     width: .8rem;
     height: .8rem;
+  }
+  .new-adress{
+    font-size:.7rem;
+    color:#333;
   }
 </style>
