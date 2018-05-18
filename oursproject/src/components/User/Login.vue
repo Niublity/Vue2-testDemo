@@ -57,25 +57,25 @@
       return {
         back,
         warn,
-        show:false,
+        show: false,
         changeClass: false,
         verifyPic: null,
-        warntxts:{usertxt:'',psdtxt:'',verifytxt:''},
-        warnTxt:'请输入手机号/邮箱/用户名'
+        warntxts: {usertxt: '', psdtxt: '', verifytxt: ''},
+        warnTxt: '请输入手机号/邮箱/用户名'
       }
     },
     created() {
-      let url ="http://cangdu.org:8001/v1/captchas";
-      var data={};
-      Vue.postLogin(url,data,res=>{
+      let url = "http://cangdu.org:8001/v1/captchas";
+      var data = {};
+      Vue.postLogin(url, data, res => {
         this.verifyPic = res.code;
       })
     },
     methods: {
-      exchangephoto(){
-        let url ="http://cangdu.org:8001/v1/captchas";
-        var data={};
-        Vue.postLogin(url,data,res=>{
+      exchangephoto() {
+        let url = "http://cangdu.org:8001/v1/captchas";
+        var data = {};
+        Vue.postLogin(url, data, res => {
           this.verifyPic = res.code;
         })
       },
@@ -91,42 +91,41 @@
         }
 
       },
-      warnHide(){
-        if (this.warntxts.psdtxt==''&&this.warntxts.usertxt!=''){
-          this.warnTxt="请输入密码";
+      warnHide() {
+        if (this.warntxts.psdtxt == '' && this.warntxts.usertxt != '') {
+          this.warnTxt = "请输入密码";
           this.show = true;
           console.log(this.warntxts);
-        }else if(this.warntxts.usertxt!=''&&this.warntxts.psdtxt!=''&&this.warntxts.verifytxt==''){
-          this.warnTxt="请输入验证码";
+        } else if (this.warntxts.usertxt != '' && this.warntxts.psdtxt != '' && this.warntxts.verifytxt == '') {
+          this.warnTxt = "请输入验证码";
           this.show = true;
-        }else
-        {
-          let url ="http://cangdu.org:8001/v2/login";
-          var data={
+        } else {
+          let url = "http://cangdu.org:8001/v2/login";
+          var data = {
             username: this.warntxts.usertxt,
-            password:this.warntxts.psdtxt,
-            captcha_code:this.warntxts.verifytxt
+            password: this.warntxts.psdtxt,
+            captcha_code: this.warntxts.verifytxt
           };
           console.log(data)
-          Vue.postLogin(url,data,res=>{
+          Vue.postLogin(url, data, res => {
             console.log(res);
-            if(res.message){
+            if (res.message) {
               this.show = true;
-              this.warnTxt=res.message
+              this.warnTxt = res.message
               this.exchangephoto()
-            }else
-            {
-              this.$store.commit("setUserId",data.username)
-              this.$store.commit("setUserInfo",res)
-              this.$router.push({name:'CityList'})
+            } else {
+              this.$store.commit("setUserId", data.username)
+              this.$store.commit("setUserInfo", res)
+              sessionStorage.setItem("user",JSON.stringify(res))
+              this.$router.push({name: 'CityList'})
             }
           })
         }
 
       },
-      hides(){
+      hides() {
         //console.log("触发隐藏事件");
-        if (this.show == true){
+        if (this.show == true) {
           this.show = false;
         }
       }
@@ -136,9 +135,10 @@
 
 <style scoped>
 
-input{
-  outline: none;
-}
+  input {
+    outline: none;
+  }
+
   #login {
     box-sizing: border-box;
   }

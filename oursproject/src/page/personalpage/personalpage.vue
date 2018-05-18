@@ -2,24 +2,24 @@
   <div>
     <Header :title="title"></Header>
     <router-link to="/accountdetail" class="simpledes">
-      <div><img src="./img/4.jpg" alt=""></div>
+      <div><img :src="'http://cangdu.org:8001/img/'+userInfo.avatar" alt=""></div>
       <div>
-        <p>304733908</p>
+        <p>{{userInfo.username}}</p>
         <p><img src="./img/16.png" alt="">暂无绑定手机号</p>
       </div>
       <div><img src="./img/15.png" alt=""></div>
     </router-link>
     <div class="count_num">
       <div @click="balance">
-        <div><span>0.00</span><span>元</span></div>
+        <div><span>{{userInfo.balance}}</span><span>元</span></div>
         <p>我的余额</p>
       </div>
       <div @click="coupon">
-        <div><span>3</span><span>个</span></div>
+        <div><span>{{userInfo.gift_amount}}</span><span>个</span></div>
         <p>我的优惠</p>
       </div>
       <div @click="integral">
-        <div><span>0</span><span>分</span></div>
+        <div><span>{{userInfo.brand_member_new}}</span><span>分</span></div>
         <p>我的积分</p>
       </div>
     </div>
@@ -65,7 +65,8 @@
     name: "personalpage",
     data() {
       return {
-        title: "个人中心"
+        title: "个人中心",
+        userInfo:{}
       }
     },
     components: {
@@ -73,10 +74,8 @@
       Header: header
     },
     created(){
-      let url = "http://cangdu.org:8001/v1/user"
-      this.$http.get(url).then((response)=>{
-        console.log(response)
-      })
+      console.log(JSON.parse(sessionStorage.getItem("user")))
+      this.userInfo = JSON.parse(sessionStorage.getItem("user"))
     },
     methods: {
       balance() {

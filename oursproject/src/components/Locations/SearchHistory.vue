@@ -76,8 +76,10 @@
         })
       },
       requireInfor(record) {
+        console.log(record)
         this.$store.commit("setCityInfo", {record})
         this.$router.push({name:"Home",query:{geohash:this.$store.state.city.geohash}})
+        sessionStorage.setItem("local",JSON.stringify(record.address))
         if (localStorage.getItem("Record")) {
           this.Records = JSON.parse(localStorage.getItem("Record"))
         }
