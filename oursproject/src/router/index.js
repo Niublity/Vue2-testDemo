@@ -36,17 +36,17 @@ import OrderRemark from "../page/shopcar/orderChilds/orderRemark"
 import OrderBill from "../page/shopcar/orderChilds/orderBill"
 import ChooseAddress from "../page/shopcar/orderChilds/chooseAddress"
 import AddAddress from "../page/shopcar/orderChilds/addAddress"
-
-
+import hbHistory from "../page/personalpage/coupon/historyhongbao"
+import Forget from "../page/personalpage/setpassword"
 
 Vue.use(Router)
 
 export default new Router({
   routes: [{
-      path: "/home",
-      name: "Home",
-      component: Home
-    },
+    path: "/home",
+    name: "Home",
+    component: Home
+  },
     {
       path: "/search",
       name: "Search",
@@ -115,9 +115,14 @@ export default new Router({
       name: "Coupon",
       component: Coupon,
       children: [{
-          path: 'couponinfor',
-          name: 'CouponInfor',
-          component: CouponInfor
+        path: 'couponinfor',
+        name: 'CouponInfor',
+        component: CouponInfor
+      },
+        {
+          path: 'hbHistory',
+          name: 'hbHistory',
+          component: hbHistory
         },
         {
           path: "sellerdetail",
@@ -131,7 +136,13 @@ export default new Router({
           component: Encourage
         }
       ]
-    }, {
+    },
+    {
+      path:"/forget",
+      name:"Forget",
+      component:Forget
+    },
+    {
       path: "/download",
       name: "Download",
       component: Download
@@ -147,10 +158,10 @@ export default new Router({
       name: "Vipcenter",
       component: Vipcenter,
       children: [{
-          path: "exchangevip",
-          name: "Exchangevip",
-          component: Exchangevip
-        },
+        path: "exchangevip",
+        name: "Exchangevip",
+        component: Exchangevip
+      },
         {
           path: "buyrecord",
           name: "Buyrecord",
@@ -173,10 +184,10 @@ export default new Router({
       name: "Accountdetail",
       component: Accountdetail,
       children: [{
-          path: 'setusername',
-          name: Setusername,
-          component: Setusername
-        },
+        path: 'setusername',
+        name: Setusername,
+        component: Setusername
+      },
         {
           path: 'editaddress',
           name: "Editaddress",
@@ -198,8 +209,8 @@ export default new Router({
       path: "/orderforgoods",
       name: "Orderforgoods",
       component: Orderforgoods,
-      children:[
-         {
+      children: [
+        {
           path: "orderRemark",
           name: "OrderRemark",
           component: OrderRemark
@@ -213,11 +224,11 @@ export default new Router({
           path: "chooseAddress",
           name: "ChooseAddress",
           component: ChooseAddress,
-          children:[
+          children: [
             {
-              path:"addAddress",
-              name:"addAddress",
-              component:AddAddress
+              path: "addAddress",
+              name: "addAddress",
+              component: AddAddress
             }
           ]
         }

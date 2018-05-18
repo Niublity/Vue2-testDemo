@@ -3,7 +3,7 @@
     <Header :title="title"></Header>
     <p class="buy-for">
       <span>成功兑换后将关联到当前账号：</span>
-      <span class="buy-for1">12314ewerdgdfs</span>
+      <span class="buy-for1">{{username}}</span>
     </p>
     <section class="vip-infor">
       <input type="text" placeholder="请输入10位卡号">
@@ -29,12 +29,17 @@
     name: "exchangevip",
     data() {
       return {
-        title: "兑换会员"
+        title: "兑换会员",
+        username:""
       }
     },
     components: {
       Header: header
+    },
+    created(){
+      this.username=JSON.parse(sessionStorage.getItem("user")).username
     }
+
   }
 </script>
 
