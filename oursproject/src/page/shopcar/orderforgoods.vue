@@ -123,7 +123,7 @@
       </section>
     </transition>
     <div class="sure-orderforgoods-mark" v-if="showPayWay" @click="showPayWay=!showPayWay"></div>
-    <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight" mode="out-in">
+    <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
       <router-view class="position"></router-view>
     </transition>
   </div>

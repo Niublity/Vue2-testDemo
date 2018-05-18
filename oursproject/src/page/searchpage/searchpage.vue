@@ -14,7 +14,7 @@
           <img src="./img/close1.png" alt="" @click="deteleSearch($event,index)">
         </li>
       </ul>
-      <footer  v-if="renderUl" class="clear_history" @click="clearSearch">清空搜索历史</footer>
+      <footer v-show="searchContent.length" v-if="renderUl" class="clear_history" @click="clearSearch">清空搜索历史</footer>
       <div class="search-none" v-if="renderSearchC">很抱歉！无搜索结果</div>
     </section>
 
