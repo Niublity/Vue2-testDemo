@@ -1,4 +1,12 @@
 let mutations = {
+  setUserInfo(state,data){
+    state.loginstatus=true
+    state.userInfo = data
+  },
+  setUserId(state,id){
+    console.log(id)
+    state.user_id = id
+  },
   setCityInfo(state, obj) {
     state.city.name = obj.record.name
     state.city.geohash = obj.record.geohash
@@ -7,7 +15,6 @@ let mutations = {
     state.city.longitude = obj.record.longitude
   },
   setSort(state, num) {
-    // console.log("+++++++")
     state.city.sort = num
   },
   setFoodindex(state, num) {
@@ -112,7 +119,6 @@ let mutations = {
             state.shopCarList.splice(i, 1)
           }
         }
-
       }
     }
   },
