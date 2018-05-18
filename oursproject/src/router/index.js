@@ -32,7 +32,12 @@ import Exchange from "../page/personalpage/coupon/exchangehongbao"
 import Encourage from "../page/personalpage/coupon/encourage"
 import Businessinfo from "../page/shopcar/businessinfo"
 import Orderforgoods from "../page/shopcar/orderforgoods"
-import OrderRemark from "../page/shopcar/orderRemark"
+import OrderRemark from "../page/shopcar/orderChilds/orderRemark"
+import OrderBill from "../page/shopcar/orderChilds/orderBill"
+import ChooseAddress from "../page/shopcar/orderChilds/chooseAddress"
+import AddAddress from "../page/shopcar/orderChilds/addAddress"
+
+
 
 Vue.use(Router)
 
@@ -198,8 +203,24 @@ export default new Router({
           path: "orderRemark",
           name: "OrderRemark",
           component: OrderRemark
+        },
+        {
+          path: "orderbill",
+          name: "OrderBill",
+          component: OrderBill
+        },
+        {
+          path: "chooseAddress",
+          name: "ChooseAddress",
+          component: ChooseAddress,
+          children:[
+            {
+              path:"addAddress",
+              name:"addAddress",
+              component:AddAddress
+            }
+          ]
         }
-
       ]
     }
   ]
