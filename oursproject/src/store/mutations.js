@@ -112,7 +112,6 @@ let mutations = {
             state.shopCarList.splice(i, 1)
           }
         }
-
       }
     }
   },

@@ -11,6 +11,9 @@
 </script>
 
 <style>
+  #app{
+    height: 100%;
+  }
   /*城市列表导航条*/
   .city_header {
     width: 100%;

@@ -51,7 +51,10 @@
         <!--商品界面-->
         <div class="wares" v-show="showWares">
           <!--左边分类-->
-          <ul class="wares-left">
+          <div class="wares-first" >
+
+
+          <ul class="wares-left" ref="waresleft">
             <li v-for="(categoty,index) in categotyList" ref="nav" class="left-li"
                 @click="foodclass(index,$event)">
               <img v-if="categoty.icon_url!=''"
@@ -62,6 +65,7 @@
                     v-show="countss[index].showCounts">{{countss[index].count}}</span>
             </li>
           </ul>
+          </div>
           <!--商品详情-->
           <ul class="wares-right" ref="aaa">
             <!--第一层循环创建  分类-->
@@ -397,14 +401,10 @@
         this.showWares = false;
         this.showEvaluate = true;
       },
-      // showchoosesize(index,indextwo,A,B){
-      //   return true
-      // },
       showInfor(array, index, indextwo) {
         this.sizedetail = array
         this.testarray[index][indextwo].classfood = true
         this.showChoose = !this.showChoose
-        // this.showchoosesize( , ,index,indextwo)
 
       },
       hideInfor(index, indextwo) {
@@ -427,7 +427,26 @@
         $event.target.className = "specs-activity"
       },
       foodclass(index, $event) {
+        console.log(index)
         this.publicfunction.jump(index, this.$refs.aaa)
+        var el = $event.currentTarget
+        var height = el.offsetHeight
+        //-6914px
+        if(index>3){
+          var movepx=-height*(index-3)
+          el.parentNode.style.transform="translate(0px,"+movepx +"px) translateZ(0px)"
+        }else if(index <=3){
+          el.parentNode.style.transform="translate(0px,"+0 +"px) translateZ(0px)"
+        }
+        var strContent = el.parentNode.style.cssText
+        var regexp2 = /[0-9]+/g
+        var lll2 = strContent.match(regexp2)
+        console.log(lll2[1])
+        if(lll2[1]>7015){
+          console.log("adadasdadadadasd")
+          el.parentNode.style.transform="translate(0px,"+ (-7015) +"px) translateZ(0px)"
+        }
+        // else  if(){}
       },
       handleScroll(index, $event) {
         for (var i = 1; i <= this.$refs.aaa.childNodes.length; i++) {
@@ -844,6 +863,7 @@
   }
 
   .shopcarbody {
+    height: 100%;
     position: relative;
   }
 
@@ -1003,6 +1023,7 @@
 
   /*----购物车商品评价界面-----*/
   .wares-evaluate {
+    height: 100%;
     position: absolute;
     left: 0;
     top: 9.5rem;
@@ -1047,18 +1068,32 @@
   }
 
   /*商品*/
+  .information{
+    width: 100%;
+    height: 100%;
+  }
   .wares {
     width: 100%;
+    height: 100%;
+    /*height: 17rem;*/
+    overflow: hidden;
     display: flex;
     justify-content: center;
   }
-
+.wares-first{
+  height: 100%;
+  overflow: scroll;
+}
   /*商品左*/
   .wares-left {
     width: 3.8rem;
     background-color: #f5f5f5;
-    height: 17rem;
-    overflow: scroll;
+    /*height: 100%;*/
+    /*overflow: scroll hidden;*/
+    /*overflow-y:scroll ;*/
+    /**/
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-duration: 800ms;
   }
 
   .wares-left::-webkit-scrollbar {
@@ -1102,7 +1137,8 @@
     position: relative;
     /*position: fixed;*/
     right: 0;
-    height: 17rem;
+    /*height: 17rem;*/
+    height: 100%;
     background-color: white;
     overflow: scroll;
     /*z-index: 1200;*/

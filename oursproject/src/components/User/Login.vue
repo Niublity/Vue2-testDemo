@@ -9,6 +9,7 @@
     <form class="lform">
       <section class="form-input">
         <input type="text" placeholder="账号" v-model="warntxts.usertxt">
+        {{warntxts.usertxt}}
       </section>
       <section class="form-input">
         <input :type="this.changeClass? 'text':'password'" placeholder="密码" v-model="warntxts.psdtxt">
@@ -24,7 +25,7 @@
           <img :src="verifyPic" alt="">
           <div class="change-img">
             <p>看不清</p>
-            <p>换一张</p>
+            <p @click="exchangephoto">换一张</p>
           </div>
         </div>
       </section>
@@ -48,6 +49,7 @@
 <script>
   import back from "../Locations/img/返回 (1).png";
   import warn from "./img/警告.png";
+  import Vue from 'vue'
 
   export default {
     name: "Login",
@@ -63,12 +65,20 @@
       }
     },
     created() {
-      this.$http.post("http://cangdu.org:8001/v1/captchas").then((response) => {
-       console.log(response.data.code);
-       this.verifyPic = response.data.code;
+      let url ="http://cangdu.org:8001/v1/captchas";
+      var data={};
+      Vue.postLogin(url,data,res=>{
+        this.verifyPic = res.code;
       })
     },
     methods: {
+      exchangephoto(){
+        let url ="http://cangdu.org:8001/v1/captchas";
+        var data={};
+        Vue.postLogin(url,data,res=>{
+          this.verifyPic = res.code;
+        })
+      },
       tran($event) {
         // console.log($event.currentTarget)
         // $event.currentTarget：绑定事件的标签返回的是一个对象
@@ -84,13 +94,29 @@
       },
       warnHide(){
         //console.log("触发登录事件");
-        this.show = true;
+
         if (this.warntxts.psdtxt==''&&this.warntxts.usertxt!=''){
           this.warnTxt="请输入密码";
+          this.show = true;
           console.log(this.warntxts);
         }else if(this.warntxts.usertxt!=''&&this.warntxts.psdtxt!=''&&this.warntxts.verifytxt==''){
           this.warnTxt="请输入验证码";
+          this.show = true;
+        }else
+        {
+          let url ="http://cangdu.org:8001/v2/login";
+          var data={
+            username: this.warntxts.usertxt,
+            password:this.warntxts.psdtxt,
+            captcha_code:this.warntxts.verifytxt
+          };
+          console.log(data)
+          Vue.postLogin(url,data,res=>{
+            console.log(res);
+            // this.$router.push({name:})
+          })
         }
+
       },
       hides(){
         //console.log("触发隐藏事件");

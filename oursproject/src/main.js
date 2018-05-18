@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from "./store"
+import {Plugin1} from  "../static/js/plugin1"
 
 //引入elementui
 import ElementUI from "element-ui"
@@ -15,6 +16,7 @@ import PublicFunction from "../static/js/PublicFunction";
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI);
+Vue.use(Plugin1)
 Vue.prototype.publicfunction = PublicFunction
 
 
