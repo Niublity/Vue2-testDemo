@@ -23,16 +23,15 @@
                 <section class="contact-tel-right">
                     <div>
                         <input type="text" placeholder="你的手机号" class="input-text">
-                        <img src="./img/addtel.png" alt="" class="addtel-img">
+                        <img src="./img/addtel.png" alt="" class="addtel-img" @click="planBstate">
                     </div>
-                    <input type="text" placeholder="备选电话" class="input-text">
+                    <input type="text" placeholder="备选电话" class="input-text  input-planB" v-if="planB">
                 </section>
-
             </section>
             <section class="section-wrapper">
                 <span class="section-left">送餐地址</span>
                 <section class="section-right">
-                    <input type="text" placeholder="小区/写字楼/学校等" class="input-text">
+                    <div type="text" class="choose-address">小区/写字楼/学校等</div>
                     <input type="text" placeholder="详细地址（如门牌号等）" class="input-text">
                 </section>
             </section>
@@ -43,9 +42,9 @@
                 </section>
             </section>
         </section>
-         <footer class="sure-choose">
-          <div @click="goBack">确定</div>
-      </footer>
+        <footer class="sure-choose">
+            <div @click="goBack">确定</div>
+        </footer>
     </div>
 </template>
 
@@ -55,15 +54,19 @@ export default {
     name: "addAddress",
     data() {
         return {
-            title: "添加地址"
+            title: "添加地址",
+            planB: false
         };
     },
     components: {
         Header
     },
-    methods:{
-        goBack(){
+    methods: {
+        goBack() {
             this.$router.go(-1);
+        },
+        planBstate(){
+            this.planB=true;
         }
     }
 };
@@ -89,12 +92,7 @@ export default {
 .contact-tel-right {
     flex: 5;
 }
-.input-text {
-    width: 100%;
-    height: 2.5rem;
-    font-size: 0.7rem;
-    color: #999;
-}
+
 .contactPer-right-choose {
     line-height: 2.5rem;
     border-top: 0.025rem solid #f5f5f5;
@@ -117,11 +115,7 @@ contactPer-right-choose .section-right .choose-sex span {
     color: #333;
 }
 /*联系电话*/
-// .contact-tel-right {
-//     display: flex;
-//     // justify-content: space-between;
-//     // align-items: center;
-// }
+
 .contact-tel-right div:nth-of-type(1) {
     display: flex;
     justify-content: space-between;
@@ -131,10 +125,25 @@ contactPer-right-choose .section-right .choose-sex span {
     width: 1rem;
     height: 1rem;
 }
-.contact-tel-right input:nth-child(2) {
+.input-planB {
     border-top: 0.025rem solid #f5f5f5;
+    border-bottom: 0.025rem
 }
-.sure-choose{
-        margin-top: .6rem;
+.input-text {
+    width: 100%;
+    height: 2.5rem;
+    font-size: 0.7rem;
+    color: #999;
+    outline: none;
+    box-sizing: border-box;
+}
+.choose-address {
+    font-size: 0.7rem;
+    color: #999;
+    line-height: 2.5rem;
+    border-bottom: 0.025rem solid #f5f5f5;
+}
+.sure-choose {
+    margin-top: 0.6rem;
 }
 </style>
