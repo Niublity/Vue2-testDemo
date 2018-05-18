@@ -1,62 +1,70 @@
 <template>
   <div>
-    <transition enter-active-class="animated bounceIn">
-        <div class="warn" v-if="show" >
-          <img :src="warn" alt="">
-          <p>{{warnText}}</p>
-          <div class="warn-sure">{{sure}}</div>
-        </div>
-    </transition>
+
+      <div class="warn">
+        <img :src="warn" alt="">
+        <p>{{warnText}}</p>
+        <div class="warn-sure" @click="hide111">确认</div>
+      </div>
+
   </div>
 </template>
 
 <script>
-  import warn from "../User/img/警告.png";
+import warn from "../User/img/警告.png";
 
-  export default {
+export default {
     name: "jumpkuang",
-    props: ["warnText", "sure", 'show'],
+    props: ["warnText"],
     data() {
-      return {
-        warn,
+        // alert(this.show)
+        return {
+            warn
+        };
+    },
+    created() {
+        // console.log(qwe);
+        // this.qwe = this._props.show;
+    },
+    methods: {
+      hide111(){
+         this.$emit("hide123")
       }
     },
-  }
+    computed: {
+    }
+};
 </script>
 
 <style scoped>
-  .warn {
+.warn {
     width: 12rem;
     background: white;
-    border-radius: .25rem;
-    position: fixed;
-    left: 2rem;
-    top: 26.4%;
+    border-radius: 0.25rem;
     text-align: center;
-    padding-top: .6rem;
-  }
+    padding-top: 0.6rem;
+}
 
-  .warn img:nth-of-type(1) {
+.warn img:nth-of-type(1) {
     width: 3rem;
     height: 3rem;
-  }
+}
 
-  .warn p {
-    font-size: .7rem;
+.warn p {
+    font-size: 0.7rem;
     color: #333;
-    margin: .8rem 0;
+    margin: 0.8rem 0;
     font-weight: 200;
     letter-spacing: 0.02rem;
-  }
+}
 
-  .warn-sure {
+.warn-sure {
     background-color: #4cd964;
-    font-size: .7rem;
+    font-size: 0.7rem;
     color: #fff;
-    padding: .6rem 0;
+    padding: 0.6rem 0;
     border: 1px;
-    border-radius: .15rem;
+    border-radius: 0.15rem;
     font-weight: 200;
-  }
-
+}
 </style>

@@ -5,7 +5,9 @@
             <img src="./img/download.png" alt="">
             <span>新增收获地址</span>
         </router-link>
+          <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight" mode="out-in">
         <router-view class="childrens"></router-view>
+         </transition>
     </div>
 </template>
 

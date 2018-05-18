@@ -5,7 +5,7 @@
             <section class="section-wrapper">
                 <span class="section-left">联系人</span>
                 <section class="section-right">
-                    <input type="text" placeholder="你的名字" class="input-text">
+                    <input type="text" placeholder="你的名字" class="input-text" v-model="username">
                     <div class="contactPer-right-choose">
                         <span class="choose-sex">
                             <img src="../../personalpage/vipcenter/image/green.png" alt="">
@@ -22,7 +22,7 @@
                 <span class="section-left">联系电话</span>
                 <section class="contact-tel-right">
                     <div>
-                        <input type="text" placeholder="你的手机号" class="input-text">
+                        <input type="text" placeholder="你的手机号" class="input-text" v-model="phone">
                         <img src="./img/addtel.png" alt="" class="addtel-img" @click="planBstate">
                     </div>
                     <input type="text" placeholder="备选电话" class="input-text  input-planB" v-if="planB">
@@ -31,47 +31,76 @@
             <section class="section-wrapper">
                 <span class="section-left">送餐地址</span>
                 <section class="section-right">
-                    <div type="text" class="choose-address">小区/写字楼/学校等</div>
-                    <input type="text" placeholder="详细地址（如门牌号等）" class="input-text">
+                    <div type="text" class="choose-address" ref="address">小区/写字楼/学校等</div>
+                    <input type="text" placeholder="详细地址（如门牌号等）" class="input-text" v-model="detailAddress">
                 </section>
             </section>
             <section class="section-wrapper">
                 <span class="section-left">标签</span>
                 <section class="section-right">
-                    <input type="text" placeholder="无/家/学校/公司" class="input-text">
+                    <input type="text" placeholder="无/家/学校/公司" class="input-text" v-model="labels">
                 </section>
             </section>
         </section>
         <footer class="sure-choose">
             <div @click="goBack">确定</div>
         </footer>
+        <transition enter-active-class="animated bounceIn">
+            <Jump v-if="shows" :warnText="warnText" class="Jump" @hide123="showHide"></Jump>
+        </transition>
     </div>
 </template>
 
 <script>
 import Header from "../../../components/foodheader/foodheader";
+import Jump from "../../../components/jumpkuangkuang/jumpkuang";
 export default {
     name: "addAddress",
     data() {
         return {
             title: "添加地址",
-            planB: false
+            planB: false,
+            shows: false,
+            username: "",
+            warnText: "请输入姓名",
+            phone: "",
+            detailAddress: "",
+            labels: ""
         };
     },
     components: {
-        Header
+        Header,
+        Jump
     },
     methods: {
+        hide() {},
         goBack() {
-            this.$router.go(-1);
+            // if (this.username=="") {
+
+            // }
+            console.log(this.username);
+            console.log(this.phone);
+            console.log(this.labels);
+            console.log(this.detailAddress);
+            console.log(this.$refs.address);
+            this.shows = true;
         },
-        planBstate(){
-            this.planB=true;
+        planBstate() {
+            this.planB = true;
+        },
+        showHide() {
+            this.shows = false;
+            console.log("1111");
         }
     }
 };
 </script>
 <style lang='scss' scoped>
+.Jump {
+    position: fixed;
+    left: 2rem;
+    top: 27%;
+}
 .section-container {
     background-color: #fff;
     padding: 0 0.7rem;
@@ -127,7 +156,7 @@ contactPer-right-choose .section-right .choose-sex span {
 }
 .input-planB {
     border-top: 0.025rem solid #f5f5f5;
-    border-bottom: 0.025rem
+    border-bottom: 0.025rem;
 }
 .input-text {
     width: 100%;

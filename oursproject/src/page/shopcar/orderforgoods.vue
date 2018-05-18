@@ -141,6 +141,9 @@ export default {
             showPayWay: false
         };
     },
+    created(){
+        console.log(this.$router.query)
+    },
     components: {
         Header: header
     }
