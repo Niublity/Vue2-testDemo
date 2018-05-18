@@ -5,7 +5,7 @@
       <input type="file" class="profileinfopanel-upload">
       <h2>头像</h2>
       <div class="headportrait-div">
-        <img src="../img/4.jpg" alt="">
+        <img :src="'http://cangdu.org:8001/img/'+userInfo.avatar" alt="">
         <img src="../img/14.png" alt="">
       </div>
     </section>
@@ -13,7 +13,7 @@
       <section class="usernamedetail">
         <h2>用户名</h2>
         <div>
-          <span>304733908</span>
+          <span>{{userInfo.username}}</span>
           <img src="../img/14.png" alt="">
         </div>
       </section>
@@ -77,8 +77,15 @@
       return {
         title: "账户信息",
         show: false,
-        quitshow:false
+        quitshow:false,
+        userInfo:{}
       }
+    },
+    components: {
+      Header: header
+    },
+    created(){
+      this.userInfo=JSON.parse(sessionStorage.getItem("user"))
     },
     methods: {
       hides() {
@@ -87,10 +94,8 @@
           this.quitshow = false
         }
       }
-    },
-    components: {
-      Header: header
     }
+
   }
 </script>
 

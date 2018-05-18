@@ -5,10 +5,10 @@
       <div class="detail">
         <div class="balancetop">
           <div><span>当前余额</span></div>
-          <router-link  to="/balance/balancedetail"><img src="./img/10.png" alt=""><span>余额说明</span></router-link>
+          <router-link to="/balance/balancedetail"><img src="./img/10.png" alt=""><span>余额说明</span></router-link>
         </div>
         <div class="money">
-          <span>0.00</span>
+          <span>{{userInfo.balance}}</span>
           <span>元</span>
         </div>
         <div class="btnsunmit">
@@ -36,8 +36,12 @@
     name: "balance",
     data() {
       return {
-        title: "我的余额"
+        title: "我的余额",
+        userInfo: {}
       }
+    },
+    created() {
+      this.userInfo = JSON.parse(sessionStorage.getItem("user"))
     },
     components: {
       Header: header

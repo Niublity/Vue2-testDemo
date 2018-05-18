@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header :title="title"></Header>
-
     <img :src="img.user" alt="" class="top_user">
     <!--轮播图-->
     <div class=" swiper-container foods_kind">
@@ -12,7 +11,7 @@
                        :key="kind1.id"
                        class="link_to_food">
             <img :src="'https://fuss10.elemecdn.com'+kind1.image_url" alt="">
-            <span v-if="test(10)">{{kind1.title}}</span>
+            <span>{{kind1.title}}</span>
           </router-link>
         </div>
         <div class="swiper-slide">
@@ -49,7 +48,7 @@
 
   import footernav from "../../components/footernav/footernav";
   import goodlist from "../../components/goodslist/goodslist";
-  import header from "../../components/foodheader/foodheader"
+  import header from "./Nav"
 
   export default {
     name: "homepage",
@@ -64,15 +63,11 @@
       }
     },
     created() {
-      var myarr=new Array(); //先声明一维
-      for(var i=0;i<2;i++){  //一维长度为2
-        myarr[i]=new Array(); //再声明二维
-        for(var j=0;j<3;j++){  //二维长度为3
-          myarr[i][j]=i+j;  // 赋值，每个数组元素的值为i+j
-        }
+      if (!sessionStorage.getItem("local")) {
+        this.title = "未知位置请重新定位"
+      } else {
+        this.title=sessionStorage.getItem("local")
       }
-      console.log(myarr)
-      this.title = this.$store.state.city.address
       //swiper
       this.$http.get("http://cangdu.org:8001/v2/index_entry").then((response) => {
         this.foodkinds = this.publicfunction.sliceArray(response.data, 8)
@@ -98,19 +93,6 @@
       footernav,
       goodlist,
       Header: header
-    },
-    mounted() {
-    },
-    methods:{
-      test(index){
-        if(index>5){
-          return true
-        }
-        else{
-          return false
-        }
-
-      }
     }
   }
 </script>

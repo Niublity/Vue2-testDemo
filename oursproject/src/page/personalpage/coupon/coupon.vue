@@ -39,7 +39,7 @@
         </section>
         <footer>
           <div class="footernav">
-            <div @click="exchangehongbao" ><span>兑换红包</span></div>
+            <div @click="exchangehongbao"><span>兑换红包</span></div>
             <div @click="recommend"><span>推荐有奖</span></div>
           </div>
         </footer>
@@ -57,7 +57,7 @@
           <img src="../vipcenter/image/voucher.png" alt="">
           <p>无法使用代金券</p>
           <p>非客户端或客户端版本过低</p>
-          <div>下载或升级客户端</div>
+          <router-link to="/download">下载或升级客户端</router-link>
         </section>
       </section>
     </transition>
@@ -78,11 +78,21 @@
         title: "我的优惠",
         showHongbao: true,
         showCoupon: false,
-        showexchangehongbao:false,
-        showrecommend:false,
+        showexchangehongbao: false,
+        showrecommend: false,
         coupons: [],
         amounts: [],
       }
+    },
+    created() {
+      let userid = JSON.parse(sessionStorage.getItem("user"))
+      let url = "http://cangdu.org:8001/promotion/v2/users/" + userid.user_id + "/hongbaos?limit=20&offset=0"
+      this.$http.get(url).then((response) => {
+        this.coupons = response.data;
+      })
+    },
+    components: {
+      Header: header
     },
     methods: {
       hongbao() {
@@ -94,24 +104,12 @@
         this.showCoupon = true;
       },
       exchangehongbao() {
-        this.$router.push({path:"/coupon/exchange"})
+        this.$router.push({path: "/coupon/exchange"})
       },
       recommend() {
-        this.$router.push({path:"/coupon/encourage"})
+        this.$router.push({path: "/coupon/encourage"})
       }
-    },
-    created() {
-      this.$http.get("http://cangdu.org:8001/promotion/v2/users/1/hongbaos?limit=20&offset=0").then((response) => {
-        console.log(response.data)
-        this.coupons = response.data;
-        //console.log([...this.coupons]);
-        console.log([...JSON.stringify(response.data[2].amount)][2]);
-      })
-    },
-    components: {
-      Header: header
     }
-
   }
 </script>
 
@@ -178,7 +176,7 @@
     font-weight: 200;
   }
 
-  .unable-use div:nth-of-type(1) {
+  .unable-use a {
     display: inline-block;
     background-color: #56d176;
     font-size: .65rem;
@@ -186,7 +184,6 @@
     padding: .4rem;
     border-radius: .15rem;
     font-weight: 100;
-
   }
 
   .animated {
