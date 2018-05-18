@@ -123,7 +123,7 @@
       </section>
     </transition>
     <div class="sure-orderforgoods-mark" v-if="showPayWay" @click="showPayWay=!showPayWay"></div>
-    <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight" mode="out-in">
+    <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
       <router-view class="position"></router-view>
     </transition>
   </div>
@@ -140,6 +140,9 @@ export default {
             title: "确认订单",
             showPayWay: false
         };
+    },
+    created(){
+        console.log(this.$router.query)
     },
     components: {
         Header: header

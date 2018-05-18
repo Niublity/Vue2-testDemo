@@ -248,7 +248,7 @@
           <p>￥<span>{{$store.state.costs}}</span>.00</p>
           <p>配送费5￥</p>
         </div>
-        <div :class="$store.state.costCount? 'toPays':'missingmoney'">
+        <div :class="$store.state.costCount? 'toPays':'missingmoney'" @click="toPayOrder">
           <span>{{toPay}}</span>
         </div>
       </div>
@@ -391,6 +391,11 @@
       this.$refs.aaa.addEventListener('scroll', this.handleScroll)
     },
     methods: {
+      toPayOrder(){
+        if (this.$store.state.shopCarList.length!=0) {
+         this.$router.push("/orderforgoods"); 
+        }
+      },
       toWares() {
         console.log("商品界面");
         this.showWares = true;

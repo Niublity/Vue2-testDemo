@@ -38,6 +38,10 @@ import ChooseAddress from "../page/shopcar/orderChilds/chooseAddress"
 import AddAddress from "../page/shopcar/orderChilds/addAddress"
 import hbHistory from "../page/personalpage/coupon/historyhongbao"
 import Forget from "../page/personalpage/setpassword"
+import SearchAddress from "../page/shopcar/orderChilds/searchAddress"
+
+
+
 
 Vue.use(Router)
 

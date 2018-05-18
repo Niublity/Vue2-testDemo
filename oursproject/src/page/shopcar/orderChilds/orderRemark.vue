@@ -51,7 +51,7 @@ export default {
         },
         goBack() {
             // console.log(this.inputText);
-            this.$router.go(-1);
+            this.$router.push({path:"/orderforgoods"});
         }
     },
     created() {

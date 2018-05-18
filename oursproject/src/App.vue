@@ -9,13 +9,13 @@
     name: 'App',
     created(){
       if(sessionStorage.getItem("user")){
-
       }
     }
   }
 </script>
 
 <style>
+
   #app{
     height: 100%;
   }
