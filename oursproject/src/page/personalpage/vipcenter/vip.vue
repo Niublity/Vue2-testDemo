@@ -2,7 +2,7 @@
   <div>
     <Header :title="title"></Header>
     <div class="buyvip">
-      为账户<span>304733908</span>购买会员
+      为账户<span>{{username}}</span>购买会员
     </div>
     <section class="menbershippower">
       <router-link to="/vipcenter/vipdescription">
@@ -70,11 +70,15 @@
     data() {
       return {
         title: "会员中心",
-        problems: []
+        problems: [],
+        username:""
       }
     },
     components: {
       Header: header
+    },
+    created(){
+      this.username=JSON.parse(sessionStorage.getItem("user")).username
     }
   }
 </script>

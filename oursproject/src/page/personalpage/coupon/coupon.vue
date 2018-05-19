@@ -36,6 +36,7 @@
           <p>
             限品类：快餐便当、特色菜系、小吃夜宵、甜品饮品、异国料理
           </p>
+          <router-link to="/coupon/hbHistory" class="historyhongbao">查看历史红包 ></router-link>
         </section>
         <footer>
           <div class="footernav">
@@ -214,6 +215,14 @@
   .outline {
     border-bottom: .1rem solid #3190e8;
     color: #3190e8 !important;
+  }
+
+  .historyhongbao {
+    display: block;
+    color: #999;
+    padding: .5rem 0 2.8rem;
+    font-size: .6rem !important;
+    text-align: center;
   }
 
   .hongbao_container {
