@@ -230,9 +230,16 @@ export default new Router({
           component: ChooseAddress,
           children: [
             {
-              path: "addAddress",
-              name: "addAddress",
-              component: AddAddress
+              path:"addAddress",
+              name:"addAddress",
+              component:AddAddress,
+              children:[
+                {
+                  path: "searchAddress",
+                  name: "SearchAddress",
+                  component: SearchAddress
+                }
+              ]
             }
           ]
         }

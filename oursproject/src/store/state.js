@@ -15,6 +15,9 @@ let state = {
   userInfo:null,
   loginstatus:false,
   user_id:null,
-  movedis:0
+  movedis:0,
+  remarkTips:"",
+  searchAddress:"",
+  AddaddressDetaial:[],
 };
 export default state;

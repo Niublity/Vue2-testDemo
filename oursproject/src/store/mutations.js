@@ -9,7 +9,7 @@ let mutations = {
     state.loginstatus=true
     state.userInfo = data
   },
-  setUserId(state,id){
+  setUserId(state, id) {
     console.log(id)
     state.user_id = id
   },
@@ -48,8 +48,7 @@ let mutations = {
             state.shopCarList.splice(j, 1);
             len--
             j--
-          }
-          else if (state.shopCarList[i].specifications[0].spec_name == state.shopCarList[j].specifications[0].spec_name) {
+          } else if (state.shopCarList[i].specifications[0].spec_name == state.shopCarList[j].specifications[0].spec_name) {
             state.shopCarList[i].price += state.shopCarList[j].price
             state.shopCarList[i].count = state.shopCarList[j].count
             state.shopCarList.splice(j, 1);
@@ -71,9 +70,9 @@ let mutations = {
       if (state.shopCarList[i].name == reduceList.name) {
         state.shopCarList[i].price -= reduceList.price
         state.shopCarList[i].count--
-        if (state.shopCarList[i].price == 0) {
-          state.shopCarList.splice(i, 1);
-        }
+          if (state.shopCarList[i].price == 0) {
+            state.shopCarList.splice(i, 1);
+          }
       }
     }
   },
@@ -83,14 +82,13 @@ let mutations = {
         if (!state.shopCarList[i].specifications.length) {
           state.shopCarList[i].price += state.shopCarList[i].price / state.shopCarList[i].count
           state.shopCarList[i].count++
-          state.costCount++
-          state.costs += state.shopCarList[i].price / state.shopCarList[i].count
-        }
-        else if (state.shopCarList[i].specifications[0].spec_name == list.specifications[0].spec_name) {
+            state.costCount++
+            state.costs += state.shopCarList[i].price / state.shopCarList[i].count
+        } else if (state.shopCarList[i].specifications[0].spec_name == list.specifications[0].spec_name) {
           state.shopCarList[i].price += state.shopCarList[i].price / state.shopCarList[i].count
           state.shopCarList[i].count++
-          state.costCount++
-          state.costs += state.shopCarList[i].price / state.shopCarList[i].count
+            state.costCount++
+            state.costs += state.shopCarList[i].price / state.shopCarList[i].count
         }
       }
     }
@@ -101,32 +99,40 @@ let mutations = {
         if (!state.shopCarList[i].specifications.length) {
           if (state.shopCarList[i].count == 0) {
             state.costs -= state.shopCarList[i].price
-          }
-          else {
+          } else {
             state.costs -= state.shopCarList[i].price / state.shopCarList[i].count
           }
           state.shopCarList[i].price -= state.shopCarList[i].price / state.shopCarList[i].count
           state.shopCarList[i].count--
-          state.costCount--
-          if (state.shopCarList[i].count == 0) {
-            state.shopCarList.splice(i, 1)
-          }
-        }else if(state.shopCarList[i].specifications[0].spec_name == list.specifications[0].spec_name){
+            state.costCount--
+            if (state.shopCarList[i].count == 0) {
+              state.shopCarList.splice(i, 1)
+            }
+        } else if (state.shopCarList[i].specifications[0].spec_name == list.specifications[0].spec_name) {
           if (state.shopCarList[i].count == 0) {
             state.costs -= state.shopCarList[i].price
-          }
-          else {
+          } else {
             state.costs -= state.shopCarList[i].price / state.shopCarList[i].count
           }
           state.shopCarList[i].price -= state.shopCarList[i].price / state.shopCarList[i].count
           state.shopCarList[i].count--
-          state.costCount--
-          if (state.shopCarList[i].count == 0) {
-            state.shopCarList.splice(i, 1)
-          }
+            state.costCount--
+            if (state.shopCarList[i].count == 0) {
+              state.shopCarList.splice(i, 1)
+            }
         }
       }
     }
   },
+  addRemark(state, remarkText) {
+    state.remarkTips = remarkText
+    console.log(state.remarkTips);
+  },
+  AddaddressDetaial(state, AddaddressDetaial) {
+    state.AddaddressDetaial.push(AddaddressDetaial);
+    console.log(state.AddaddressDetaial)
+
+  }
+
 };
 export default mutations;
