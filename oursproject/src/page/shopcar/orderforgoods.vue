@@ -1,12 +1,12 @@
 <template>
-  <div class="sure-orderforgoods">
-    <Header :title="title" class="sure-orderforgoods-header"></Header>
-    <img src="./img/商户线性.png" alt="" class="orderfg-top">
-    <!--个人信息-->
-    <section class="ouser-Infor">
-      <section class="ouser-Infor-left">
-        <img src="./img/定位.png" alt="" class="olocation">
-        <!-- <div class="left-username">
+    <div class="sure-orderforgoods">
+        <Header :title="title" class="sure-orderforgoods-header"></Header>
+        <img src="./img/商户线性.png" alt="" class="orderfg-top">
+        <!--个人信息-->
+        <section class="ouser-Infor">
+            <section class="ouser-Infor-left">
+                <img src="./img/定位.png" alt="" class="olocation">
+                <!-- <div class="left-username">
           <p>
             <span>111</span>
             <span>先生</span>
@@ -17,116 +17,114 @@
             <span>帝湖花园22栋</span>
           </p>
         </div> -->
-        <p class="new-adress">请添加一个收货地址</p>
-      </section>
-      <router-link to="/orderforgoods/chooseAddress">
-        <img src="../personalpage/img/14.png" alt="" class="tochoose-address">
-      </router-link>
-    </section>
-    <!--送达时间-->
-    <section class="osend-time">
-      <p>送达时间</p>
-      <div class="osend-time-right">
-        <p>尽快送达|预计16:08</p>
-        <p>蜂鸟转送</p>
-      </div>
-    </section>
-    <!--支付方式-->
-    <section class="opay-way">
-      <div class="opay-way-one">
-        <span>支付方式</span>
-        <p>
-          <router-link to="/orderforgoods/orderRemark" @click="showPayWay=!showPayWay">
-            <span>在线支付</span>
-            <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
-          </router-link>
-        </p>
-      </div>
-      <div class="opay-way-two">
-        <span>红包</span>
-        <span>暂时只在饿了吗APP中支持</span>
-      </div>
-    </section>
-    <!--购物车食品列表-->
-    <section class="ofood-List">
-      <header class="ofood-List-header">
-        <img src="./img/test.jpeg" alt="">
-        <h4>效果演示</h4>
-      </header>
-      <section class="ofood-List-container">
-        <ul>
-          <li class="ofood-List-wrapper">
-            <p>食品名称</p>
-            <span class="wrapper-count">X
-              <span>3</span>
-            </span>
-            <span class="wrapper-price">￥
-              <span>20</span>
-            </span>
-          </li>
-        </ul>
-        <footer class="ofood-List-footer">
-          <p>订单￥
-            <span>11111</span>
-          </p>
-          <p>
-            <span>待支付</span>
-            <span>￥
-              <span>11111</span>
-            </span>
-          </p>
+                <p class="new-adress">请添加一个收货地址</p>
+            </section>
+            <router-link to="/orderforgoods/chooseAddress">
+                <img src="../personalpage/img/14.png" alt="" class="tochoose-address">
+            </router-link>
+        </section>
+        <!--送达时间-->
+        <section class="osend-time">
+            <p>送达时间</p>
+            <div class="osend-time-right">
+                <p>尽快送达|预计16:08</p>
+                <p>蜂鸟转送</p>
+            </div>
+        </section>
+        <!--支付方式-->
+        <section class="opay-way">
+            <div class="opay-way-one">
+                <span>支付方式</span>
+                <p @click="showPayWay=!showPayWay">
+                    <span>在线支付</span>
+                    <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
+                </p>
+            </div>
+            <div class="opay-way-two">
+                <span>红包</span>
+                <span>暂时只在饿了吗APP中支持</span>
+            </div>
+        </section>
+        <!--购物车食品列表-->
+        <section class="ofood-List">
+            <header class="ofood-List-header">
+                <img src="./img/test.jpeg" alt="">
+                <h4>效果演示</h4>
+            </header>
+            <section class="ofood-List-container">
+                <ul>
+                    <li class="ofood-List-wrapper">
+                        <p>食品名称</p>
+                        <span class="wrapper-count">X
+                            <span>3</span>
+                        </span>
+                        <span class="wrapper-price">￥
+                            <span>20</span>
+                        </span>
+                    </li>
+                </ul>
+                <footer class="ofood-List-footer">
+                    <p>订单￥
+                        <span>11111</span>
+                    </p>
+                    <p>
+                        <span>待支付</span>
+                        <span>￥
+                            <span>11111</span>
+                        </span>
+                    </p>
+                </footer>
+            </section>
+        </section>
+        <!--备注信息-->
+        <section class="oremark">
+            <section class="oremark-wrapper">
+                <span>订单备注</span>
+                <router-link to="/orderforgoods/orderRemark" class="oremark-tochoose">
+                    <span class="remark-text">{{ttt}}</span>
+                    <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
+                </router-link>
+            </section>
+            <section class="oremark-wrapper border">
+                <span>发票抬头</span>
+                <router-link to="/orderforgoods/orderbill" class="oremark-tochoose">
+                    <span>不需要开发票</span>
+                    <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
+                </router-link>
+            </section>
+        </section>
+        <footer class="confirm-order">
+            <div>
+                <span>待支付
+                    <span>￥</span>
+                    <span>1111</span>
+                </span>
+            </div>
+            <div>
+                <router-link to="/perchasevip" class="orderforgoods-surpay">确认下单</router-link>
+            </div>
         </footer>
-      </section>
-    </section>
-    <!--备注信息-->
-    <section class="oremark">
-      <section class="oremark-wrapper">
-        <span>订单备注</span>
-        <router-link to="/orderforgoods/orderRemark" class="oremark-tochoose">
-          <span>备注信息</span>
-          <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
-        </router-link>
-      </section>
-      <section class="oremark-wrapper border">
-        <span>发票抬头</span>
-        <router-link to="/orderforgoods/orderbill" class="oremark-tochoose">
-          <span>不需要开发票</span>
-          <img src="../personalpage/img/14.png" alt="" class="tochoose-pay">
-        </router-link>
-      </section>
-    </section>
-    <footer class="confirm-order">
-      <div>
-        <span>待支付
-          <span>￥</span>
-          <span>1111</span>
-        </span>
-      </div>
-      <div>
-        <router-link to="/perchasevip" class="orderforgoods-surpay">确认下单</router-link>
-      </div>
-    </footer>
-    <!--支付方式-->
-    <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-      <section class="opay-way-choose" v-if="showPayWay">
-        <header class="opaytitle">支付方式</header>
-        <section class="opay-option">
-          <span>货到付款
-            <span>（商家不支持货到付款）</span>
-          </span>
-          <img src="../personalpage/vipcenter/image/grey.png" alt="">
-        </section>
-        <section class="opay-option">
-          <span>在线支付</span>
-          <img src="../personalpage/vipcenter/image/green.png" alt="">
-        </section>
-      </section>
-    </transition>
-    <div class="sure-orderforgoods-mark" v-if="showPayWay" @click="showPayWay=!showPayWay"></div>
-    <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
-      <router-view class="position"></router-view>
-    </transition>
-  </div>
+        <!--支付方式-->
+        <transition enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
+            <section class="opay-way-choose" v-if="showPayWay">
+                <header class="opaytitle">支付方式</header>
+                <section class="opay-option">
+                    <span>货到付款
+                        <span>（商家不支持货到付款）</span>
+                    </span>
+                    <img src="../personalpage/vipcenter/image/grey.png" alt="">
+                </section>
+                <section class="opay-option">
+                    <span>在线支付</span>
+                    <img src="../personalpage/vipcenter/image/green.png" alt="">
+                </section>
+            </section>
+        </transition>
+        <div class="sure-orderforgoods-mark" v-if="showPayWay" @click="showPayWay=!showPayWay"></div>
+        <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
+            <router-view class="position"></router-view>
+        </transition>
+    </div>
 
 </template>
 
@@ -138,11 +136,26 @@ export default {
     data() {
         return {
             title: "确认订单",
-            showPayWay: false
+            showPayWay: false,
+            remarkTips: []
         };
     },
-    created(){
-        console.log(this.$router.query)
+    created() {
+        // console.log(this.$store.state.shopCarList);
+        // console.log(this.$store.state.remarkTips)
+    },
+    computed: {
+        ttt() {
+            if (this.$store.state.remarkTips) {
+                for (let i in this.$store.state.remarkTips) {
+                    this.remarkTips.push(this.$store.state.remarkTips[i]);
+                }
+                return this.remarkTips.join(",");
+                // console.log(this.$store.state.remarkTips)
+            } else {
+                return "口味，偏好等";
+            }
+        }
     },
     components: {
         Header: header
@@ -177,7 +190,7 @@ export default {
 <style scoped>
 .fadeInUp,
 .fadeOutDown {
-    -webkit-animation-duration: 0.2s;
+    -webkit-animation-duration: 0.3s;
 }
 .sure-orderforgoods-mark {
     position: absolute;
@@ -445,7 +458,18 @@ export default {
     color: #aaa;
     font-weight: 100;
 }
-
+.oremark-tochoose {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.remark-text {
+    display: block;
+    width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 /*footer*/
 .confirm-order {
     position: fixed;

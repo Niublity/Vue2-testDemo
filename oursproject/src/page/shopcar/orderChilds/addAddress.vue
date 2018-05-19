@@ -8,11 +8,11 @@
                     <input type="text" placeholder="你的名字" class="input-text" v-model="username">
                     <div class="contactPer-right-choose">
                         <span class="choose-sex">
-                            <img src="../../personalpage/vipcenter/image/green.png" alt="">
+                            <img :src="sex?grey:green" alt="" @click="boysC" ref="boy">
                             <span>先生</span>
                         </span>
                         <span class="choose-sex">
-                            <img src="../../personalpage/vipcenter/image/grey.png" alt="">
+                            <img :src="sex?green:grey" alt="" @click="girlsC">
                             <span>女士</span>
                         </span>
                     </div>
@@ -25,13 +25,15 @@
                         <input type="text" placeholder="你的手机号" class="input-text" v-model="phone">
                         <img src="./img/addtel.png" alt="" class="addtel-img" @click="planBstate">
                     </div>
-                    <input type="text" placeholder="备选电话" class="input-text  input-planB" v-if="planB">
+                    <input type="text" placeholder="备选电话" class="input-text  input-planB" v-if="planB" v-model="phone_bk">
                 </section>
             </section>
             <section class="section-wrapper">
                 <span class="section-left">送餐地址</span>
                 <section class="section-right">
-                    <div type="text" class="choose-address" ref="address">小区/写字楼/学校等</div>
+                    <router-link to="/orderforgoods/chooseAddress/addAddress/searchAddress">
+                        <div type="text" class="choose-address" ref="address">{{searchAddressDetail}}</div>
+                    </router-link>
                     <input type="text" placeholder="详细地址（如门牌号等）" class="input-text" v-model="detailAddress">
                 </section>
             </section>
@@ -48,16 +50,23 @@
         <transition enter-active-class="animated bounceIn">
             <Jump v-if="shows" :warnText="warnText" class="Jump" @hide123="showHide"></Jump>
         </transition>
+        <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
+            <router-view class="position"></router-view>
+        </transition>
     </div>
 </template>
 
 <script>
 import Header from "../../../components/foodheader/foodheader";
 import Jump from "../../../components/jumpkuangkuang/jumpkuang";
+import green from "../../personalpage/vipcenter/image/green.png";
+import grey from "../../personalpage/vipcenter/image/grey.png";
 export default {
     name: "addAddress",
     data() {
         return {
+            green: green,
+            grey: grey,
             title: "添加地址",
             planB: false,
             shows: false,
@@ -65,24 +74,70 @@ export default {
             warnText: "请输入姓名",
             phone: "",
             detailAddress: "",
-            labels: ""
+            labels: "",
+            address: [],
+            sex: false,
+            phone_bk:"",
+            
         };
     },
-    components: {
-        Header,
-        Jump
-    },
     methods: {
-        hide() {},
         goBack() {
-            // if (this.username=="") {
+            if (this.username == "") {
+                this.warnText = "请输入姓名";
+            } else if (this.username != "" && this.phone == "") {
+                this.warnText = "请输入电话号码";
+            } else if (
+                this.username != "" &&
+                this.phone != "" &&
+                this.$store.state.searchAddress == ""
+            ) {
+                this.warnText = "选择地址";
+            } else if (
+                this.username != "" &&
+                this.phone != "" &&
+                this.$store.state.searchAddres != "" &&
+                this.detailAddress == ""
+            ) {
+                this.warnText = "详细地址输入错误";
+            } else if (
+                this.username != "" &&
+                this.phone != "" &&
+                this.$store.state.searchAddres != "" &&
+                this.detailAddress != "" &&
+                this.labels == ""
+            ) {
+                this.warnText = "标签错误";
+            } else {
+                var sexs=null
+                if (this.sex==false) {
+                    sexs=1
+                }else{
+                    sexs=2
+                }
+                console.log(this.detailAddress);
+                
+                var param={ 
+                    user_id:JSON.parse(sessionStorage.getItem("user")).user_id,address: this.$store.state.searchAddress,
+                    address_detail: this.detailAddress,
+                    geohash:"34.80552,113.56189",
+                    name: this.username,
+                    phone: this.phone,
+                    tag: this.labels,
+                    sex:sexs,
+                    phone_bk:this.phone_bk,
+                    tag_type:2
+                    }
+                    console.log(param)
+                var url="http://cangdu.org:8001/v1/users/"+JSON.parse(sessionStorage.getItem("user")).user_id+"/addresses"
 
-            // }
-            console.log(this.username);
-            console.log(this.phone);
-            console.log(this.labels);
-            console.log(this.detailAddress);
-            console.log(this.$refs.address);
+                this.$http.post(url,param).then((response)=>{
+                    console.log(response.data);
+                })
+                // this.$store.commit("AddaddressDetaial",data);
+                // this.$router.push({ path: "/orderforgoods/chooseAddress" });
+            }
+            console.log(this.sex);
             this.shows = true;
         },
         planBstate() {
@@ -91,7 +146,26 @@ export default {
         showHide() {
             this.shows = false;
             console.log("1111");
+        },
+        boysC() {
+            this.sex = false;
+        },
+        girlsC() {
+            this.sex = true;
         }
+    },
+    computed: {
+        searchAddressDetail() {
+            if (this.$store.state.searchAddress) {
+                return this.$store.state.searchAddress;
+            } else {
+                return "小区/写字楼/学校等";
+            }
+        }
+    },
+    components: {
+        Header,
+        Jump
     }
 };
 </script>

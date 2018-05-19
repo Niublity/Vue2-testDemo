@@ -219,7 +219,14 @@ export default new Router({
             {
               path:"addAddress",
               name:"addAddress",
-              component:AddAddress
+              component:AddAddress,
+              children:[
+                {
+                  path: "searchAddress",
+                  name: "SearchAddress",
+                  component: SearchAddress
+                }
+              ]
             }
           ]
         }

@@ -1,8 +1,8 @@
 <template>
   <div>
     <Header :title="title"></Header>
-    <form class="searchPage-history-form">
-      <input type="text" placeholder="请输入商家或美食名称" ref="aa" v-model="searchs" class="search-food" @keyup.13="submit">
+    <form class="searchPage-form">
+      <input type="text" placeholder="请输入商家或美食名称" ref="aa" v-model="searchs" class="search-text" @keyup.13="submit">
       <div class="deteleRecord" @click="emptyInput" v-if="renderX">x</div>
       <div class="submit" @click="submit">提交</div>
     </form>
@@ -87,43 +87,28 @@
     }
   }
 </script>
-
 <style scoped>
-  .searchpage {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  .searchPage-history-form {
+.searchPage-form {
     background-color: #fff;
     padding: .5rem;
     display: flex;
     justify-content: space-between;
     position: relative;
   }
-
-  .search-food, .submit {
+    .search-text, .submit {
     height: 1.5rem;
     font-size: .65rem;
     border-radius: .125rem;
     padding: 0 .25rem;
   }
-
-  .search-food {
+  
+  .search-text {
     width: 80%;
     background: #f2f2f2;
     color: #333;
     border: .025rem solid #e4e4e4;
     font-weight: 500;
     outline: none;
-  }
-  .deteleRecord{
-    position: absolute;
-    right: 4.3rem;
-    top: 0.85rem;
-    color: #1d10d2;
   }
 
   .submit {
@@ -137,6 +122,20 @@
     line-height: 1.5rem;
     font-weight: 100;
   }
+  .searchpage {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .deteleRecord{
+    position: absolute;
+    right: 4.3rem;
+    top: 0.85rem;
+    color: #1d10d2;
+  }
+
   .searchPage-history{
     position: relative;
   }

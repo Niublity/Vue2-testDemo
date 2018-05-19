@@ -1,22 +1,22 @@
 <template>
-  <div>
-    <Header :title="title"></Header>
-    <section class="quick-remark">
-      <p>快速备注</p>
-      <ul class="remark-items-container">
-        <li class="remark-items" v-for="(remarktips,Index) in remarkInfor">
-          <span v-for="(val,index) in remarktips" @click="chooseRemark(index,$event,val)">{{val}}</span>
-        </li>
-      </ul>
-    </section>
-    <section class="other-remark">
-      <p>其他备注</p>
-      <textarea placeholder="请输入备注内（可不填）" class="input_text" v-model="inputText"></textarea>
-    </section>
-    <section class="sure-remark">
-      <div @click="goBack">确定</div>
-    </section>
-  </div>
+    <div>
+        <Header :title="title"></Header>
+        <section class="quick-remark">
+            <p>快速备注</p>
+            <ul class="remark-items-container">
+                <li class="remark-items" v-for="(remarktips,Index) in remarkInfor">
+                    <span v-for="(val,index) in remarktips" @click="chooseRemark(index,$event,val,remarktips,Index)">{{val}}</span>
+                </li>
+            </ul>
+        </section>
+        <section class="other-remark">
+            <p>其他备注</p>
+            <textarea placeholder="请输入备注内（可不填）" class="input_text" v-model="inputText"></textarea>
+        </section>
+        <section class="sure-remark">
+            <div @click="goBack()">确定</div>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -27,15 +27,15 @@ export default {
         return {
             title: "订单备注",
             remarkInfor: [],
-            remarktips: [],
-            inputText: ""
+            inputText: "",
+            test: {}
         };
     },
     components: {
         Header: header
     },
     methods: {
-        chooseRemark(index, $event, val) {
+        chooseRemark(index, $event, val, remarktips, Index) {
             for (
                 let i = 0;
                 i < $event.currentTarget.parentNode.childNodes.length;
@@ -47,10 +47,33 @@ export default {
             }
             $event.currentTarget.style.background = "#3190e8";
             $event.currentTarget.style.color = "#fff";
-            console.log(val);
+            if (
+                (Index == 0 && index == 0) ||
+                (Index == 0 && index == 1) ||
+                (Index == 0 && index == 2)
+            ) {
+                this.test.name = remarktips[index];
+            }
+            if (Index == 1 && index == 0) {
+                this.test.name2 = remarktips[index];
+            }
+            if (Index == 2 && index == 0) {
+                this.test.name3 = remarktips[index];
+            }
+            if (Index == 3 && index == 0) {
+                this.test.name4 = remarktips[index];
+            }
+            if (Index == 4 && index == 0) {
+                this.test.name5 = remarktips[index];
+            }
+            if ((Index == 5 && index == 0) || (Index == 5 && index == 1)) {
+                this.test.name6 = remarktips[index];
+            }
         },
         goBack() {
-            // console.log(this.inputText);
+            this.test.name7 = this.inputText;
+            this.$store.commit("addRemark", this.test);
+            console.log(this.test);
             this.$router.push({path:"/orderforgoods"});
         }
     },
@@ -58,14 +81,7 @@ export default {
         this.$http
             .get("http://cangdu.org:8001/v1/carts/1/remarks")
             .then(response => {
-                // console.log(typeof response.data.remarks[0]);
                 this.remarkInfor = response.data.remarks;
-                for (let i = 0; i < this.remarkInfor.length; i++) {
-                    // console.log(this.remarkInfor[i]);
-                    for (let key in this.remarkInfor[i]) {
-                        // console.log(this.remarkInfor[i][key]);
-                    }
-                }
             });
     }
 };
@@ -128,5 +144,4 @@ export default {
     padding: 0.5rem;
     box-sizing: border-box;
 }
-
 </style>
