@@ -5,13 +5,15 @@
     </transition>
     <Header class="shopcar_line" :title="title"></Header>
     <!--购物车中心界面-->
-    <div class="shopcar_center">
-      <!--背景图片-->
-      <img :src="'//elm.cangdu.org/img/'+restaurantInfor.image_path" alt="" class="bgimg">
-    </div>
+    <!--<div class="shopcar_center">-->
+      <!--&lt;!&ndash;背景图片&ndash;&gt;-->
+
+    <!--</div>-->
     <!--购物车顶端-->
     <div class="shopcar-center-top">
+      <img :src="'//elm.cangdu.org/img/'+restaurantInfor.image_path" alt="" class="bgimg">
       <div class="showtitle">
+
         <div class="showtitle-left">
           <img :src="'//elm.cangdu.org/img/'+restaurantInfor.image_path" alt="">
         </div>
@@ -37,34 +39,34 @@
       </a>
     </div>
     <!--购物车商品评价界面-->
-    <div class="wares-evaluate">
-      <!--标题-->
-      <div class="wares-title">
-        <p @click="toWares">
-          <span :class="this.showWares? 'focus-wares':'nofocus'">商品</span>
-        </p>
-        <p @click="toEvaluate">
-          <span :class="this.showEvaluate? 'focus-wares':'nofocus'">评价</span>
-        </p>
-      </div>
+    <!--标题-->
+    <section class="wares-title">
+      <p @click="toWares">
+        <span :class="this.showWares? 'focus-wares':'nofocus'">商品</span>
+      </p>
+      <p @click="toEvaluate">
+        <span :class="this.showEvaluate? 'focus-wares':'nofocus'">评价</span>
+      </p>
+    </section>
+    <div class="wares-evaluate" v-show="showWares">
       <div class="information">
         <!--商品界面-->
-        <div class="wares" v-show="showWares">
+        <div class="wares">
           <!--左边分类-->
-          <div class="wares-first" >
-
-
-          <ul class="wares-left" ref="waresleft">
-            <li v-for="(categoty,index) in categotyList" ref="nav" class="left-li"
-                @click="foodclass(index,$event)">
-              <img v-if="categoty.icon_url!=''"
-                   :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
-                   class="sales-logo">
-              <span :href="'#'+categoty.name">{{categoty.name}}</span>
-              <span id="countred" v-if="countss[index]"
-                    v-show="countss[index].showCounts">{{countss[index].count}}</span>
-            </li>
-          </ul>
+          <div class="wares-first" ref="parentul">
+            <v-touch ref="swiperupdown" v-on:swipeup="onswiperup" v-on:swipedown="onswiperdown">
+              <ul class="wares-left" ref="waresleft">
+                <li v-for="(categoty,index) in categotyList" ref="nav" class="left-li"
+                    @click="foodclass(index,$event)">
+                  <img v-if="categoty.icon_url!=''"
+                       :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(categoty.icon_url)" alt=""
+                       class="sales-logo">
+                  <span :href="'#'+categoty.name">{{categoty.name}}</span>
+                  <span id="countred" v-if="countss[index]"
+                        v-show="countss[index].showCounts">{{countss[index].count}}</span>
+                </li>
+              </ul>
+            </v-touch>
           </div>
           <!--商品详情-->
           <ul class="wares-right" ref="aaa">
@@ -122,7 +124,7 @@
                       <div class="countplus" @click="addFood(index,indextwo,food)">+</div>
                     </div>
 
-                    <div v-else class="choose-size" >
+                    <div v-else class="choose-size">
                       <div v-if="true"
                            v-show="true"
                            class="countreduce"
@@ -160,82 +162,83 @@
             </li>
           </ul>
         </div>
-        <!--评价界面-->
-        <div class="evaluate" v-show="showEvaluate">
-          <header class="evaluate-header">
-            <section class="evaluate-header-left">
-              <p>4.7</p>
-              <p>综合评价</p>
-              <p>高于周边商家76.9%</p>
-            </section>
-            <section class="evaluate-header-right">
-              <div>
-                <span class="headtxt">服务态度</span>
-                <el-rate
-                  v-model="value1"
-                  disabled
-                  show-score
-                  text-color="#ff9900"
-                  score-template="{value}">
-                </el-rate>
-              </div>
-              <div>
-                <span class="headtxt">菜品评价</span>
-                <el-rate
-                  v-model="value2"
-                  disabled
-                  show-score
-                  text-color="#ff9900"
-                  score-template="{value}">
-                </el-rate>
-              </div>
-              <p>
-                <span class="headtxt">送达时间</span>
-                <span class="send-minute">分钟</span></p>
-            </section>
-          </header>
-          <section>
-            <ul class="evaclassify-con">
-              <li v-for="eva in evaluateClassifys" :class="eva.name=='不满意'? 'classifyUnsatisfy':''"
-                  @click='myClick($event)'>
-                <span>{{eva.name}}</span><span>({{eva.count}})</span>
+
+      </div>
+    </div>
+    <!--评价界面-->
+    <div class="evaluate" v-show="showEvaluate">
+      <header class="evaluate-header">
+        <section class="evaluate-header-left">
+          <p>4.7</p>
+          <p>综合评价</p>
+          <p>高于周边商家76.9%</p>
+        </section>
+        <section class="evaluate-header-right">
+          <div>
+            <span class="headtxt">服务态度</span>
+            <el-rate
+              v-model="value1"
+              disabled
+              show-score
+              text-color="#ff9900"
+              score-template="{value}">
+            </el-rate>
+          </div>
+          <div>
+            <span class="headtxt">菜品评价</span>
+            <el-rate
+              v-model="value2"
+              disabled
+              show-score
+              text-color="#ff9900"
+              score-template="{value}">
+            </el-rate>
+          </div>
+          <p>
+            <span class="headtxt">送达时间</span>
+            <span class="send-minute">分钟</span></p>
+        </section>
+      </header>
+      <section>
+        <ul class="evaclassify-con">
+          <li v-for="eva in evaluateClassifys" :class="eva.name=='不满意'? 'classifyUnsatisfy':''"
+              @click='myClick($event)'>
+            <span>{{eva.name}}</span><span>({{eva.count}})</span>
+          </li>
+        </ul>
+      </section>
+      <ul class="evaluate-rating">
+        <li class="eva-detail-con" v-for="evadetail in evaDetails">
+          <section class="eva-detail-left">
+          <img src="./img/default.jpg" alt="">
+          </section>
+          <section class="eva-detail-right">
+            <p class="detail-one">
+              <span>{{evadetail.username}}</span>
+              <span>{{evadetail.rated_at}}</span>
+            </p>
+            <p class="detail-two">
+              <el-rate
+                v-model="evadetail.rating_star"
+                disabled
+                text-color="#ff9900"
+                score-template="{value}" class="rating-start">
+              </el-rate>
+              <span class="send-ontime">{{evadetail.time_spent_desc
+}}</span>
+            </p>
+            <ul class="detail-img">
+              <li v-for="fooddetail in evadetail.item_ratings">
+                <img v-if="fooddetail.image_hash!=''"
+                     :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(fooddetail.image_hash)" alt="">
               </li>
             </ul>
+            <ul class="detail-foodname">
+              <li v-for="fooddetail in evadetail.item_ratings">{{fooddetail.food_name}}</li>
+            </ul>
           </section>
-          <ul class="evaluate-rating">
-            <li class="eva-detail-con" v-for="evadetail in evaDetails">
-              <section class="eva-detail-left">
-                <img src="./img/default.jpg" alt="">
-              </section>
-              <section class="eva-detail-right">
-                <p class="detail-one">
-                  <span>{{evadetail.username}}</span>
-                  <span>{{evadetail.rated_at}}</span>
-                </p>
-                <p class="detail-two">
-                  <el-rate
-                    v-model="evadetail.rating_star"
-                    disabled
-                    text-color="#ff9900"
-                    score-template="{value}" class="rating-start">
-                  </el-rate>
-                  <span class="send-ontime">{{evadetail.time_spent_desc
-}}</span>
-                </p>
-                <ul class="detail-img">
-                  <li v-for="fooddetail in evadetail.item_ratings">
-                    <img v-if="fooddetail.image_hash!=''"
-                         :src="'https://fuss10.elemecdn.com/'+publicfunction.dealarray(fooddetail.image_hash)" alt="">
-                  </li>
-                </ul>
-                <ul class="detail-foodname">
-                  <li v-for="fooddetail in evadetail.item_ratings">{{fooddetail.food_name}}</li>
-                </ul>
-              </section>
-            </li>
-          </ul>
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
 
     <div class="shopcar_footer" v-if="!showEvaluate">
@@ -316,7 +319,8 @@
         restaurantInfor: {},
         testarray: [],
         classfood_size: null,
-        intercount: null
+        intercount: null,
+
       }
     },
     components: {
@@ -391,9 +395,39 @@
       this.$refs.aaa.addEventListener('scroll', this.handleScroll)
     },
     methods: {
-      toPayOrder(){
-        if (this.$store.state.shopCarList.length!=0) {
-         this.$router.push("/orderforgoods"); 
+      onswiperup(move) {
+
+        this.$store.commit("setMove", move.deltaY)
+
+        var sub = this.$refs.parentul.offsetHeight
+        var heightX = this.$refs.waresleft.offsetHeight
+        var height = heightX-sub
+        if (this.$store.state.movedis >= -height) {
+          this.$refs.waresleft.style.transform = "translate(0px," + this.$store.state.movedis + "px) translateZ(0px)"
+        }
+        else{
+          this.$refs.waresleft.style.transform = "translate(0px," + -height + "px) translateZ(0px)"
+          this.$store.commit("resetMove", -height)
+        }
+      },
+      onswiperdown(move) {
+        this.$store.commit("setMove", move.deltaY)
+        var sub = this.$refs.parentul.offsetHeight
+        var heightX = this.$refs.waresleft.offsetHeight
+        var height = heightX-sub
+        console.log(height)
+        if (this.$store.state.movedis >= 0) {
+          this.$refs.waresleft.style.transform = "translate(0px," + 0 + "px) translateZ(0px)"
+          this.$store.commit("resetMove", 0)
+        }
+        else{
+          this.$refs.waresleft.style.transform = "translate(0px," + this.$store.state.movedis + "px) translateZ(0px)"
+        }
+
+      },
+      toPayOrder() {
+        if (this.$store.state.shopCarList.length != 0) {
+          this.$router.push("/orderforgoods");
         }
       },
       toWares() {
@@ -437,21 +471,20 @@
         var el = $event.currentTarget
         var height = el.offsetHeight
         //-6914px
-        if(index>3){
-          var movepx=-height*(index-3)
-          el.parentNode.style.transform="translate(0px,"+movepx +"px) translateZ(0px)"
-        }else if(index <=3){
-          el.parentNode.style.transform="translate(0px,"+0 +"px) translateZ(0px)"
+        if (index > 3) {
+          var movepx = -height * (index - 3)
+          el.parentNode.style.transform = "translate(0px," + movepx + "px) translateZ(0px)"
+        } else if (index <= 3) {
+          el.parentNode.style.transform = "translate(0px," + 0 + "px) translateZ(0px)"
         }
         var strContent = el.parentNode.style.cssText
         var regexp2 = /[0-9]+/g
         var lll2 = strContent.match(regexp2)
         console.log(lll2[1])
-        if(lll2[1]>7015){
+        if (lll2[1] > 7015) {
           console.log("adadasdadadadasd")
-          el.parentNode.style.transform="translate(0px,"+ (-7015) +"px) translateZ(0px)"
+          el.parentNode.style.transform = "translate(0px," + (-7015) + "px) translateZ(0px)"
         }
-        // else  if(){}
       },
       handleScroll(index, $event) {
         for (var i = 1; i <= this.$refs.aaa.childNodes.length; i++) {
@@ -580,11 +613,11 @@
       },
       classfoodcount() {
         return function (data) {
-          var classfoodsize =0
+          var classfoodsize = 0
           for (var i = 0; i < this.$store.state.shopCarList.length; i++) {
-              if (data.name==this.$store.state.shopCarList[i].name) {
-                classfoodsize += this.$store.state.shopCarList[i].count
-              }
+            if (data.name == this.$store.state.shopCarList[i].name) {
+              classfoodsize += this.$store.state.shopCarList[i].count
+            }
           }
           return classfoodsize
         }
@@ -611,6 +644,9 @@
   }
 </style>
 <style scope>
+  .eva-detail-left{
+    /*height: 2rem;*/
+  }
   .position-shopcar {
     position: fixed;
     left: 0;
@@ -677,9 +713,10 @@
 
   /*评价界面*/
   .evaluate {
+    background: white !important;
+    flex: 1;
     width: 16rem;
     box-sizing: border-box;
-    background: #f5f5f5;
     overflow: scroll;
   }
 
@@ -780,13 +817,12 @@
   .evaluate-rating {
     padding: 0 .5rem;
     background: white;
+    height: 100%;
   }
 
   .eva-detail-con {
-    display: flex;
-    justify-content: flex-start;
-    background: white;
     border-top: 1px solid #f1f1f1;
+    display: flex;
     padding: .6rem 0;
   }
 
@@ -868,6 +904,8 @@
   }
 
   .shopcarbody {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     position: relative;
   }
@@ -877,7 +915,6 @@
     width: 100%;
     height: 1.95rem;
     background-color: #3190e8;
-    /*position: relative;*/
     position: fixed;
     left: 0;
     top: 0;
@@ -912,8 +949,7 @@
     width: 100%;
     height: 8rem;
     overflow: hidden;
-    /*position: relative;*/
-    position: fixed;
+    position: relative;
     left: 0;
     top: 1rem;
     z-index: 99;
@@ -928,14 +964,20 @@
 
   /*---购物中心上半边---*/
   .shopcar-center-top {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 1.91rem;
-    z-index: 100;
+    margin-top: 1.95rem;
+    position: relative;
+    z-index: 10;
+    background-color: rgba(119,103,137,.43);
+    width: 100%;
+    overflow: hidden;
   }
-
+  .shopcar-center-top>img{
+    position: absolute;
+    z-index: 9;
+  }
   .showtitle {
+    position: relative;z-index: 1000;
+
     height: 3.4rem;
     padding: .4rem 0 .4rem .4rem;
     display: flex;
@@ -1028,13 +1070,10 @@
 
   /*----购物车商品评价界面-----*/
   .wares-evaluate {
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 9.5rem;
+    display: flex;
+    flex: 1;
     background: white;
-    /*z-index: 100;*/
-    /*overflow: hidden;*/
+    padding-bottom: 2rem;
   }
 
   /*标题*/
@@ -1042,10 +1081,10 @@
     display: flex;
     background: white;
     justify-content: center;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 7.4rem;
+    /*position: fixed;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: 7.4rem;*/
     z-index: 100;
     padding: .65rem 0 .8rem 0;
     border-bottom: 1px solid #ebebeb;
@@ -1073,10 +1112,11 @@
   }
 
   /*商品*/
-  .information{
+  .information {
     width: 100%;
     height: 100%;
   }
+
   .wares {
     width: 100%;
     height: 100%;
@@ -1085,10 +1125,12 @@
     display: flex;
     justify-content: center;
   }
-.wares-first{
-  height: 100%;
-  overflow: scroll;
-}
+
+  .wares-first {
+    height: 100%;
+    overflow: scroll;
+  }
+
   /*商品左*/
   .wares-left {
     width: 3.8rem;
@@ -1352,11 +1394,13 @@
     -moz-border-radius: .2rem;
     /*margin-left: 4rem;*/
   }
-  .choose-size>span:nth-child(2){
+
+  .choose-size > span:nth-child(2) {
     display: block;
     margin: 0 .6rem;
   }
-  .choose-size>span:nth-child(3) {
+
+  .choose-size > span:nth-child(3) {
     display: block;
     font-weight: 100;
     width: 2rem;

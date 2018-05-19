@@ -14,6 +14,7 @@ let state = {
   foodindex: 0,
   userInfo:null,
   loginstatus:false,
-  user_id:null
+  user_id:null,
+  movedis:0
 };
 export default state;

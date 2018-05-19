@@ -38,13 +38,13 @@
     <section class="settingtitle">
       <div>安全设置</div>
     </section>
-    <section style="border-bottom: 1px solid #ddd;" class="usernamedetail">
+    <router-link to="/forget" style="border-bottom: 1px solid #ddd;" class="usernamedetail" >
       <h2>登录密码</h2>
       <div>
         <span>修改</span>
         <img src="../img/14.png" alt="">
       </div>
-    </section>
+    </router-link>
     <!--请在手机App中设置-->
     <transition enter-active-class="animated bounceIn">
       <section class="telephone-warn" v-if="show">

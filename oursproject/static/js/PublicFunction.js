@@ -106,4 +106,6 @@ function jump(index, localposition) {
   }
 }
 
+
+
 export default {sliceArray, dealarray, dealjson, jump};

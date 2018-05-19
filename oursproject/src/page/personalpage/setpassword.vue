@@ -19,7 +19,7 @@
     </form>
     <div class="login_container" @click="sub">确认修改</div>
     <transition enter-active-class="animated bounceIn">
-      <Warn class="warn" :warnText="warnText"></Warn>
+      <Warn v-if="show" class="warn" :warnText="warnText" @hide123="hide()"></Warn>
     </transition>
   </div>
 </template>
@@ -39,7 +39,9 @@
           newpsd:"",
           checkpsd:"",
           verify:""
+
         },
+        show:false,
         verifyPic:"",
         warnText:"输入有误"
       }
@@ -75,9 +77,21 @@
           };
           Vue.postLogin(url, data, res => {
             console.log(res)
-
+            if(res.status!=1){
+              this.show = true
+              this.warnText=res.message
+              this.exchangephoto()
+            }
+            else{
+              this.show = true
+              this.warnText="密码修改成功"
+              this.exchangephoto()
+            }
           })
         }
+      },
+      hide(){
+        this.show=false
       }
 
     }
@@ -137,6 +151,7 @@
   }
   .warn{
     position: fixed;
-    top: 45%;
+    top: 25%;
+    left: 13%;
   }
 </style>

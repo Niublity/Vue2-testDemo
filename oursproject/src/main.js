@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import store from "./store"
 import {Plugin1} from  "../static/js/plugin1"
-
+import VueTouch from "vue-touch"
 //引入elementui
 import ElementUI from "element-ui"
 import 'element-ui/lib/theme-chalk/index.css';
@@ -17,6 +17,7 @@ Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI);
 Vue.use(Plugin1)
+Vue.use(VueTouch,{name:"v-touch"})
 Vue.prototype.publicfunction = PublicFunction
 
 

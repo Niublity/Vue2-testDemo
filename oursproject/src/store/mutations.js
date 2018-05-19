@@ -1,4 +1,10 @@
 let mutations = {
+  setMove(state,dis){
+    state.movedis+=dis
+  },
+  resetMove(state,dis){
+    state.movedis =dis
+  },
   setUserInfo(state,data){
     state.loginstatus=true
     state.userInfo = data
