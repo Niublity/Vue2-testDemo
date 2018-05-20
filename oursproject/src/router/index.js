@@ -45,7 +45,13 @@ import SearchAddresstwo from "../page/personalpage/accountdetail/searchAddress"
 Vue.use(Router)
 
 export default new Router({
-  routes: [{
+  routes: [
+    {
+      path: "/",
+      name: "Home",
+      component: Home
+    },
+    {
     path: "/home",
     name: "Home",
     component: Home
