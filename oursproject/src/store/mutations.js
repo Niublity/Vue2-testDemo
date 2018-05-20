@@ -1,4 +1,14 @@
 let mutations = {
+  setSelectAddress(state,address){
+    state.selectaddress.name = address.name
+    state.selectaddress.address = address.address
+    state.selectaddress.sex = address.sex
+    state.selectaddress.tag = address.tag
+    state.selectaddress.phone = address.phone
+  },
+  setSearchAddress(state,address){
+    state.searchAddress = address
+  },
   setMove(state,dis){
     state.movedis+=dis
   },

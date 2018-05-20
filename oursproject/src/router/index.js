@@ -39,8 +39,7 @@ import AddAddress from "../page/shopcar/orderChilds/addAddress"
 import hbHistory from "../page/personalpage/coupon/historyhongbao"
 import Forget from "../page/personalpage/setpassword"
 import SearchAddress from "../page/shopcar/orderChilds/searchAddress"
-
-
+import SearchAddresstwo from "../page/personalpage/accountdetail/searchAddress"
 
 
 Vue.use(Router)
@@ -142,9 +141,9 @@ export default new Router({
       ]
     },
     {
-      path:"/forget",
-      name:"Forget",
-      component:Forget
+      path: "/forget",
+      name: "Forget",
+      component: Forget
     },
     {
       path: "/download",
@@ -187,20 +186,30 @@ export default new Router({
       path: "/accountdetail",
       name: "Accountdetail",
       component: Accountdetail,
-      children: [{
-        path: 'setusername',
-        name: Setusername,
-        component: Setusername
-      },
+      children: [
+        {
+          path: 'setusername',
+          name: Setusername,
+          component: Setusername
+        },
         {
           path: 'editaddress',
           name: "Editaddress",
           component: Editaddress,
-          children: [{
-            path: "newaddress",
-            name: "Newaddress",
-            component: Newaddress
-          }]
+          children: [
+            {
+              path: "newaddress",
+              name: "Newaddress",
+              component: Newaddress,
+              children: [
+                {
+                  path: "addDetail",
+                  name: "SearchAddresstwo",
+                  component: SearchAddresstwo
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -230,10 +239,10 @@ export default new Router({
           component: ChooseAddress,
           children: [
             {
-              path:"addAddress",
-              name:"addAddress",
-              component:AddAddress,
-              children:[
+              path: "addAddress",
+              name: "addAddress",
+              component: AddAddress,
+              children: [
                 {
                   path: "searchAddress",
                   name: "SearchAddress",

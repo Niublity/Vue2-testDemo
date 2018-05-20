@@ -7,13 +7,13 @@
     <section class="address-section">
       <!--收获地址-->
       <ul class="address-list">
-        <li v-for="value in address">
+        <li v-for="(value,index) in address">
           <div>
           <p>{{value.address}}</p>
           <p>{{value.phone}}</p>
           </div>
           <div v-show="showclose">
-            <img src="./img/close.png" alt=""  @click="deletaddress(value.id)">
+            <img src="./img/close.png" alt=""  @click="deletaddress($event,value.id,index)">
           </div>
         </li>
       </ul>
@@ -69,15 +69,27 @@ export default {
         this.des = "编辑";
       }
     },
-    deletaddress(id) {
+    deletaddress($event,id,index) {
       let url =
         "http://cangdu.org:8001/v1/users/" +
         JSON.parse(sessionStorage.getItem("user")).user_id +
         "/addresses/" +
         id;
       this.$http.delete(url).then(res => {
-        console.log(res);
-        this.$forceUpdate;
+        // console.log(res);
+        // this.address = res.data
+        // console.log($event.target.parentNode.parentNode.parentNode)
+        // var el = $event.target.parentNode.parentNode.parentNode
+        // // console.log(el)
+        // el.remove(index)
+        let url =
+          "http://cangdu.org:8001/v1/users/" +
+          JSON.parse(sessionStorage.getItem("user")).user_id +
+          "/addresses";
+        this.$http.get(url).then(res => {
+          console.log(res);
+          this.address = res.data;
+        });
       });
     }
   }

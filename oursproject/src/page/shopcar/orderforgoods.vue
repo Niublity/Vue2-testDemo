@@ -6,18 +6,20 @@
         <section class="ouser-Infor">
             <section class="ouser-Infor-left">
                 <img src="./img/定位.png" alt="" class="olocation">
-                <!-- <div class="left-username">
+                <div class="left-username" v-if="addressdes[0]">
           <p>
-            <span>111</span>
-            <span>先生</span>
-            <span>15037136545</span>
+            <span>{{addressdes[1].name}}</span>
+            <span v-if="addressdes[1].sex">先生</span>
+            <span v-else>女士</span>
+
+            <span>{{addressdes[1].phone}}</span>
           </p>
           <p>
-            <span>公司</span>
-            <span>帝湖花园22栋</span>
+            <span>{{addressdes[1].tag}}</span>
+            <span>{{addressdes[1].address}}</span>
           </p>
-        </div> -->
-                <p class="new-adress">请添加一个收货地址</p>
+        </div>
+                <p v-else class="new-adress">请添加一个收货地址</p>
             </section>
             <router-link to="/orderforgoods/chooseAddress">
                 <img src="../personalpage/img/14.png" alt="" class="tochoose-address">
@@ -122,7 +124,7 @@
         </transition>
         <div class="sure-orderforgoods-mark" v-if="showPayWay" @click="showPayWay=!showPayWay"></div>
         <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
-            <router-view class="position"></router-view>
+            <router-view  class="position"></router-view>
         </transition>
     </div>
 
@@ -155,6 +157,16 @@ export default {
             } else {
                 return "口味，偏好等";
             }
+        },
+        addressdes(){
+          if(this.$store.state.selectaddress){
+            let data = [true,this.$store.state.selectaddress]
+            return data
+          }
+          else{
+            let data = [false]
+            return data
+          }
         }
     },
     components: {

@@ -7,8 +7,10 @@
           <div class="input-new">
             <input type="text" placeholder="请填写你的姓名" v-model="des.name">
           </div>
-          <router-link to="/home" class="input-new">
-            <input type="text" placeholder="小区/写字楼/学校等">
+          <router-link to="/accountdetail/editaddress/newaddress/addDetail" class="input-new">
+            <div>
+              {{searchAddressDetail}}
+            </div>
           </router-link>
           <div class="input-new">
             <input type="text" placeholder="请填写详细的送餐地址" v-model="des.address">
@@ -23,6 +25,9 @@
         </form>
       </section>
       <div class="sunbtn" @click="sunbtn">新增地址</div>
+      <transition enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
+        <router-view class="positions11"></router-view>
+      </transition>
     </div>
 </template>
 
@@ -36,7 +41,6 @@ export default {
       des:{
         name:"",
         address:"",
-        desaddress:"",
         phone:"",
         secphone:""
       }
@@ -48,27 +52,35 @@ export default {
   methods: {
     sunbtn() {
       console.log(this.des)
-      // var param = {
-      //   user_id: JSON.parse(sessionStorage.getItem("user")).user_id,
-      //   address: this.$store.state.searchAddress,
-      //   address_detail: this.detailAddress,
-      //   geohash: "34.80552,113.56189",
-      //   name: this.username,
-      //   phone: this.phone,
-      //   tag: this.labels,
-      //   sex: sexs,
-      //   phone_bk: this.phone_bk,
-      //   tag_type: 2
-      // };
-      // console.log(param);
-      // var url =
-      //   "http://cangdu.org:8001/v1/users/" +
-      //   JSON.parse(sessionStorage.getItem("user")).user_id +
-      //   "/addresses";
-
-      // this.$http.post(url, param).then(response => {
-      //   console.log(response.data);
-      // });
+      var param = {
+        user_id: JSON.parse(sessionStorage.getItem("user")).user_id,
+        address: this.$store.state.searchAddress,
+        address_detail: this.des.address,
+        geohash: "34.80552,113.56189",
+        name: this.des.name,
+        phone: this.des.phone,
+        tag: "sadss",
+        sex: 1,
+        phone_bk: this.phone_bk,
+        tag_type: 2
+      };
+      console.log(param);
+      var url =
+        "http://cangdu.org:8001/v1/users/" +
+        JSON.parse(sessionStorage.getItem("user")).user_id +
+        "/addresses";
+      this.$http.post(url, param).then(response => {
+        console.log(response.data);
+      });
+    }
+  },
+  computed:{
+    searchAddressDetail() {
+      if (this.$store.state.searchAddress) {
+        return this.$store.state.searchAddress;
+      } else {
+        return "小区/写字楼/学校等";
+      }
     }
   }
 };
@@ -107,6 +119,18 @@ export default {
   border-radius: 3px;
   box-sizing: border-box;
 }
+.input-new div{
+  color:#333 ;
+  display: block;
+  width: 15rem;
+  font-size: 0.6rem;
+  margin: 0 auto;
+  padding: 0.3rem;
+  background: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
 .sunbtn {
   text-align: center;
   margin: 0.6rem auto;
@@ -118,5 +142,12 @@ export default {
   line-height: 1.6rem;
   font-weight: 700;
 }
+  .positions11{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
 </style>
 

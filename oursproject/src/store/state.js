@@ -19,5 +19,6 @@ let state = {
   remarkTips:"",
   searchAddress:"",
   AddaddressDetaial:[],
+  selectaddress:{}
 };
 export default state;

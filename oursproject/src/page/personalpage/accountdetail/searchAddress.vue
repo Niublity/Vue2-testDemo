@@ -4,7 +4,7 @@
         <form class="searchPage-form">
             <input type="text" placeholder="请输入小区/写字楼/学校等" class="search-text" v-model="keywords" @keyup.13="searchAddress">
             <div class="deteleRecord" v-if="keywords" @click="clearKeyWords">x</div>
-            <button class="submit" @click="searchAddress">搜索</button>
+            <button class="submit" @click="searchAddress.prevent">搜索</button>
         </form>
         <section class="empty-tips" v-if="emptyTips">
             <p>找不到地址？</p>
@@ -38,10 +38,9 @@ export default {
     methods: {
         // 获取点击的地址信息
         addressDetail(record) {
-            this.$store.state.searchAddress = record.name;
-            this.$router.push({
-                path: "/orderforgoods/chooseAddress/addAddress"
-            });
+          console.log(record)
+            this.$store.commit("setSearchAddress",record.name)
+            this.$router.push({path:"/accountdetail/editaddress/newaddress"})
         },
         // 清除关键字
         clearKeyWords() {

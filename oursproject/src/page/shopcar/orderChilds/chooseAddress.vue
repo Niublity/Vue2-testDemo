@@ -7,17 +7,18 @@
         </router-link>
         <!-- 地址信息 -->
         <ul>
-            <li class="username">
+            <li class="username" v-for="value in address" @click="selectAddress(value)">
                 <div class="chooseAddress">1111</div>
                 <div>
                     <p>
-                        <span>111</span>
-                        <span>先生</span>
-                        <span>15037136545</span>
+                        <span>{{value.name}}</span>
+                        <span v-if="value.sex">先生</span>
+                      <span v-else>女士</span>
+                        <span>{{value.phone}}</span>
                     </p>
                     <p>
-                        <span>公司</span>
-                        <span>帝湖花园22栋</span>
+                        <span>{{value.tag}}</span>
+                        <span>{{value.address}}</span>
                     </p>
                 </div>
             </li>
@@ -34,13 +35,39 @@ export default {
     name: "chooseAddress",
     data() {
         return {
-            title: "选择地址"
+          title: "选择地址",
+          address:[]
         };
     },
-
-    components: {
-        Header
+  components: {
+    Header
+  },
+  created(){
+    let url =
+      "http://cangdu.org:8001/v1/users/" +
+      JSON.parse(sessionStorage.getItem("user")).user_id +
+      "/addresses";
+    this.$http.get(url).then(res => {
+      console.log(res);
+      this.address = res.data;
+    });
+  },
+  methods:{
+    selectAddress(value){
+      let selectadd={
+        name:value.name,
+        sex:value.sex,
+        address:value.address,
+        tag:value.tag,
+        phone:value.phone
+      }
+      sessionStorage.setItem("selectAddress",JSON.stringify(selectadd))
+      this.$store.commit("setSelectAddress",selectadd)
+      this.$router.go(-1)
     }
+  }
+
+
 };
 </script>
 <style lang='scss' scoped>

@@ -364,7 +364,16 @@
                 indextwo: j,
                 name: this.categotyList[i].foods[j].name,
                 specifications: [],
-                classfood: false
+                classfood: false,
+                attrs:this.categotyList[i].foods[j].attrs,
+                extra:{},
+                id:this.categotyList[i].foods[j].specfoods[0].food_id,
+                packing_fee:this.categotyList[i].foods[j].specfoods[0].packing_fee,
+                price:this.categotyList[i].foods[j].specfoods[0].price,
+                quantity:0,
+                sku_id:this.categotyList[i].foods[j].specfoods[0].sku_id,
+                specs:this.categotyList[i].foods[j].specfoods[0].specs,
+                stock:this.categotyList[i].foods[j].specfoods[0].stock
               }
 
               if (this.categotyList[i].foods[j].specfoods.length != 1) {
@@ -381,7 +390,7 @@
             }
           }
         });
-        // console.log(this.categotyList)
+        console.log(this.categotyList)
         console.log(this.testarray)
 
         this.shopCarList = this.$store.state.shopCarList
@@ -585,20 +594,6 @@
           }
         }
         this.$forceUpdate();
-      }
-    },
-    watch: {
-      "testarray": {
-        handler: function (newval, oldval) {
-          for (var i = 0; i < this.testarray.length; i++) {
-            for (var j = 0; j < this.testarray[i].length; j++) {
-              if (newval[i][j].count != oldval[i][j].count) {
-                alert("asdasdasd")
-              }
-            }
-          }
-        },
-        deep: true
       }
     },
     computed: {
