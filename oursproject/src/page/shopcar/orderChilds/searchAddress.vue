@@ -4,7 +4,7 @@
         <form class="searchPage-form">
             <input type="text" placeholder="请输入小区/写字楼/学校等" class="search-text" v-model="keywords" @keyup.13="searchAddress">
             <div class="deteleRecord" v-if="keywords" @click="clearKeyWords">x</div>
-            <button class="submit" @click.prevent="searchAddress">搜索</button>
+          <button class="submit" @click.prevent="searchAddress">搜索</button>
         </form>
         <section class="empty-tips" v-if="emptyTips">
             <p>找不到地址？</p>
